@@ -1,3 +1,131 @@
-<h1>
-  {{title}}
-</h1>
+<div class="jumbotron">
+  <h1 class="display-4">{{title}}</h1>
+  <p class="lead">This is a simple budget tracker using Bootstrap 4 and Angular 2!</p>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="pull-xs-left m-b-2 m-x-1">
+      <button type="button" class="btn btn-outline-primary text-uppercase">Start new period</button>
+    </div>
+    <div class="pull-xs-left m-b-2 m-x-1">
+      <!--<select class="form-control" [(ngModel)]="selectedBudget">-->
+        <!--<option *ngFor="let budget of budgets" [ngValue]="budget">{{budget.start_period}}</option>-->
+      <!--</select>-->
+      <select class="form-control">
+        <option>Oct 10, 2016</option>
+        <option>Oct 21, 2016</option>
+      </select>
+    </div>
+  </div>
+</div>
+<div class="container-fluid m-b-2">
+  <div class="row">
+    <div class="col-md-4">
+      <!--<h3><span class="tag tag-default p-a-1 w-100" *ngIf="selectedBudget"><small>Total: </small>{{selectedBudget.existing_cash | currency:'USD':true}}</span></h3>-->
+      <h3><span class="tag tag-default p-a-1 w-100"><small>Total: </small>$24,000</span></h3>
+    </div>
+    <div class="col-md-4">
+      <h3><span class="tag tag-default p-a-1 w-100"><small>Income: </small>$1,800</span></h3>
+    </div>
+    <div class="col-md-4">
+      <h3><span class="tag tag-default p-a-1 w-100"><small>Expense: </small>$1,200</span></h3>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <h4 class="card-header m-b-0">
+          Projection
+        </h4>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <span class="pull-xs-right">$35</span>
+            Gas
+          </li>
+          <li class="list-group-item">
+            <span class="pull-xs-right">$115</span>
+            Food
+          </li>
+          <li class="list-group-item">
+            <p>
+              <span class="pull-xs-right">$55</span>
+              Other
+            </p>
+            <div class="col-md-6 p-x-0">
+              <div class="input-group">
+                <span class="input-group-addon"><span class="fa fa-info"></span></span>
+                <input class="form-control" type="text" value="Other">
+              </div>
+            </div>
+            <div class="col-md-6 p-x-0">
+              <div class="input-group">
+                <span class="input-group-addon"><span class="fa fa-usd"></span></span>
+                <input class="form-control" type="text" value="55">
+              </div>
+            </div>
+            <div class="clearfix"></div>
+            <a href="#" class="m-t-1 d-block">+ Add new Other item</a>
+          </li>
+        </ul>
+        <div class="card-footer">
+          <a href="#" class="btn btn-primary">Save</a>
+          <a href="#" class="btn btn-danger m-r-1">Delete</a>
+          <a href="#">+ Add new</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <h4 class="card-header m-b-0">
+          Actual
+        </h4>
+        <ul class="list-group list-group-flush">
+          <!--<li class="list-group-item" (click)="itemClick()" *ngFor="let budget of selectedBudget.budget_items">-->
+            <!--<span class="pull-xs-right" >{{getItemTotal(budget)}}</span>-->
+            <!--{{budget.item}}-->
+          <!--</li>-->
+          <li class="list-group-item">
+            <span class="pull-xs-right">$35</span>
+            Gas
+          </li>
+          <li class="list-group-item">
+            <span class="pull-xs-right">$115</span>
+            Food
+          </li>
+          <li class="list-group-item">
+            <span class="pull-xs-right">$85</span>
+            Other
+          </li>
+        </ul>
+        <div class="card-footer">
+          <a href="#" class="btn btn-primary disabled">Save</a>
+          <a href="#" class="btn btn-danger m-r-1 disabled">Delete</a>
+          <a href="#">+ Add new</a>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-md-6 m-t-2">
+      <h4 class="m-y-1"><small class="text-muted">Projected Spent:</small> <span class="tag tag-default pull-xs-right">$1,345</span></h4>
+      <hr class="m-y-2">
+      <h4 class="m-y-1"><small class="text-muted">Projected Saving:</small> <span class="tag tag-default pull-xs-right">$425</span></h4>
+      <hr class="m-y-2">
+      <h4 class="m-y-1"><small class="text-muted">Projected % Saving:</small> <span class="tag tag-default pull-xs-right">20%</span></h4>
+      <hr class="m-y-2">
+      <h4 class="m-y-1">Projected Ending Cash Amount: <span class="tag tag-success pull-xs-right">$24,325</span></h4>
+    </div>
+    <div class="col-md-6 m-t-2">
+      <h4 class="m-y-1"><small class="text-muted">Total Spent:</small> <span class="tag tag-default pull-xs-right">$1,345</span></h4>
+      <hr class="m-y-2">
+      <h4 class="m-y-1"><small class="text-muted">Saving:</small> <span class="tag tag-default pull-xs-right">$425</span></h4>
+      <hr class="m-y-2">
+      <h4 class="m-y-1"><small class="text-muted">% Saving:</small> <span class="tag tag-default pull-xs-right">20%</span></h4>
+      <hr class="m-y-2">
+      <h4 class="m-y-1">Ending Cash Amount: <span class="tag tag-success pull-xs-right">$24,325</span></h4>
+    </div>
+  </div>
+</div>
+
