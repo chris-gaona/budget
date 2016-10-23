@@ -1,61 +1,11 @@
-<div class="jumbotron m-b-0">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-8">
-        <h1 class="display-4">{{title}}</h1>
-        <p class="lead">This is a simple budget tracker using Bootstrap 4 and Angular 2!</p>
-      </div>
-      <div class="col-md-4">
-        <h3 class="health-snapshot m-b-0">Health Snapshot</h3>
-        <div class="health-symbol">
-          <span class="fa fa-check-circle-o"></span>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<app-jumbotron></app-jumbotron>
 
-<nav class="navbar navbar-light bg-faded m-b-2">
-  <ul class="nav navbar-nav">
-    <li class="nav-item active navbar-brand">
-      Welcome Chris
-    </li>
-    <li class="nav-item pull-xs-right">
-      <a class="nav-link" href="#">Logout</a>
-    </li>
-  </ul>
-</nav>
+<app-navbar></app-navbar>
 
-<div class="container-fluid">
-  <div class="row">
-    <div class="pull-xs-left m-b-2 m-x-1">
-      <button type="button" class="btn btn-outline-primary text-uppercase">Start new period</button>
-    </div>
-    <div class="pull-xs-left m-b-2 m-x-1">
-      <!--<select class="form-control" [(ngModel)]="selectedBudget">-->
-        <!--<option *ngFor="let budget of budgets" [ngValue]="budget">{{budget.start_period}}</option>-->
-      <!--</select>-->
-      <select class="form-control">
-        <option>Oct 10, 2016</option>
-        <option>Oct 21, 2016</option>
-      </select>
-    </div>
-  </div>
-</div>
-<div class="container-fluid m-b-2">
-  <div class="row">
-    <div class="col-md-4">
-      <!--<h3><span class="tag tag-default p-a-1 w-100" *ngIf="selectedBudget"><small>Total: </small>{{selectedBudget.existing_cash | currency:'USD':true}}</span></h3>-->
-      <h3><span class="tag tag-default p-a-1 w-100"><small>Total: </small>$24,000</span></h3>
-    </div>
-    <div class="col-md-4">
-      <h3><span class="tag tag-default p-a-1 w-100"><small>Income: </small>$1,800</span></h3>
-    </div>
-    <div class="col-md-4">
-      <h3><span class="tag tag-default p-a-1 w-100"><small>Expense: </small>$1,200</span></h3>
-    </div>
-  </div>
-</div>
+<app-header></app-header>
+
+<app-overview></app-overview>
+
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-6">
@@ -131,24 +81,7 @@
       </div>
     </div>
     <div class="clearfix"></div>
-    <div class="col-md-6 m-t-2">
-      <h4 class="m-y-1"><small class="text-muted">Projected Spent:</small> <span class="tag tag-default pull-xs-right">$1,345</span></h4>
-      <hr class="m-y-2">
-      <h4 class="m-y-1"><small class="text-muted">Projected Saving:</small> <span class="tag tag-default pull-xs-right">$425</span></h4>
-      <hr class="m-y-2">
-      <h4 class="m-y-1"><small class="text-muted">Projected % Saving:</small> <span class="tag tag-default pull-xs-right">20%</span></h4>
-      <hr class="m-y-2">
-      <h4 class="m-y-1">Projected Ending Cash Amount: <span class="tag tag-success pull-xs-right">$24,325</span></h4>
-    </div>
-    <div class="col-md-6 m-t-2">
-      <h4 class="m-y-1"><small class="text-muted">Total Spent:</small> <span class="tag tag-default pull-xs-right">$1,345</span></h4>
-      <hr class="m-y-2">
-      <h4 class="m-y-1"><small class="text-muted">Saving:</small> <span class="tag tag-default pull-xs-right">$425</span></h4>
-      <hr class="m-y-2">
-      <h4 class="m-y-1"><small class="text-muted">% Saving:</small> <span class="tag tag-default pull-xs-right">20%</span></h4>
-      <hr class="m-y-2">
-      <h4 class="m-y-1">Ending Cash Amount: <span class="tag tag-success pull-xs-right">$24,325</span></h4>
-    </div>
+    <app-results></app-results>
   </div>
 </div>
 

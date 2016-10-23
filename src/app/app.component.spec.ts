@@ -2,12 +2,22 @@
 
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { JumbotronComponent } from './jumbotron/jumbotron.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { HeaderComponent } from './header/header.component';
+import { OverviewComponent } from './overview/overview.component';
+import { ResultsComponent } from './results/results.component';
 
 describe('App: Budget', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AppComponent
+        AppComponent,
+        JumbotronComponent,
+        NavbarComponent,
+        HeaderComponent,
+        OverviewComponent,
+        ResultsComponent
       ],
     });
   });
@@ -16,18 +26,5 @@ describe('App: Budget', () => {
     let fixture = TestBed.createComponent(AppComponent);
     let app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
-  }));
-
-  it(`should have as title 'app works!'`, async(() => {
-    let fixture = TestBed.createComponent(AppComponent);
-    let app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('Budget Tracker');
-  }));
-
-  it('should render title in a h1 tag', async(() => {
-    let fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    let compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Budget Tracker');
   }));
 });
