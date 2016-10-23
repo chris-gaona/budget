@@ -1,0 +1,9 @@
+.health-snapshot {
+  text-align: center;
+}
+
+.health-symbol {
+  text-align: center;
+  font-size: 4em;
+  color: forestgreen;
+}

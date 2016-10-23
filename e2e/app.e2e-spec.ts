@@ -7,8 +7,8 @@ describe('budget App', function() {
     page = new BudgetPage();
   });
 
-  it('should display message saying app works', () => {
+  it('should display message saying Budget Tracker', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('app works!');
+    expect(page.getParagraphText()).toEqual('Budget Tracker');
   });
 });
