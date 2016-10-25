@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Budget } from '../budget';
 
 @Component({
   selector: 'app-overview',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./overview.component.css']
 })
 export class OverviewComponent implements OnInit {
+
+  @Input() selectedBudget: Budget;
 
   constructor() { }
 

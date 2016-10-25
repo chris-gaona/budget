@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { Budget } from '../budget';
 
 @Component({
   selector: 'app-header',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
+  @Input() budgets: Budget;
+
+  @Input() selectedBudget: Budget;
+
+  // @Output() chosenBudget = new EventEmitter<Budget>();
+
   constructor() { }
 
   ngOnInit() {
   }
-
 }
