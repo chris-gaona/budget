@@ -16,7 +16,7 @@
         <ul class="list-group list-group-flush">
           <li class="list-group-item" *ngFor="let budget of selectedBudget.budget_items">
             <span class="float-xs-right">{{budget.projection | currency:'USD':true}}</span>
-            {{budget.item}}
+            {{budget.item | capitalize}}
             <!--<span class="float-xs-right">$35</span>-->
             <!--Gas-->
           </li>
@@ -60,7 +60,7 @@
           <li class="list-group-item" *ngFor="let budget of selectedBudget.budget_items" (click)="budget.editing = true">
             <p class="mb-0">
               <span class="float-xs-right">{{getActualTotal(budget) | currency:'USD':true}}</span>
-              {{budget.item}}
+              {{budget.item | capitalize}}
             </p>
             <!--<span class="float-xs-right">$35</span>-->
             <!--Gas-->
