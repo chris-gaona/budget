@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BudgetService } from './budget.service';
-import { Budget } from './budget';
+import {Budget, BudgetItems} from './budget';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +14,7 @@ export class AppComponent implements OnInit {
   totalSpent: number;
   totals: any;
   mergeTotals: number;
+  newBudget: BudgetItems = new BudgetItems();
 
   constructor(private budgetService: BudgetService) { }
 
@@ -28,6 +29,11 @@ export class AppComponent implements OnInit {
   chosenBudget(budget) {
     // Handle the event
     this.selectedBudget = budget;
+  }
+
+  updateBudget(budget) {
+    console.log('saved!', budget);
+    this.selectedBudget.budget_items.push(budget);
   }
 
   getActualTotal(budget) {

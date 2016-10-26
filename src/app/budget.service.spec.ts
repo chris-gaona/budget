@@ -3,7 +3,7 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { BudgetService } from './budget.service';
 import { Http } from '@angular/http';
-import { Budget } from './budget';
+import {Budget, BudgetItems, ActualItems} from './budget';
 
 describe('Service: Budget', () => {
   beforeEach(() => {
@@ -23,23 +23,25 @@ describe('Service: Budget', () => {
     }));
 
     it('should return all budgets', inject([BudgetService], (service: BudgetService) => {
+      let actualItems = new ActualItems(
+        {
+          name: 'Done 10/15',
+          amount: 35
+        }
+      );
+
+      let budgetItems = new BudgetItems(
+        {
+          item: 'gas',
+          projection: 200,
+          actual: [actualItems]
+        }
+      );
+
       let budget1 = new Budget({
-        start_period: '9/24/2016',
         existing_cash: 22525,
         current_income: 1800,
-        budget_items: [
-          {
-            editing: false,
-            item: 'gas',
-            projection: 200,
-            actual: [
-              {
-                name: 'Done 10/15',
-                amount: 35
-              }
-            ]
-          }
-        ]
+        budget_items: [budgetItems]
       });
 
       service.addBudget(budget1);
@@ -51,23 +53,25 @@ describe('Service: Budget', () => {
 
   describe('#addBudget', () => {
     it('should automatically assign an incrementing id', inject([BudgetService], (service: BudgetService) => {
+      let actualItems = new ActualItems(
+        {
+          name: 'Done 10/15',
+          amount: 35
+        }
+      );
+
+      let budgetItems = new BudgetItems(
+        {
+          item: 'gas',
+          projection: 200,
+          actual: [actualItems]
+        }
+      );
+
       let budget1 = new Budget({
-        start_period: '9/24/2016',
         existing_cash: 22525,
         current_income: 1800,
-        budget_items: [
-          {
-            editing: false,
-            item: 'gas',
-            projection: 200,
-            actual: [
-              {
-                name: 'Done 10/15',
-                amount: 35
-              }
-            ]
-          }
-        ]
+        budget_items: [budgetItems]
       });
 
       service.addBudget(budget1);
@@ -77,23 +81,25 @@ describe('Service: Budget', () => {
 
   describe('#deleteBudget', () => {
     it('should remove budget with the corresponding id', inject([BudgetService], (service: BudgetService) => {
+      let actualItems = new ActualItems(
+        {
+          name: 'Done 10/15',
+          amount: 35
+        }
+      );
+
+      let budgetItems = new BudgetItems(
+        {
+          item: 'gas',
+          projection: 200,
+          actual: [actualItems]
+        }
+      );
+
       let budget1 = new Budget({
-        start_period: '9/24/2016',
         existing_cash: 22525,
         current_income: 1800,
-        budget_items: [
-          {
-            editing: false,
-            item: 'gas',
-            projection: 200,
-            actual: [
-              {
-                name: 'Done 10/15',
-                amount: 35
-              }
-            ]
-          }
-        ]
+        budget_items: [budgetItems]
       });
 
       service.addBudget(budget1);
@@ -105,23 +111,25 @@ describe('Service: Budget', () => {
     }));
 
     it('should not remove anything if budget with corresponding id is not found', inject([BudgetService], (service: BudgetService) => {
+      let actualItems = new ActualItems(
+        {
+          name: 'Done 10/15',
+          amount: 35
+        }
+      );
+
+      let budgetItems = new BudgetItems(
+        {
+          item: 'gas',
+          projection: 200,
+          actual: [actualItems]
+        }
+      );
+
       let budget1 = new Budget({
-        start_period: '9/24/2016',
         existing_cash: 22525,
         current_income: 1800,
-        budget_items: [
-          {
-            editing: false,
-            item: 'gas',
-            projection: 200,
-            actual: [
-              {
-                name: 'Done 10/15',
-                amount: 35
-              }
-            ]
-          }
-        ]
+        budget_items: [budgetItems]
       });
 
       service.addBudget(budget1);
@@ -133,33 +141,44 @@ describe('Service: Budget', () => {
 
   describe('#updateBudgetById(id, values)', () => {
     it('should return todo with the corresponding id & updated data', inject([BudgetService], (service: BudgetService) => {
+      let actualItems = new ActualItems(
+        {
+          name: 'Done 10/15',
+          amount: 35
+        }
+      );
+
+      let budgetItems = new BudgetItems(
+        {
+          item: 'gas',
+          projection: 200,
+          actual: [actualItems]
+        }
+      );
+
       let budget1 = new Budget({
-        start_period: '9/24/2016',
         existing_cash: 22525,
         current_income: 1800,
+        budget_items: [budgetItems]
+      });
+
+      service.addBudget(budget1);
+
+      let updatedBudget2 = service.updateBudgetById(3, {
+        start_period: 'new date',
+        existing_cash: 200000,
         budget_items: [
           {
-            editing: false,
-            item: 'gas',
-            projection: 200,
-            actual: [
-              {
-                name: 'Done 10/15',
-                amount: 35
-              }
-            ]
+            item: 'shopping',
+            projection: 125
           }
         ]
       });
 
-      service.addBudget(budget1);
-      let updatedBudget = service.updateBudgetById(3, {
-        start_period: 'new date',
-        existing_cash: 200000
-      });
-
-      expect(updatedBudget.start_period).toEqual('new date');
-      expect(updatedBudget.existing_cash).toEqual(200000);
+      expect(updatedBudget2.start_period).toEqual('new date');
+      expect(updatedBudget2.existing_cash).toEqual(200000);
+      expect(updatedBudget2.budget_items.length).toEqual(1);
+      expect(updatedBudget2.budget_items[0].item).toEqual('shopping');
     }));
   });
 });

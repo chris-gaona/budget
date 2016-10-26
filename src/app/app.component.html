@@ -24,11 +24,26 @@
             <!--<span class="float-xs-right">$115</span>-->
             <!--Food-->
           <!--</li>-->
+          <li class="list-group-item" *ngIf="editingFields">
+            <div class="col-md-6 px-0">
+              <div class="input-group">
+                <span class="input-group-addon"><span class="fa fa-info">I</span></span>
+                <input class="form-control" type="text" [(ngModel)]="newBudget.item">
+              </div>
+            </div>
+            <div class="col-md-6 px-0">
+              <div class="input-group">
+                <span class="input-group-addon"><span class="fa fa-usd">$</span></span>
+                <input class="form-control" type="text" [(ngModel)]="newBudget.projection">
+              </div>
+            </div>
+            <div class="clearfix"></div>
+          </li>
         </ul>
         <div class="card-footer">
-          <a href="#" class="btn btn-primary">Save</a>
-          <a href="#" class="btn btn-danger mr-1">Delete</a>
-          <a href="#">+ Add new</a>
+          <button class="btn btn-primary" (click)="updateBudget(newBudget)">Save</button>
+          <button class="btn btn-danger mr-1">Delete</button>
+          <button class="btn btn-secondary" (click)="editingFields = !editingFields">{{editingFields ? 'Cancel' : '+ Add new'}}</button>
         </div>
       </div>
     </div>
@@ -42,31 +57,31 @@
             <!--<span class="pull-xs-right" >{{getItemTotal(budget)}}</span>-->
             <!--{{budget.item}}-->
           <!--</li>-->
-          <li class="list-group-item" *ngFor="let budget of selectedBudget.budget_items">
-            <span class="float-xs-right">{{getActualTotal(budget) | currency:'USD':true}}</span>
-            {{budget.item}}
+          <li class="list-group-item" *ngFor="let budget of selectedBudget.budget_items" (click)="budget.editing = true">
+            <p class="mb-0">
+              <span class="float-xs-right">{{getActualTotal(budget) | currency:'USD':true}}</span>
+              {{budget.item}}
+            </p>
             <!--<span class="float-xs-right">$35</span>-->
             <!--Gas-->
-          </li>
-          <li class="list-group-item">
-            <p>
-              <span class="float-xs-right">$55</span>
-              Other
-            </p>
-            <div class="col-md-6 px-0">
-              <div class="input-group">
-                <span class="input-group-addon"><span class="fa fa-info">I</span></span>
-                <input class="form-control" type="text" value="Other">
-              </div>
-            </div>
-            <div class="col-md-6 px-0">
-              <div class="input-group">
-                <span class="input-group-addon"><span class="fa fa-usd">$</span></span>
-                <input class="form-control" type="text" value="55">
+            <div *ngIf="budget.editing">
+              <div class="col-xs-12 mt-1" *ngFor="let actual of budget.actual">
+                <div class="col-md-6 px-0">
+                  <div class="input-group">
+                    <span class="input-group-addon"><span class="fa fa-info">I</span></span>
+                    <input class="form-control" type="text" [(ngModel)]="actual.name">
+                  </div>
+                </div>
+                <div class="col-md-6 px-0">
+                  <div class="input-group">
+                    <span class="input-group-addon"><span class="fa fa-usd">$</span></span>
+                    <input class="form-control" type="text" [(ngModel)]="actual.amount">
+                  </div>
+                </div>
+                <a href="#" class="mt-1 d-block">+ Add new Other item</a>
               </div>
             </div>
             <div class="clearfix"></div>
-            <a href="#" class="mt-1 d-block">+ Add new Other item</a>
           </li>
           <!--<li class="list-group-item">-->
             <!--<span class="float-xs-right">$115</span>-->
@@ -80,13 +95,13 @@
         <div class="card-footer">
           <a href="#" class="btn btn-primary disabled">Save</a>
           <a href="#" class="btn btn-danger mr-1 disabled">Delete</a>
-          <a href="#">+ Add new</a>
         </div>
       </div>
     </div>
-    <div class="clearfix"></div>
-    <app-results [totalSpent]="getTotalSpent()"></app-results>
 
+    <div class="clearfix"></div>
+
+    <app-results [totalSpent]="getTotalSpent()"></app-results>
   </div>
 </div>
 

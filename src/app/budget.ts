@@ -3,21 +3,29 @@ export class Budget {
   start_period: string = '';
   existing_cash: number = 0;
   current_income: number = 0;
-  budget_items: BudgetItems[];
+  budget_items: any = [new BudgetItems()];
 
   constructor(values: Object = {}) {
     Object.assign(this, values);
   }
 }
 
-class BudgetItems {
+export class BudgetItems {
   editing: boolean = false;
   item: string = '';
-  projection: number;
-  actual: ActualItems[];
+  projection: number = 0;
+  actual: any = [new ActualItems()];
+
+  constructor(values: Object = {}) {
+    Object.assign(this, values);
+  }
 }
 
-class ActualItems {
+export class ActualItems {
   name: string = '';
   amount: number = 0;
+
+  constructor(values: Object = {}) {
+    Object.assign(this, values);
+  }
 }
