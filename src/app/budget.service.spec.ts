@@ -3,6 +3,7 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { BudgetService } from './budget.service';
 import { Http } from '@angular/http';
+import { Budget } from './budget';
 
 describe('Service: Budget', () => {
   beforeEach(() => {
@@ -15,53 +16,17 @@ describe('Service: Budget', () => {
     expect(service).toBeTruthy();
   }));
 
-  it('should return an array with 2 objects of data by default', inject([BudgetService], (service: BudgetService) => {
-    let defaultArray = [{
-      id: 1,
-      start_period: '9/24/2016',
-      existing_cash: 22525,
-      current_income: 1800,
-      budget_items: [
-        {
-          editing: false,
-          item: 'gas',
-          projection: 200,
-          actual: [
-            {
-              name: 'Done 10/15',
-              amount: 35
-            }
-          ]
-        },
-        {
-          editing: false,
-          item: 'food',
-          projection: 250,
-          actual: [
-            {
-              name: 'Trader Joe\'s',
-              amount: 125
-            }
-          ]
-        },
-        {
-          editing: false,
-          item: 'other',
-          projection: 250,
-          actual: [
-            {
-              name: 'Blah blah',
-              amount: 75
-            }
-          ]
-        }
-      ]
-    },
-      {
-        id: 2,
-        start_period: '10/5/2016',
-        existing_cash: 25525,
-        current_income: 1650,
+  describe('#getAllBudgets', () => {
+    it('should return an array with 2 objects of data by default', inject([BudgetService], (service: BudgetService) => {
+      expect(service.getAllBudgets()).toBeDefined();
+      expect(service.getAllBudgets().length).toEqual(2);
+    }));
+
+    it('should return all budgets', inject([BudgetService], (service: BudgetService) => {
+      let budget1 = new Budget({
+        start_period: '9/24/2016',
+        existing_cash: 22525,
+        current_income: 1800,
         budget_items: [
           {
             editing: false,
@@ -73,32 +38,40 @@ describe('Service: Budget', () => {
                 amount: 35
               }
             ]
-          },
+          }
+        ]
+      });
+
+      service.addBudget(budget1);
+      expect(service.getAllBudgets().length).toEqual(3);
+      expect(service.getAllBudgets()[2]).toEqual(budget1);
+      expect(service.getAllBudgets()[2].id).toEqual(3);
+    }));
+  });
+
+  describe('#addBudget', () => {
+    it('should automatically assign an incrementing id', inject([BudgetService], (service: BudgetService) => {
+      let budget1 = new Budget({
+        start_period: '9/24/2016',
+        existing_cash: 22525,
+        current_income: 1800,
+        budget_items: [
           {
             editing: false,
-            item: 'food',
-            projection: 250,
+            item: 'gas',
+            projection: 200,
             actual: [
               {
-                name: 'Trader Joe\'s',
-                amount: 125
-              }
-            ]
-          },
-          {
-            editing: false,
-            item: 'other',
-            projection: 250,
-            actual: [
-              {
-                name: 'Blah blah',
-                amount: 75
+                name: 'Done 10/15',
+                amount: 35
               }
             ]
           }
         ]
-      }];
-    expect(service.getAllBudgets()).toBeDefined();
-    expect(service.getAllBudgets()).toEqual(defaultArray);
-  }));
+      });
+
+      service.addBudget(budget1);
+      expect(service.getBudgetById(3)).toEqual(budget1);
+    }));
+  });
 });

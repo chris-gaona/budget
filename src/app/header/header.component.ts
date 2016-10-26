@@ -12,10 +12,16 @@ export class HeaderComponent implements OnInit {
 
   @Input() selectedBudget: Budget;
 
-  // @Output() chosenBudget = new EventEmitter<Budget>();
+  @Output() chosenBudget = new EventEmitter<any>();
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
+  }
+
+  updateBudget(budget) {
+    this.selectedBudget = budget;
+    this.chosenBudget.emit(budget);
   }
 }
