@@ -126,12 +126,19 @@ export class BudgetService {
   }
 
   // update existing budget
-  updateBudgetById() {
-
+  updateBudgetById(id: number, values: Object = {}): Budget {
+    let budget = this.getBudgetById(id);
+    if (!budget) {
+      return null;
+    }
+    Object.assign(budget, values);
+    return budget;
   }
 
   // delete an existing budget
-  deleteTodoById() {
-
+  deleteBudgetById(id: number) {
+    this.budgets = this.budgets
+      .filter(budget => budget.id !== id);
+    return this;
   }
 }
