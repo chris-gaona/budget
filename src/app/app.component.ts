@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
   totalSpent: number;
   totals: any;
   mergeTotals: number;
-  newBudget: BudgetItems = new BudgetItems();
+  addingBudgetItem: boolean = false;
 
   constructor(private budgetService: BudgetService) { }
 
@@ -31,15 +31,36 @@ export class AppComponent implements OnInit {
     this.selectedBudget = budget;
   }
 
-  updateBudget(budget) {
-    console.log('saved!', budget);
-    this.selectedBudget.budget_items.push(budget);
+  saveAll() {
+    this.addingBudgetItem = false;
+    let budget = this.selectedBudget.budget_items
+    for (let i = 0; i < budget.length; i++) {
+      budget[i].editing = false;
+    }
+    return this;
+  }
+
+  addBudgetItem() {
+    let newBudgetItem = new BudgetItems();
+    newBudgetItem.editing = true;
+    this.selectedBudget.budget_items.push(newBudgetItem);
+    this.addingBudgetItem = false;
+    console.log(this.selectedBudget);
+  }
+
+  cancelAdd() {
+    let budget = this.selectedBudget.budget_items;
+    for (let i = 0; i < budget.length; i++) {
+      if (i === (budget.length - 1)) {
+        budget.splice(i, 1);
+      }
+    }
   }
 
   getActualTotal(budget) {
     this.totalActual = 0;
     for (let i = 0; i < budget.actual.length; i++) {
-      this.totalActual += budget.actual[i].amount;
+      this.totalActual += +budget.actual[i].amount;
     }
     return this.totalActual;
   }
@@ -51,7 +72,7 @@ export class AppComponent implements OnInit {
     for (let i = 0; i < this.selectedBudget.budget_items.length; i++) {
       let item = this.selectedBudget.budget_items[i];
       for (let j = 0; j < item.actual.length; j++) {
-        this.totalSpent += item.actual[j].amount;
+        this.totalSpent += +item.actual[j].amount;
       }
     }
     this.totals.push(this.totalSpent);
