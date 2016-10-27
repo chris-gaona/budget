@@ -10,6 +10,8 @@ export class OverviewComponent implements OnInit {
 
   @Input() selectedBudget: Budget;
 
+  @Input() totalSpent: number;
+
   constructor() { }
 
   ngOnInit() {
