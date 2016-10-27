@@ -11,6 +11,7 @@ export class BudgetService {
   lastId: number = 2;
 
   constructor() {
+    // adds mock data
     let mockBudget1 = new Budget({
       id: 1,
       start_period: '9/24/2016',
@@ -131,12 +132,19 @@ export class BudgetService {
     if (!budget) {
       return null;
     }
+    // loop through all budget items
+    for (let i = 0; i < budget.budget_items.length; i++) {
+      // mark each budget item as editing false
+      budget.budget_items[i].editing = false;
+    }
+    // assign the new values to the budget
     Object.assign(budget, values);
     return budget;
   }
 
   // delete an existing budget
   deleteBudgetById(id: number) {
+    // filter() method creates a new array with all elements that pass the test implemented by the provided function
     this.budgets = this.budgets
       .filter(budget => budget.id !== id);
     return this;

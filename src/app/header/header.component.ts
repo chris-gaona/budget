@@ -8,11 +8,14 @@ import { Budget } from '../budget';
 })
 export class HeaderComponent implements OnInit {
 
+  // decorator for all budgets for select input drop down
   @Input() budgets: Budget;
 
+  // decorator for selected budget
   @Input() selectedBudget: Budget;
 
-  @Output() chosenBudget = new EventEmitter<any>();
+  // decorator for emitting changed selected budget to other components for use
+  @Output() chosenBudget = new EventEmitter<Budget>();
 
   constructor() {
   }
@@ -20,8 +23,9 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
   }
 
+  // updatedBudget function passes in the $event of the select input binding with (ngModuleChange)
   updateBudget(budget) {
-    this.selectedBudget = budget;
+    // using the @Output decorator above, emit the chosen budget to the outside world
     this.chosenBudget.emit(budget);
   }
 }
