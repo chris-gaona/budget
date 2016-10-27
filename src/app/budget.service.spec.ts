@@ -3,12 +3,12 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { BudgetService } from './budget.service';
 import { Http } from '@angular/http';
-import {Budget, BudgetItems, ActualItems} from './budget';
+import { Budget, BudgetItems, ActualItems } from './budget';
 
 describe('Service: Budget', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [BudgetService]
+      providers: [ BudgetService ]
     });
   });
 
