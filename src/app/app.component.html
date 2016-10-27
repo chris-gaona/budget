@@ -11,7 +11,7 @@
     <div class="row">
       <div class="col-md-6">
         <div class="card">
-          <h4 class="card-header mb-0">
+          <h4 class="card-header mb-0 text-muted">
             Projection
           </h4>
           <ul class="list-group list-group-flush">
@@ -35,7 +35,7 @@
                     <input class="form-control" type="text" [(ngModel)]="budget.projection">
                   </div>
                 </div>
-                <div class="col-md-1 delete-button">
+                <div class="col-md-1 delete-button" (click)="deleteBudgetItem(budget)">
                   <span class="fa fa-trash"></span>
                 </div>
                 <div class="clearfix"></div>
@@ -55,7 +55,7 @@
       </div>
       <div class="col-md-6">
         <div class="card">
-          <h4 class="card-header mb-0">
+          <h4 class="card-header mb-0 text-muted">
             Actual
           </h4>
           <ul class="list-group list-group-flush">
@@ -71,8 +71,8 @@
               <!--<span class="float-xs-right">$35</span>-->
               <!--Gas-->
               <div *ngIf="budget.editing">
-                <div class="col-xs-12 mt-1 mb-1" *ngFor="let actual of budget.actual">
-                  <div class="col-md-6 px-0">
+                <div class="col-xs-12 mt-1 mb-1 p-0" *ngFor="let actual of budget.actual">
+                  <div class="col-md-5 px-0">
                     <div class="input-group">
                       <span class="input-group-addon"><span class="fa fa-info"></span></span>
                       <input class="form-control" type="text" [(ngModel)]="actual.name">
@@ -84,11 +84,11 @@
                       <input class="form-control" type="text" [(ngModel)]="actual.amount">
                     </div>
                   </div>
-                  <div class="col-md-1 delete-button">
+                  <div class="col-md-1 delete-button" (click)="deleteActual(budget, actual)">
                     <span class="fa fa-trash"></span>
                   </div>
                 </div>
-                <a href="#" class="text-primary mt-1 mr-2">+ Add</a>
+                <button class="btn btn-secondary" (click)="addActualItem(budget.actual)">+ Add</button>
               </div>
               <div class="clearfix"></div>
             </li>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BudgetService } from './budget.service';
-import {Budget, BudgetItems} from './budget';
+import {Budget, BudgetItems, ActualItems} from './budget';
 
 @Component({
   selector: 'app-root',
@@ -38,6 +38,8 @@ export class AppComponent implements OnInit {
       budget[i].editing = false;
     }
     return this;
+
+    //todo: remove actual items with empty string on save
   }
 
   addBudgetItem() {
@@ -45,7 +47,6 @@ export class AppComponent implements OnInit {
     newBudgetItem.editing = true;
     this.selectedBudget.budget_items.push(newBudgetItem);
     this.addingBudgetItem = false;
-    console.log(this.selectedBudget);
   }
 
   cancelAdd() {
@@ -53,6 +54,28 @@ export class AppComponent implements OnInit {
     for (let i = 0; i < budget.length; i++) {
       if (i === (budget.length - 1)) {
         budget.splice(i, 1);
+      }
+    }
+  }
+
+  deleteBudgetItem(budgetItem) {
+    let budget = this.selectedBudget.budget_items;
+    for (let i = 0; i < budget.length; i++) {
+      if (budget[i] === budgetItem) {
+        budget.splice(i, 1);
+      }
+    }
+  }
+
+  addActualItem(actual) {
+    let newActualItem = new ActualItems();
+    actual.push(newActualItem);
+  }
+
+  deleteActual(budget, actual) {
+    for (let i = 0; i < budget.actual.length; i++) {
+      if (budget.actual[i] === actual) {
+        budget.actual.splice(i-1, 1);
       }
     }
   }
