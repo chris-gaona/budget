@@ -17,6 +17,11 @@ export class AppComponent implements OnInit {
   totals: any;
   mergeTotals: number;
   addingBudgetItem: boolean = false;
+  projectionObject: Object = {};
+  actualObject: Object = {};
+  totalSaving: number;
+  percSaving: number;
+  endingCash: number;
 
   // injects budget service into this component
   constructor(private budgetService: BudgetService) { }
@@ -117,33 +122,77 @@ export class AppComponent implements OnInit {
   }
 
   // calculates total spent for entire budget
-  getTotalSpent() {
+  getTotalSpent(budget, type) {
     // initialize totalSpent to 0
     this.totalSpent = 0;
     // initialize totals variable to empty array
     this.totals = [];
     // initialize mergeTotals to 0
     this.mergeTotals = 0;
-    // loop through each item in budget_items
-    for (let i = 0; i < this.selectedBudget.budget_items.length; i++) {
-      let item = this.selectedBudget.budget_items[i];
-      // for each budget_item, loop through the actual array
-      for (let j = 0; j < item.actual.length; j++) {
-        // add amount to totalSpent
-        this.totalSpent += +item.actual[j].amount;
+
+    if (type === 'actual') {
+      // loop through each item in budget_items
+      for (let i = 0; i < budget.length; i++) {
+        let item = budget[i];
+        // for each budget_item, loop through the actual array
+        for (let j = 0; j < item.actual.length; j++) {
+          // add amount to totalSpent
+          this.totalSpent += +item.actual[j].amount;
+        }
       }
-    }
-    // push totalSpent total to totals array
-    this.totals.push(this.totalSpent);
 
-    // loop through the totals array
-    for (let i = 0; i < this.totals.length; i++) {
-      // merge the total together
-      this.mergeTotals += this.totals[i];
-    }
+      // push totalSpent total to totals array
+      this.totals.push(this.totalSpent);
 
-    // return the total spent number for the entire budget
-    return this.mergeTotals;
+      // loop through the totals array
+      for (let i = 0; i < this.totals.length; i++) {
+        // merge the total together
+        this.mergeTotals += +this.totals[i];
+      }
+
+      // total saving
+      this.totalSaving = this.selectedBudget.current_income - this.mergeTotals;
+
+      // percentage saving
+      this.percSaving = this.totalSaving / this.selectedBudget.current_income;
+
+      // ending cash amount
+      this.endingCash = this.selectedBudget.existing_cash + this.selectedBudget.current_income - this.mergeTotals;
+
+      this.actualObject = Object.assign({}, {
+        totalSpent: this.mergeTotals,
+        totalSaving: this.totalSaving,
+        percSaving: this.percSaving,
+        endingCash: this.endingCash
+      });
+
+      // return the total spent number for the entire budget
+      return this.actualObject;
+
+    } else if (type === 'projection') {
+      // loop through each item in budget_items
+      for (let i = 0; i < budget.length; i++) {
+        this.totalSpent += +budget[i].projection;
+      }
+
+      // total saving
+      this.totalSaving = this.selectedBudget.current_income - this.totalSpent;
+
+      // percentage saving
+      this.percSaving = this.totalSaving / this.selectedBudget.current_income;
+
+      // ending cash amount
+      this.endingCash = this.selectedBudget.existing_cash + this.selectedBudget.current_income - this.totalSpent;
+
+      this.actualObject = Object.assign({}, {
+        totalSpent: this.totalSpent,
+        totalSaving: this.totalSaving,
+        percSaving: this.percSaving,
+        endingCash: this.endingCash
+      });
+
+      return this.actualObject;
+    }
   }
 }
 

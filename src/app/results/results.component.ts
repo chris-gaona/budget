@@ -7,7 +7,9 @@ import {Component, OnInit, Input} from '@angular/core';
 })
 export class ResultsComponent implements OnInit {
 
-  @Input() totalSpent: number;
+  @Input() totalSpentActual: number;
+
+  @Input() totalSpentProjection: number;
 
   constructor() { }
 

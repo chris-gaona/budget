@@ -6,11 +6,11 @@
 
   <app-header [budgets]="budgets" [selectedBudget]="selectedBudget" (chosenBudget)="chosenBudget($event)"></app-header>
 
-  <app-overview [selectedBudget]="selectedBudget" [totalSpent]="getTotalSpent()"></app-overview>
+  <app-overview [selectedBudget]="selectedBudget" [totalSpent]="getTotalSpent(selectedBudget.budget_items, 'actual')"></app-overview>
 
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-5">
         <div class="card">
           <h4 class="card-header mb-0 text-muted">
             Projection
@@ -48,7 +48,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-7">
         <div class="card">
           <h4 class="card-header mb-0 text-muted">
             Actual
@@ -90,9 +90,9 @@
         </div>
       </div>
 
-      <div class="clearfix"></div>
+      <!--<div class="clearfix"></div>-->
 
-      <app-results [totalSpent]="getTotalSpent()"></app-results>
+      <app-results [totalSpentProjection]="getTotalSpent(selectedBudget.budget_items, 'projection')" [totalSpentActual]="getTotalSpent(selectedBudget.budget_items, 'actual')"></app-results>
 
     </div>
   </div>
