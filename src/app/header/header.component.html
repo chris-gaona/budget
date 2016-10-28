@@ -1,16 +1,12 @@
 <div class="container-fluid">
   <div class="row">
     <div class="float-xs-left mb-2 mx-1">
-      <button type="button" class="btn btn-outline-primary text-uppercase">Start new period</button>
+      <app-modal></app-modal>
     </div>
     <div class="float-xs-left mb-2 mx-1">
       <select class="form-control" [(ngModel)]="selectedBudget" (ngModelChange)="updateBudget($event)">
         <option *ngFor="let budget of budgets" [ngValue]="budget">{{budget.start_period}}</option>
       </select>
-      <!--<select class="form-control">-->
-        <!--<option>Oct 10, 2016</option>-->
-        <!--<option>Oct 21, 2016</option>-->
-      <!--</select>-->
     </div>
   </div>
 </div>

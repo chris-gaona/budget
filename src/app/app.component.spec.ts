@@ -1,6 +1,9 @@
 /* tslint:disable:no-unused-variable */
 
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { DebugElement } from '@angular/core';
+
 import { AppComponent } from './app.component';
 import { JumbotronComponent } from './jumbotron/jumbotron.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -9,12 +12,17 @@ import { OverviewComponent } from './overview/overview.component';
 import { ResultsComponent } from './results/results.component';
 import { FormsModule } from '@angular/forms';
 import { BudgetService } from './budget.service';
+import { ModalComponent } from './modal/modal.component';
+import { ModalModule } from 'angular2-modal';
+import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
 
 describe('App: Budget', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        FormsModule
+        FormsModule,
+        ModalModule.forRoot(),
+        BootstrapModalModule
       ],
       declarations: [
         AppComponent,
@@ -22,9 +30,12 @@ describe('App: Budget', () => {
         NavbarComponent,
         HeaderComponent,
         OverviewComponent,
-        ResultsComponent
+        ResultsComponent,
+        ModalComponent
       ],
-      providers: [ BudgetService ]
+      providers: [
+        BudgetService
+      ]
     });
   });
 
