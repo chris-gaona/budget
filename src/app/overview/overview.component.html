@@ -1,14 +1,14 @@
 <div class="container-fluid mb-2">
   <div class="row">
     <div class="col-md-4">
-      <h3><span class="tag tag-default p-1 w-100"><small>Total: </small>{{selectedBudget.existing_cash | currency:'USD':true}}</span></h3>
+      <h3 class="overview"><span class="tag tag-default p-1 w-100"><small>Total: </small>{{selectedBudget.existing_cash | currency:'USD':true}}</span></h3>
       <!--<h3><span class="tag tag-default p-1 w-100"><small>Total: </small>$24,000</span></h3>-->
     </div>
     <div class="col-md-4">
-      <h3><span class="tag tag-default p-1 w-100"><small>Income: </small>{{selectedBudget.current_income | currency:'USD':true}}</span></h3>
+      <h3 class="overview"><span class="tag tag-default p-1 w-100"><small>Income: </small>{{selectedBudget.current_income | currency:'USD':true}}</span></h3>
     </div>
     <div class="col-md-4">
-      <h3><span class="tag tag-default p-1 w-100"><small>Expense: </small>{{totalSpent | currency:'USD':true}}</span></h3>
+      <h3 class="overview"><span class="tag tag-default p-1 w-100"><small>Expense: </small>{{totalSpent | currency:'USD':true}}</span></h3>
     </div>
   </div>
 </div>
