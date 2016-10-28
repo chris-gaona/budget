@@ -1,7 +1,7 @@
 import {browser, element, by, protractor} from "protractor";
 
 describe('Budget App', () => {
-  describe('Jumbotron Tests', () => {
+  describe('Jumbotron Component Tests', () => {
     it('should have a title', () => {
       browser.get('/');
       expect(browser.getTitle()).toEqual('TrackBudget');
@@ -20,7 +20,7 @@ describe('Budget App', () => {
     });
   });
 
-  describe('Header Tests', () => {
+  describe('Header Component Tests', () => {
     it('should display option value as the selected budget from data', () => {
       expect(element(by.css('select')).element(by.css('option:checked')).getText()).toEqual('9/24/2016');
       element(by.cssContainingText('option', '10/5/2016')).click();
@@ -30,7 +30,7 @@ describe('Budget App', () => {
     });
   });
 
-  describe('Overview Tests', () => {
+  describe('Overview Component Tests', () => {
     it('should display overview sections with correct dollar values based on budget selected', () => {
       let overviewItem = element.all(by.css('h3.overview'));
       expect(overviewItem.get(0).getText()).toBe('Total: $22,525.00');
@@ -47,7 +47,7 @@ describe('Budget App', () => {
     });
   });
 
-  describe('Projection / Actual Tests', () => {
+  describe('Projection / Actual Component Tests', () => {
     it('should display correct projection items based on budget selected', () => {
       let projectionItems = element.all(by.css('.projection'));
       expect(projectionItems.get(0).getText()).toBe('$200.00\nGas');
@@ -91,6 +91,12 @@ describe('Budget App', () => {
 
     it('should add the new budget item to bottom on list when save button is clicked', () => {
       let projectionInputValue = element.all(by.css('.projection-inputs input'));
+      let resultsItems = element.all(by.css('.projection-result'));
+
+      expect(resultsItems.get(0).getText()).toBe('$700.00');
+      expect(resultsItems.get(1).getText()).toBe('$1,100.00');
+      expect(resultsItems.get(2).getText()).toBe('61%');
+      expect(resultsItems.get(3).getText()).toBe('$23,625.00');
 
       projectionInputValue.get(0).clear();
       projectionInputValue.get(0).sendKeys('Misc');
@@ -101,11 +107,16 @@ describe('Budget App', () => {
 
       let projectionItems = element.all(by.css('.projection'));
       expect(projectionItems.get(3).getText()).toBe('$50.00\nMisc');
+      expect(resultsItems.get(0).getText()).toBe('$750.00');
+      expect(resultsItems.get(1).getText()).toBe('$1,050.00');
+      expect(resultsItems.get(2).getText()).toBe('58%');
+      expect(resultsItems.get(3).getText()).toBe('$23,575.00');
     });
 
     it('should delete the recently created budget item when cancel is clicked', () => {
       let projectionInputs = element.all(by.css('.projection-inputs'));
       let actualItems = element.all(by.css('.actual-inputs'));
+
       element(by.id('add-new-btn')).click();
       expect(projectionInputs.get(0).isPresent()).toBeTruthy();
       expect(actualItems.get(0).isPresent()).toBeTruthy();
@@ -119,6 +130,7 @@ describe('Budget App', () => {
       let actualItems = element.all(by.css('.actual'));
       let container = element.all(by.css('.actual-inputs'));
       let inputs = element.all(by.css('.actual-inputs input'));
+
       actualItems.get(0).click();
       expect(container.get(0).isPresent()).toBeTruthy();
       expect(inputs.get(0).isPresent()).toBeTruthy();
@@ -141,8 +153,14 @@ describe('Budget App', () => {
       let inputs = element.all(by.css('.actual-inputs input'));
       let overviewItem = element.all(by.css('h3.overview'));
       let actual = element.all(by.css('.actual'));
+      let resultsItems = element.all(by.css('.actual-result'));
+
       expect(overviewItem.get(2).getText()).toBe('Expense: $290.00');
       expect(actualItems.get(0).getText()).toBe('$35.00\nGas');
+      expect(resultsItems.get(0).getText()).toBe('$290.00');
+      expect(resultsItems.get(1).getText()).toBe('$1,510.00');
+      expect(resultsItems.get(2).getText()).toBe('84%');
+      expect(resultsItems.get(3).getText()).toBe('$24,035.00');
       actualItems.get(0).click();
       inputs.get(2).clear();
       inputs.get(2).sendKeys('New Item');
@@ -152,6 +170,10 @@ describe('Budget App', () => {
       expect(inputs.get(3).getAttribute('value')).toEqual('10');
       expect(overviewItem.get(2).getText()).toBe('Expense: $300.00');
       expect(actual.get(0).getText()).toBe('$45.00\nGas');
+      expect(resultsItems.get(0).getText()).toBe('$300.00');
+      expect(resultsItems.get(1).getText()).toBe('$1,500.00');
+      expect(resultsItems.get(2).getText()).toBe('83%');
+      expect(resultsItems.get(3).getText()).toBe('$24,025.00');
     });
   });
 });

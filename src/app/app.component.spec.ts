@@ -186,7 +186,7 @@ describe('App: Budget', () => {
     });
 
     describe('#getTotalSpent()', () => {
-      it('should calculate total spent for entire budget', async(() => {
+      it('should calculate total spent for actual', async(() => {
         let fixture = TestBed.createComponent(AppComponent);
         let app = fixture.debugElement.componentInstance;
 
@@ -194,9 +194,33 @@ describe('App: Budget', () => {
         app.totals = [];
         app.mergeTotals = 0;
         app.selectedBudget = budget;
-        app.getTotalSpent();
+        app.getTotalSpent(budget.budget_items, 'actual');
         expect(app.totals).toEqual([160]);
         expect(app.mergeTotals).toEqual(160);
+        expect(app.actualObject).toEqual({
+          totalSpent: 160,
+          totalSaving: 1640,
+          percSaving: 0.9111111111111111,
+          endingCash: 24165
+        });
+      }));
+
+      it('should calculate total spent for projection', async(() => {
+        let fixture = TestBed.createComponent(AppComponent);
+        let app = fixture.debugElement.componentInstance;
+
+        app.totalSpent = 0;
+        app.totals = [];
+        app.mergeTotals = 0;
+        app.selectedBudget = budget;
+        app.getTotalSpent(budget.budget_items, 'projection');
+        expect(app.totalSpent).toEqual(450);
+        expect(app.actualObject).toEqual({
+          totalSpent: 450,
+          totalSaving: 1350,
+          percSaving: 0.75,
+          endingCash: 23875
+        });
       }));
     });
   });
