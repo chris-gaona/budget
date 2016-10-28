@@ -8,7 +8,6 @@ import { HeaderComponent } from './header/header.component';
 import { OverviewComponent } from './overview/overview.component';
 import { ResultsComponent } from './results/results.component';
 import { FormsModule } from '@angular/forms';
-import { CapitalizePipe } from './capitalize.pipe';
 import { BudgetService } from './budget.service';
 
 describe('App: Budget', () => {
@@ -23,8 +22,7 @@ describe('App: Budget', () => {
         NavbarComponent,
         HeaderComponent,
         OverviewComponent,
-        ResultsComponent,
-        CapitalizePipe
+        ResultsComponent
       ],
       providers: [ BudgetService ]
     });

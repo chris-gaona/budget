@@ -2,99 +2,96 @@
 
 <app-navbar></app-navbar>
 
-<div class="m-2">
+<app-header [budgets]="budgets" [selectedBudget]="selectedBudget" (chosenBudget)="chosenBudget($event)"></app-header>
 
-  <app-header [budgets]="budgets" [selectedBudget]="selectedBudget" (chosenBudget)="chosenBudget($event)"></app-header>
+<app-overview [selectedBudget]="selectedBudget" [totalSpent]="getTotalSpent(selectedBudget.budget_items, 'actual')"></app-overview>
 
-  <app-overview [selectedBudget]="selectedBudget" [totalSpent]="getTotalSpent(selectedBudget.budget_items, 'actual')"></app-overview>
-
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-5">
-        <div class="card">
-          <h4 class="card-header mb-0 text-muted">
-            Projection
-          </h4>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item" *ngFor="let budget of selectedBudget.budget_items" (click)="budget.editing = true">
-              <div class="projection" *ngIf="!budget.editing">
-                <span class="float-xs-right">{{budget.projection | currency:'USD':true}}</span>
-                {{budget.item | capitalize}}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-5">
+      <div class="card">
+        <h4 class="card-header mb-0 text-muted">
+          Projection
+        </h4>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item" *ngFor="let budget of selectedBudget.budget_items" (click)="budget.editing = true">
+            <div class="projection text-capitalize" *ngIf="!budget.editing">
+              <span class="float-xs-right">{{budget.projection | currency:'USD':true}}</span>
+              {{budget.item}}
+            </div>
+            <div *ngIf="budget.editing" class="projection-inputs">
+              <div class="col-md-6 px-0">
+                <div class="input-group">
+                  <span class="input-group-addon"><span class="fa fa-info"></span></span>
+                  <input class="form-control text-capitalize" type="text" [(ngModel)]="budget.item">
+                </div>
               </div>
-              <div *ngIf="budget.editing" class="projection-inputs">
+              <div class="col-md-5 px-0">
+                <div class="input-group">
+                  <span class="input-group-addon"><span class="fa fa-usd"></span></span>
+                  <input class="form-control" type="number" [(ngModel)]="budget.projection">
+                </div>
+              </div>
+              <div class="col-md-1 delete-button" (click)="deleteBudgetItem(budget)">
+                <span class="fa fa-trash"></span>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+          </li>
+        </ul>
+        <div class="card-footer">
+          <button id="save-all" class="btn btn-primary mr-1" (click)="saveAll()">Save</button>
+          <button id="add-new-btn" class="btn btn-secondary" (click)="addBudgetItem(); addingBudgetItem = true" *ngIf="!addingBudgetItem">+ Add new</button>
+          <button id="cancel-btn" class="btn btn-secondary" (click)="cancelAdd(); addingBudgetItem = false" *ngIf="addingBudgetItem">Cancel</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-7">
+      <div class="card">
+        <h4 class="card-header mb-0 text-muted">
+          Actual
+        </h4>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item" *ngFor="let budget of selectedBudget.budget_items" (click)="budget.editing = true">
+            <p class="mb-0 actual text-capitalize">
+              <span class="float-xs-right">{{getActualTotal(budget) | currency:'USD':true}}</span>
+              {{budget.item}}
+            </p>
+            <!--<span class="float-xs-right">$35</span>-->
+            <!--Gas-->
+            <div *ngIf="budget.editing" class="actual-inputs">
+              <div class="col-xs-12 mt-1 mb-1 p-0" *ngFor="let actual of budget.actual">
                 <div class="col-md-6 px-0">
                   <div class="input-group">
                     <span class="input-group-addon"><span class="fa fa-info"></span></span>
-                    <input class="form-control" type="text" [(ngModel)]="budget.item">
+                    <input class="form-control text-capitalize" type="text" [(ngModel)]="actual.name">
                   </div>
                 </div>
                 <div class="col-md-5 px-0">
                   <div class="input-group">
                     <span class="input-group-addon"><span class="fa fa-usd"></span></span>
-                    <input class="form-control" type="number" [(ngModel)]="budget.projection">
+                    <input class="form-control" type="number" [(ngModel)]="actual.amount">
                   </div>
                 </div>
-                <div class="col-md-1 delete-button" (click)="deleteBudgetItem(budget)">
+                <div class="col-md-1 delete-button" (click)="deleteActual(budget, actual)">
                   <span class="fa fa-trash"></span>
                 </div>
               </div>
-              <div class="clearfix"></div>
-            </li>
-          </ul>
-          <div class="card-footer">
-            <button id="save-all" class="btn btn-primary mr-1" (click)="saveAll()">Save</button>
-            <button id="add-new-btn" class="btn btn-secondary" (click)="addBudgetItem(); addingBudgetItem = true" *ngIf="!addingBudgetItem">+ Add new</button>
-            <button id="cancel-btn" class="btn btn-secondary" (click)="cancelAdd(); addingBudgetItem = false" *ngIf="addingBudgetItem">Cancel</button>
-          </div>
+              <button class="add-actual btn btn-secondary" (click)="addActualItem(budget.actual)">+ Add</button>
+            </div>
+            <div class="clearfix"></div>
+          </li>
+        </ul>
+        <div class="card-footer">
+          <a href="#" class="btn btn-primary" (click)="saveAll()">Save</a>
         </div>
       </div>
-      <div class="col-md-7">
-        <div class="card">
-          <h4 class="card-header mb-0 text-muted">
-            Actual
-          </h4>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item" *ngFor="let budget of selectedBudget.budget_items" (click)="budget.editing = true">
-              <p class="mb-0 actual">
-                <span class="float-xs-right">{{getActualTotal(budget) | currency:'USD':true}}</span>
-                {{budget.item | capitalize}}
-              </p>
-              <!--<span class="float-xs-right">$35</span>-->
-              <!--Gas-->
-              <div *ngIf="budget.editing" class="actual-inputs">
-                <div class="col-xs-12 mt-1 mb-1 p-0" *ngFor="let actual of budget.actual">
-                  <div class="col-md-6 px-0">
-                    <div class="input-group">
-                      <span class="input-group-addon"><span class="fa fa-info"></span></span>
-                      <input class="form-control" type="text" [(ngModel)]="actual.name">
-                    </div>
-                  </div>
-                  <div class="col-md-5 px-0">
-                    <div class="input-group">
-                      <span class="input-group-addon"><span class="fa fa-usd"></span></span>
-                      <input class="form-control" type="number" [(ngModel)]="actual.amount">
-                    </div>
-                  </div>
-                  <div class="col-md-1 delete-button" (click)="deleteActual(budget, actual)">
-                    <span class="fa fa-trash"></span>
-                  </div>
-                </div>
-                <button class="add-actual btn btn-secondary" (click)="addActualItem(budget.actual)">+ Add</button>
-              </div>
-              <div class="clearfix"></div>
-            </li>
-          </ul>
-          <div class="card-footer">
-            <a href="#" class="btn btn-primary" (click)="saveAll()">Save</a>
-          </div>
-        </div>
-      </div>
-
-      <!--<div class="clearfix"></div>-->
-
-      <app-results [totalSpentProjection]="getTotalSpent(selectedBudget.budget_items, 'projection')" [totalSpentActual]="getTotalSpent(selectedBudget.budget_items, 'actual')"></app-results>
-
     </div>
+
+    <!--<div class="clearfix"></div>-->
+
+    <app-results [totalSpentProjection]="getTotalSpent(selectedBudget.budget_items, 'projection')" [totalSpentActual]="getTotalSpent(selectedBudget.budget_items, 'actual')"></app-results>
+
   </div>
 </div>
 
