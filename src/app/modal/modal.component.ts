@@ -1,40 +1,43 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { Overlay } from 'angular2-modal';
-import { Modal } from 'angular2-modal/plugins/bootstrap/modal';
+import { Component, OnInit, Input, Output, OnChanges, EventEmitter,
+  trigger, state, style, animate, transition } from '@angular/core';
+
+// Thank you https://coryrylan.com/blog/build-a-angular-modal-dialog-with-angular-animate
 
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.css']
+  styleUrls: ['./modal.component.css'],
+  animations: [
+    // The first line we have a trigger value: dialog. This is the value that matches the [@dialog] property in our template
+    trigger('dialog', [
+      // * wildcard syntax which means in any state change of the applied element it should trigger the animation
+      // void => * applies the first animation when the element enters the view or is not "void" of the view
+      transition('void => *', [
+        style({ transform: 'scale3d(.3, .3, .3)' }),
+        animate(200)
+      ]),
+      // second transition is very similar but uses * => void to apply the second animation when the element leaves the view or is “void” of the view
+      transition('* => void', [
+        animate(200, style({ transform: 'scale3d(.0, .0, .0)' }))
+      ])
+    ])
+  ]
 })
 export class ModalComponent implements OnInit {
 
-  constructor(overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal) {
-    overlay.defaultViewContainer = vcRef;
-  }
+  @Input() closable = true;
+
+  @Input() visible: boolean;
+
+  @Output() visibleChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  constructor() { }
 
   ngOnInit() {
   }
 
-  onClick() {
-    this.modal.confirm()
-      .size('lg')
-      .isBlocking(false)
-      .showClose(true)
-      .title('Start a new budget!')
-      .body(`
-            <h4>Alert is a classic (title/body/footer) 1 button modal window that 
-            does not block.</h4>
-            <b>Configuration:</b>
-            <ul>
-                <li>Non blocking (click anywhere outside to dismiss)</li>
-                <li>Size large</li>
-                <li>Dismissed with default keyboard key (ESC)</li>
-                <li>Close wth button click</li>
-                <li>HTML content</li>
-            </ul>`)
-      .okBtn('Let\'s go!')
-      .cancelBtnClass('btn btn-secondary ml-1')
-      .open();
+  close() {
+    this.visible = false;
+    this.visibleChange.emit(this.visible);
   }
 }

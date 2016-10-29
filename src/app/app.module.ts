@@ -3,9 +3,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { ModalModule } from 'angular2-modal';
-import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
-
 import { AppComponent } from './app.component';
 import { JumbotronComponent } from './jumbotron/jumbotron.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -22,14 +19,12 @@ import { ModalComponent } from './modal/modal.component';
     HeaderComponent,
     OverviewComponent,
     ResultsComponent,
-    ModalComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule,
-    ModalModule.forRoot(),
-    BootstrapModalModule
+    HttpModule
   ],
   providers: [],
   bootstrap: [AppComponent]

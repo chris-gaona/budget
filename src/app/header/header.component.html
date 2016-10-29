@@ -1,7 +1,46 @@
 <div class="container-fluid">
   <div class="row">
     <div class="float-xs-left mb-2 mx-1">
-      <app-modal></app-modal>
+      <button type="button" class="btn btn-outline-primary text-uppercase" (click)="showDialog = !showDialog">Start new period</button>
+
+      <app-modal [(visible)]="showDialog">
+        <div class="modal-dialog my-0">
+          <div class="modal-content">
+            <div class="modal-header bg-inverse text-white rounded-top">
+              <button type="button" class="close" aria-label="Close" (click)="showDialog = !showDialog">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <h4 class="modal-title">You just got paid...time to track it!</h4>
+            </div>
+            <div class="modal-body">
+              <small class="text-muted mb-2 d-block">I've done my best to populate the following fields for you! Your welcome!</small>
+              <form>
+                <div class="form-group mb-2">
+                  <label for="formGroupExampleInput">When does the current period start?</label>
+                  <input type="date" class="form-control" id="formGroupExampleInput" placeholder="Date">
+                </div>
+                <div class="form-group mb-2">
+                  <label for="formGroupExampleInput">What's your current total cash?</label>
+                  <input type="number" class="form-control" id="formGroupExampleInput" placeholder="Amount">
+                </div>
+                <div class="form-group mb-2">
+                  <label for="formGroupExampleInput2">What's your current income?</label>
+                  <input type="number" class="form-control" id="formGroupExampleInput2" placeholder="Amount">
+                </div>
+                <label class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" checked>
+                  <span class="custom-control-indicator"></span>
+                  <span class="custom-control-description">Use last period's projections as a starting point?</span>
+                </label>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary">Let's go!</button>
+              <button type="button" class="btn btn-secondary" (click)="showDialog = !showDialog">Close</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </app-modal>
     </div>
     <div class="float-xs-left mb-2 mx-1">
       <select class="form-control" [(ngModel)]="selectedBudget" (ngModelChange)="updateBudget($event)">

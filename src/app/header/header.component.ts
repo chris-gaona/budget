@@ -15,7 +15,7 @@ export class HeaderComponent implements OnInit {
   @Input() selectedBudget: Budget;
 
   // decorator for emitting changed selected budget to other components for use
-  @Output() chosenBudget = new EventEmitter<Budget>();
+  @Output() chosenBudget: EventEmitter<Budget> = new EventEmitter<Budget>();
 
   constructor() {
   }

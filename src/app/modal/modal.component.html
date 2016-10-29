@@ -1,1 +1,6 @@
-<button type="button" class="btn btn-outline-primary text-uppercase" (click)="onClick()">Start new period</button>
+<div [@dialog] *ngIf="visible" class="dialog">
+  <!--Where custom content is displayed-->
+  <ng-content></ng-content>
+</div>
+
+<div *ngIf="visible" class="overlay" (click)="close()"></div>

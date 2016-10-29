@@ -4,8 +4,6 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { ModalComponent } from './modal.component';
-import { ModalModule } from 'angular2-modal';
-import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
 
 describe('ModalComponent', () => {
   let component: ModalComponent;
@@ -13,10 +11,6 @@ describe('ModalComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        ModalModule.forRoot(),
-        BootstrapModalModule
-      ],
       declarations: [ ModalComponent ]
     })
     .compileComponents();

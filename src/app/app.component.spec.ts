@@ -12,17 +12,12 @@ import { OverviewComponent } from './overview/overview.component';
 import { ResultsComponent } from './results/results.component';
 import { FormsModule } from '@angular/forms';
 import { BudgetService } from './budget.service';
-import { ModalComponent } from './modal/modal.component';
-import { ModalModule } from 'angular2-modal';
-import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
 
 describe('App: Budget', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        FormsModule,
-        ModalModule.forRoot(),
-        BootstrapModalModule
+        FormsModule
       ],
       declarations: [
         AppComponent,
@@ -30,8 +25,7 @@ describe('App: Budget', () => {
         NavbarComponent,
         HeaderComponent,
         OverviewComponent,
-        ResultsComponent,
-        ModalComponent
+        ResultsComponent
       ],
       providers: [
         BudgetService

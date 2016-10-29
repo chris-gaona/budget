@@ -184,14 +184,14 @@ export class AppComponent implements OnInit {
       // ending cash amount
       this.endingCash = this.selectedBudget.existing_cash + this.selectedBudget.current_income - this.totalSpent;
 
-      this.actualObject = Object.assign({}, {
+      this.projectionObject = Object.assign({}, {
         totalSpent: this.totalSpent,
         totalSaving: this.totalSaving,
         percSaving: this.percSaving,
         endingCash: this.endingCash
       });
 
-      return this.actualObject;
+      return this.projectionObject;
     }
   }
 }
