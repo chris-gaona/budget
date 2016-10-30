@@ -1,42 +1,49 @@
 <div class="container-fluid">
   <div class="row">
     <div class="float-xs-left mb-2 mx-1">
-      <button type="button" class="btn btn-outline-primary text-uppercase" (click)="showDialog = !showDialog">Start new period</button>
+      <button type="button" class="btn btn-outline-primary text-uppercase" (click)="showDialog = !showDialog; createEmptyBudget()">Start new period</button>
 
-      <app-modal [(visible)]="showDialog">
+      <app-modal [(visible)]="showDialog" [budgets]="budgets">
         <div class="modal-dialog my-0">
           <div class="modal-content">
-            <div class="modal-header bg-inverse text-white rounded-top">
-              <button type="button" class="close" aria-label="Close" (click)="showDialog = !showDialog">
+            <div class="modal-header bg-faded rounded-top">
+              <button type="button" class="close" aria-label="Close" (click)="showDialog = !showDialog; cancelBudget()">
                 <span aria-hidden="true">&times;</span>
               </button>
               <h4 class="modal-title">You just got paid...time to track it!</h4>
             </div>
             <div class="modal-body">
               <small class="text-muted mb-2 d-block">I've done my best to populate the following fields for you! Your welcome!</small>
-              <form>
-                <div class="form-group mb-2">
-                  <label for="formGroupExampleInput">When does the current period start?</label>
-                  <input type="date" class="form-control" id="formGroupExampleInput" placeholder="Date">
+              <div class="form-group mb-2">
+                <label for="formGroupExampleInput">When does the current period start?</label>
+                <div class="input-group">
+                  <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                  <input type="date" class="form-control" id="formGroupExampleInput" placeholder="Date" [(ngModel)]="shownBudget.start_period">
                 </div>
-                <div class="form-group mb-2">
-                  <label for="formGroupExampleInput">What's your current total cash?</label>
-                  <input type="number" class="form-control" id="formGroupExampleInput" placeholder="Amount">
+              </div>
+              <div class="form-group mb-2">
+                <label for="formGroupExampleInpu2">What's your current total cash?</label>
+                <div class="input-group">
+                  <span class="input-group-addon"><span class="fa fa-usd"></span></span>
+                  <input type="number" class="form-control" id="formGroupExampleInpu2" placeholder="Amount" [(ngModel)]="shownBudget.existing_cash">
                 </div>
-                <div class="form-group mb-2">
-                  <label for="formGroupExampleInput2">What's your current income?</label>
-                  <input type="number" class="form-control" id="formGroupExampleInput2" placeholder="Amount">
+              </div>
+              <div class="form-group mb-2">
+                <label for="formGroupExampleInput3">What's your current income?</label>
+                <div class="input-group">
+                  <span class="input-group-addon"><span class="fa fa-usd"></span></span>
+                  <input type="number" class="form-control" id="formGroupExampleInput3" placeholder="Amount" [(ngModel)]="shownBudget.current_income">
                 </div>
-                <label class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" checked>
-                  <span class="custom-control-indicator"></span>
-                  <span class="custom-control-description">Use last period's projections as a starting point?</span>
-                </label>
-              </form>
+              </div>
+              <label class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" [(ngModel)]="reuseProjection">
+                <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">Use last period's projections as a starting point?</span>
+              </label>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary">Let's go!</button>
-              <button type="button" class="btn btn-secondary" (click)="showDialog = !showDialog">Close</button>
+              <button type="button" class="btn btn-primary" (click)="createBudget(shownBudget)">Let's go!</button>
+              <button type="button" class="btn btn-secondary" (click)="showDialog = !showDialog; cancelBudget()">Close</button>
             </div>
           </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -44,7 +51,7 @@
     </div>
     <div class="float-xs-left mb-2 mx-1">
       <select class="form-control" [(ngModel)]="selectedBudget" (ngModelChange)="updateBudget($event)">
-        <option *ngFor="let budget of budgets" [ngValue]="budget">{{budget.start_period}}</option>
+        <option *ngFor="let budget of budgets" [ngValue]="budget">{{budget.start_period | date}}</option>
       </select>
     </div>
   </div>

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, OnChanges, EventEmitter,
   trigger, state, style, animate, transition } from '@angular/core';
+import { Budget } from '../budget';
 
 // Thank you https://coryrylan.com/blog/build-a-angular-modal-dialog-with-angular-animate
 
@@ -25,7 +26,8 @@ import { Component, OnInit, Input, Output, OnChanges, EventEmitter,
 })
 export class ModalComponent implements OnInit {
 
-  @Input() closable = true;
+  // decorator for all budgets for select input drop down
+  @Input() budgets: Budget[];
 
   @Input() visible: boolean;
 
@@ -39,5 +41,17 @@ export class ModalComponent implements OnInit {
   close() {
     this.visible = false;
     this.visibleChange.emit(this.visible);
+  }
+
+  cancelBudget() {
+    // loop through each budget item
+    for (let i = 0; i < this.budgets.length; i++) {
+      // find the newly created last budget item in the array
+      if (i === (this.budgets.length - 1)) {
+        // assign the last budget to shownBudget variable
+        this.budgets.splice(i, 1);
+      }
+    }
+    console.log(this.budgets);
   }
 }

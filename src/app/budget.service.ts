@@ -14,7 +14,7 @@ export class BudgetService {
     // adds mock data
     let mockBudget1 = new Budget({
       id: 1,
-      start_period: '9/24/2016',
+      start_period: new Date('9/24/2016'),
       existing_cash: 22525,
       current_income: 1800,
       budget_items: [
@@ -60,7 +60,7 @@ export class BudgetService {
 
     let mockBudget2 = new Budget({
       id: 2,
-      start_period: '10/5/2016',
+      start_period: new Date('10/5/2016'),
       existing_cash: 25525,
       current_income: 1650,
       budget_items: [

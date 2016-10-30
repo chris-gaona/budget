@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     // retrieves all budgets from budgetService
     this.budgets = this.budgetService.getAllBudgets();
+    console.log(this.budgets);
     // initializes the first budget as the selected budget
     this.selectedBudget = this.budgets[0];
   }
