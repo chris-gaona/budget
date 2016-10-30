@@ -12,6 +12,7 @@ import { OverviewComponent } from './overview/overview.component';
 import { ResultsComponent } from './results/results.component';
 import { FormsModule } from '@angular/forms';
 import { BudgetService } from './budget.service';
+import { ModalComponent } from './modal/modal.component';
 
 describe('App: Budget', () => {
   beforeEach(() => {
@@ -25,7 +26,8 @@ describe('App: Budget', () => {
         NavbarComponent,
         HeaderComponent,
         OverviewComponent,
-        ResultsComponent
+        ResultsComponent,
+        ModalComponent
       ],
       providers: [
         BudgetService
@@ -122,7 +124,7 @@ describe('App: Budget', () => {
     });
 
     describe('#addActualItem(actual)', () => {
-      it('should ....', async(() => {
+      it('should add a new actual item', async(() => {
         let fixture = TestBed.createComponent(AppComponent);
         let app = fixture.debugElement.componentInstance;
 
@@ -220,7 +222,7 @@ describe('App: Budget', () => {
         app.selectedBudget = budget;
         app.getTotalSpent(budget.budget_items, 'projection');
         expect(app.totalSpent).toEqual(450);
-        expect(app.actualObject).toEqual({
+        expect(app.projectionObject).toEqual({
           totalSpent: 450,
           totalSaving: 1350,
           percSaving: 0.75,

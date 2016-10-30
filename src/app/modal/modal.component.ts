@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, Output, OnChanges, EventEmitter,
-  trigger, state, style, animate, transition } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter,
+  trigger, style, animate, transition } from '@angular/core';
 import { Budget } from '../budget';
 
 // Thank you https://coryrylan.com/blog/build-a-angular-modal-dialog-with-angular-animate
@@ -17,7 +17,8 @@ import { Budget } from '../budget';
         style({ transform: 'scale3d(.3, .3, .3)' }),
         animate(200)
       ]),
-      // second transition is very similar but uses * => void to apply the second animation when the element leaves the view or is “void” of the view
+      // second transition is very similar but uses * => void to apply the second animation
+      // when the element leaves the view or is “void” of the view
       transition('* => void', [
         animate(200, style({ transform: 'scale3d(.0, .0, .0)' }))
       ])

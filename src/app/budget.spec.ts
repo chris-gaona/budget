@@ -39,7 +39,7 @@ describe('Budget', () => {
     });
 
     expect(budget.id).toEqual(1);
-    expect(budget.start_period).toEqual('');
+    expect(budget.start_period).toEqual(new Date());
     expect(budget.existing_cash).toEqual(22525);
     expect(budget.current_income).toEqual(0);
     expect(budget.budget_items[0].editing).toEqual(false);
