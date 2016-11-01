@@ -18,21 +18,21 @@
                 <label for="formGroupExampleInput">When does the current period start?</label>
                 <div class="input-group">
                   <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                  <input type="date" class="form-control" id="formGroupExampleInput" placeholder="Date" [(ngModel)]="shownBudget.start_period">
+                  <input type="date" class="form-control" id="formGroupExampleInput" placeholder="Date" *ngIf="showDialog" [(ngModel)]="shownBudget.start_period">
                 </div>
               </div>
               <div class="form-group mb-2">
                 <label for="formGroupExampleInpu2">What's your current total cash?</label>
                 <div class="input-group">
                   <span class="input-group-addon"><span class="fa fa-usd"></span></span>
-                  <input type="number" class="form-control" id="formGroupExampleInpu2" placeholder="Amount" [(ngModel)]="shownBudget.existing_cash">
+                  <input type="number" class="form-control" id="formGroupExampleInpu2" placeholder="Amount" *ngIf="showDialog" [(ngModel)]="shownBudget.existing_cash">
                 </div>
               </div>
               <div class="form-group mb-2">
                 <label for="formGroupExampleInput3">What's your current income?</label>
                 <div class="input-group">
                   <span class="input-group-addon"><span class="fa fa-usd"></span></span>
-                  <input type="number" class="form-control" id="formGroupExampleInput3" placeholder="Amount" [(ngModel)]="shownBudget.current_income">
+                  <input type="number" class="form-control" id="formGroupExampleInput3" placeholder="Amount" *ngIf="showDialog" [(ngModel)]="shownBudget.current_income">
                 </div>
               </div>
               <label class="custom-control custom-checkbox">

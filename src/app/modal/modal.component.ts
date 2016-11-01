@@ -14,13 +14,13 @@ import { Budget } from '../budget';
       // * wildcard syntax which means in any state change of the applied element it should trigger the animation
       // void => * applies the first animation when the element enters the view or is not "void" of the view
       transition('void => *', [
-        style({ transform: 'scale3d(.3, .3, .3)' }),
-        animate(200)
+        style({ transform: 'translateY(-1000px)' }),
+        animate(300)
       ]),
       // second transition is very similar but uses * => void to apply the second animation
       // when the element leaves the view or is “void” of the view
       transition('* => void', [
-        animate(200, style({ transform: 'scale3d(.0, .0, .0)' }))
+        animate(200, style({ transform: 'translateY(1000px)' }))
       ])
     ])
   ]
@@ -53,6 +53,5 @@ export class ModalComponent implements OnInit {
         this.budgets.splice(i, 1);
       }
     }
-    console.log(this.budgets);
   }
 }

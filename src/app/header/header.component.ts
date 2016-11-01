@@ -8,7 +8,6 @@ import { BudgetService } from '../budget.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  // newDate: Date = new Date();
   shownBudget: Budget;
   showDialog: boolean;
   reuseProjection: boolean = false;
@@ -26,14 +25,6 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    // loop through each budget item
-    for (let i = 0; i < this.budgets.length; i++) {
-      // find the newly created last budget item in the array
-      if (i === (this.budgets.length - 1)) {
-        // assign the last budget to shownBudget variable
-        this.shownBudget = this.budgets[i];
-      }
-    }
   }
 
   createEmptyBudget() {
@@ -42,10 +33,15 @@ export class HeaderComponent implements OnInit {
 
     // adds new budget with the budgetService
     this.budgetService.addBudget(newBudget);
-    // converts new date to proper string to be handled by date type input
-    newBudget.start_period = newDate.getFullYear() + '-' + (newDate.getMonth() + 1) + '-' + newDate.getDate();
+    // calls convertDate function & passes in new Date()
+    this.convertDate(newBudget, newDate);
     // make this new budget the shown one in the modal for editing
     this.shownBudget = newBudget;
+  }
+
+  convertDate(budget, date) {
+    // converts new date to proper string to be handled by date type input
+    return budget.start_period = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
   }
 
   // connection function between header component & this component to create new budget
@@ -90,6 +86,19 @@ export class HeaderComponent implements OnInit {
   }
 
   reuseProjections(budget) {
+    let newArray;
+
+    newArray = this.obtainProjection();
+
+    this.budgetService.updateBudgetById(budget.id, {
+      budget_items: newArray
+    });
+
+    // Handle the event & add change to selected budget
+    return this.chosenBudget.emit(budget);
+  }
+
+  obtainProjection() {
     let budgetItems;
     let newArray;
 
@@ -102,18 +111,13 @@ export class HeaderComponent implements OnInit {
       }
     }
 
-    // using a hack to make a deep copy of an array
+    // use a hack to make a deep copy of an array
     newArray = JSON.parse(JSON.stringify(budgetItems));
 
     for (let i = 0; i < newArray.length; i++) {
       newArray[i].actual = [];
     }
 
-    this.budgetService.updateBudgetById(budget.id, {
-      budget_items: newArray
-    });
-
-    // Handle the event & add change to selected budget
-    return this.chosenBudget.emit(budget);
+    return newArray;
   }
 }
