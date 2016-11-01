@@ -40,8 +40,22 @@ export class HeaderComponent implements OnInit {
   }
 
   convertDate(budget, date) {
+    let dateString;
+
+    if ((date.getMonth() + 1) < 10 && date.getDate() < 10) {
+      dateString = date.getFullYear() + '-0' + (date.getMonth() + 1) + '-0' + date.getDate();
+
+    } else if ((date.getMonth() + 1) < 10 && date.getDate() >= 10) {
+      dateString = date.getFullYear() + '-0' + (date.getMonth() + 1) + '-' + date.getDate();
+
+    } else if ((date.getMonth() + 1) >= 10 && date.getDate() < 10) {
+      dateString = date.getFullYear() + '-' + (date.getMonth() + 1) + '-0' + date.getDate();
+
+    } else {
+      dateString = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+    }
     // converts new date to proper string to be handled by date type input
-    return budget.start_period = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+    return budget.start_period = dateString;
   }
 
   // connection function between header component & this component to create new budget
@@ -85,11 +99,14 @@ export class HeaderComponent implements OnInit {
     }
   }
 
+  // reuse projections from last budget
   reuseProjections(budget) {
     let newArray;
 
+    // get the budget items
     newArray = this.obtainProjection();
 
+    // update the new budget with last period's budget items
     this.budgetService.updateBudgetById(budget.id, {
       budget_items: newArray
     });
@@ -98,6 +115,7 @@ export class HeaderComponent implements OnInit {
     return this.chosenBudget.emit(budget);
   }
 
+  // get the projection or budget items from last period
   obtainProjection() {
     let budgetItems;
     let newArray;
@@ -114,10 +132,12 @@ export class HeaderComponent implements OnInit {
     // use a hack to make a deep copy of an array
     newArray = JSON.parse(JSON.stringify(budgetItems));
 
+    // loop through to remove all the actual values
     for (let i = 0; i < newArray.length; i++) {
       newArray[i].actual = [];
     }
 
+    // return the new budget_items array to use in the new budget
     return newArray;
   }
 }

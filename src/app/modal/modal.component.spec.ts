@@ -11,6 +11,7 @@ describe('ModalComponent', () => {
   let component;
   let fixture;
 
+  // another way to set up testing that I wanted to keep for future reference
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ ModalComponent ]

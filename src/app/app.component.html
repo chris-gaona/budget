@@ -6,6 +6,7 @@
 
 <app-overview [selectedBudget]="selectedBudget" [totalSpent]="getTotalSpent(selectedBudget.budget_items, 'actual')"></app-overview>
 
+<!--Main Budget Input Section-->
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-5">
@@ -87,8 +88,6 @@
         </div>
       </div>
     </div>
-
-    <!--<div class="clearfix"></div>-->
 
     <app-results [totalSpentProjection]="getTotalSpent(selectedBudget.budget_items, 'projection')" [totalSpentActual]="getTotalSpent(selectedBudget.budget_items, 'actual')"></app-results>
 

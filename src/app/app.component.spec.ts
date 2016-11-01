@@ -15,6 +15,8 @@ import { BudgetService } from './budget.service';
 import { ModalComponent } from './modal/modal.component';
 
 describe('App: Budget', () => {
+  let component;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -33,12 +35,13 @@ describe('App: Budget', () => {
         BudgetService
       ]
     });
+
+    const fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
   });
 
   it('should create the app', async(() => {
-    let fixture = TestBed.createComponent(AppComponent);
-    let app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
+    expect(component).toBeTruthy();
   }));
 
   describe('Manipulating the data', () => {
@@ -75,61 +78,47 @@ describe('App: Budget', () => {
 
     describe('#chosenBudget(budget)', () => {
       it('should change the selected budget', async(() => {
-        let fixture = TestBed.createComponent(AppComponent);
-        let app = fixture.debugElement.componentInstance;
-        app.chosenBudget(budget);
-        expect(app.selectedBudget).toEqual(budget);
+        component.chosenBudget(budget);
+        expect(component.selectedBudget).toEqual(budget);
       }));
     });
 
     describe('#addBudgetItem()', () => {
       it('should save all items including budget items and actual items', async(() => {
-        let fixture = TestBed.createComponent(AppComponent);
-        let app = fixture.debugElement.componentInstance;
-
-        app.selectedBudget = budget;
-        expect(app.selectedBudget.budget_items.length).toEqual(2);
-        app.addBudgetItem();
-        expect(app.selectedBudget.budget_items.length).toEqual(3);
-        expect(app.selectedBudget.budget_items[2].editing).toEqual(true);
-        expect(app.selectedBudget.budget_items[2].item).toEqual('');
-        expect(app.selectedBudget.budget_items[2].projection).toEqual(0);
+        component.selectedBudget = budget;
+        expect(component.selectedBudget.budget_items.length).toEqual(2);
+        component.addBudgetItem();
+        expect(component.selectedBudget.budget_items.length).toEqual(3);
+        expect(component.selectedBudget.budget_items[2].editing).toEqual(true);
+        expect(component.selectedBudget.budget_items[2].item).toEqual('');
+        expect(component.selectedBudget.budget_items[2].projection).toEqual(0);
       }));
     });
 
     describe('#cancelAdd()', () => {
       it('should cancel adding a new budget item & delete the last budget item in the array', async(() => {
-        let fixture = TestBed.createComponent(AppComponent);
-        let app = fixture.debugElement.componentInstance;
-
-        app.selectedBudget = budget;
-        expect(app.selectedBudget.budget_items.length).toEqual(3);
-        app.cancelAdd();
-        expect(app.selectedBudget.budget_items.length).toEqual(2);
+        component.selectedBudget = budget;
+        expect(component.selectedBudget.budget_items.length).toEqual(3);
+        component.cancelAdd();
+        expect(component.selectedBudget.budget_items.length).toEqual(2);
       }));
     });
 
     describe('#deleteBudgetItem(budgetItem)', () => {
       it('should delete a specific budget item within a budget', async(() => {
-        let fixture = TestBed.createComponent(AppComponent);
-        let app = fixture.debugElement.componentInstance;
-
-        app.selectedBudget = budget;
-        expect(app.selectedBudget.budget_items.length).toEqual(2);
-        app.deleteBudgetItem(budget.budget_items[0]);
-        expect(app.selectedBudget.budget_items.length).toEqual(1);
-        expect(app.selectedBudget.budget_items[0].item).toEqual('food');
-        expect(app.selectedBudget.budget_items[0].projection).toEqual(250);
+        component.selectedBudget = budget;
+        expect(component.selectedBudget.budget_items.length).toEqual(2);
+        component.deleteBudgetItem(budget.budget_items[0]);
+        expect(component.selectedBudget.budget_items.length).toEqual(1);
+        expect(component.selectedBudget.budget_items[0].item).toEqual('food');
+        expect(component.selectedBudget.budget_items[0].projection).toEqual(250);
       }));
     });
 
     describe('#addActualItem(actual)', () => {
       it('should add a new actual item', async(() => {
-        let fixture = TestBed.createComponent(AppComponent);
-        let app = fixture.debugElement.componentInstance;
-
         expect(budget.budget_items[0].actual.length).toEqual(1);
-        app.addActualItem(budget.budget_items[0].actual);
+        component.addActualItem(budget.budget_items[0].actual);
         expect(budget.budget_items[0].actual.length).toEqual(2);
         expect(budget.budget_items[0].actual[1].name).toEqual('');
         expect(budget.budget_items[0].actual[1].amount).toEqual(0);
@@ -138,11 +127,8 @@ describe('App: Budget', () => {
 
     describe('#deleteActual(budget, actual)', () => {
       it('should delete specific actual item within a budget item', async(() => {
-        let fixture = TestBed.createComponent(AppComponent);
-        let app = fixture.debugElement.componentInstance;
-
         expect(budget.budget_items[0].actual.length).toEqual(2);
-        app.deleteActual(budget.budget_items[0], budget.budget_items[0].actual[1]);
+        component.deleteActual(budget.budget_items[0], budget.budget_items[0].actual[1]);
         expect(budget.budget_items[0].actual.length).toEqual(1);
       }));
     });
@@ -182,29 +168,23 @@ describe('App: Budget', () => {
 
     describe('#getActualTotal(budget)', () => {
       it('should calculate the sub total for each budget item', async(() => {
-        let fixture = TestBed.createComponent(AppComponent);
-        let app = fixture.debugElement.componentInstance;
-
-        app.totalActual = 0;
-        expect(app.totalActual).toEqual(0);
-        app.getActualTotal(budget.budget_items[0]);
-        expect(app.totalActual).toEqual(35);
+        component.totalActual = 0;
+        expect(component.totalActual).toEqual(0);
+        component.getActualTotal(budget.budget_items[0]);
+        expect(component.totalActual).toEqual(35);
       }));
     });
 
     describe('#getTotalSpent()', () => {
       it('should calculate total spent for actual', async(() => {
-        let fixture = TestBed.createComponent(AppComponent);
-        let app = fixture.debugElement.componentInstance;
-
-        app.totalSpent = 0;
-        app.totals = [];
-        app.mergeTotals = 0;
-        app.selectedBudget = budget;
-        app.getTotalSpent(budget.budget_items, 'actual');
-        expect(app.totals).toEqual([160]);
-        expect(app.mergeTotals).toEqual(160);
-        expect(app.actualObject).toEqual({
+        component.totalSpent = 0;
+        component.totals = [];
+        component.mergeTotals = 0;
+        component.selectedBudget = budget;
+        component.getTotalSpent(budget.budget_items, 'actual');
+        expect(component.totals).toEqual([160]);
+        expect(component.mergeTotals).toEqual(160);
+        expect(component.actualObject).toEqual({
           totalSpent: 160,
           totalSaving: 1640,
           percSaving: 0.9111111111111111,
@@ -213,16 +193,13 @@ describe('App: Budget', () => {
       }));
 
       it('should calculate total spent for projection', async(() => {
-        let fixture = TestBed.createComponent(AppComponent);
-        let app = fixture.debugElement.componentInstance;
-
-        app.totalSpent = 0;
-        app.totals = [];
-        app.mergeTotals = 0;
-        app.selectedBudget = budget;
-        app.getTotalSpent(budget.budget_items, 'projection');
-        expect(app.totalSpent).toEqual(450);
-        expect(app.projectionObject).toEqual({
+        component.totalSpent = 0;
+        component.totals = [];
+        component.mergeTotals = 0;
+        component.selectedBudget = budget;
+        component.getTotalSpent(budget.budget_items, 'projection');
+        expect(component.totalSpent).toEqual(450);
+        expect(component.projectionObject).toEqual({
           totalSpent: 450,
           totalSaving: 1350,
           percSaving: 0.75,
