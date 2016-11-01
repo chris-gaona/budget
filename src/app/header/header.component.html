@@ -1,10 +1,10 @@
 <div class="container-fluid">
   <div class="row">
     <div class="float-xs-left mb-2 mx-1">
-      <button type="button" class="btn btn-outline-primary text-uppercase" (click)="showDialog = !showDialog; createEmptyBudget()">Start new period</button>
+      <button type="button" id="modal-button" class="btn btn-outline-primary text-uppercase" (click)="showDialog = !showDialog; createEmptyBudget()">Start new period</button>
 
       <app-modal [(visible)]="showDialog" [budgets]="budgets">
-        <div class="modal-dialog my-0">
+        <div class="modal-dialog my-0" id="modal-container">
           <div class="modal-content">
             <div class="modal-header bg-faded rounded-top">
               <button type="button" class="close" aria-label="Close" (click)="showDialog = !showDialog; cancelBudget()">

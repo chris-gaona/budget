@@ -34,6 +34,12 @@ describe('HeaderComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  // describe('#createEmptyBudget()', () => {
+  //   it('should ....', async(() => {
+  //     expect(component).toBeTruthy();
+  //   }));
+  // });
+
   describe('#convertDate()', () => {
     it('should convert the date to yyyy-mm-dd format', async(() => {
       let budget = {
@@ -79,35 +85,56 @@ describe('HeaderComponent', () => {
   //   }));
   // });
 
-  describe('#obtainProjection()', () => {
-    it('should obtain the projection items from the previous array item', async(() => {
-      let budgets = [
-        {
-          item: 1,
-          budget_items: [
-            {
-              fruit: 'apples',
-              actual: ['hola!']
-            }
-          ]
-        },
+  describe('#obtainPreviousBudget(string)', () => {
+    let budgets = [
+      {
+        item: 1,
+        budget_items: [
+          {
+            fruit: 'apples',
+            actual: [{ amount: 15 }]
+          }
+        ]
+      },
+      {
+        item: 2,
+        budget_items: [
+          {
+            fruit: 'grapes',
+            actual: [{ amount: 25 }]
+          }
+        ]
+      }
+    ];
+
+    it('should obtain previous budget', async(() => {
+      component.budgets = budgets;
+      expect(component.obtainPreviousBudget('pre')).toEqual(
         {
           item: 2,
           budget_items: [
             {
               fruit: 'grapes',
-              actual: ['chow!']
+              actual: []
             }
-          ]
-        }
-      ];
+          ],
+          total_spent: 25
+        });
+    }));
+
+    it('should obtain previous, previous budget since new budget array was pushed on', async(() => {
       component.budgets = budgets;
-      expect(component.obtainProjection()).toEqual([
+      expect(component.obtainPreviousBudget('post')).toEqual(
         {
-          fruit: 'apples',
-          actual: []
-        }
-      ]);
+          item: 1,
+          budget_items: [
+            {
+              fruit: 'apples',
+              actual: []
+            }
+          ],
+          total_spent: 15
+        });
     }));
   });
 });

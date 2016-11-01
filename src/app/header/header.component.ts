@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Budget } from '../budget';
 import { BudgetService } from '../budget.service';
 
@@ -11,6 +11,9 @@ export class HeaderComponent implements OnInit {
   shownBudget: Budget;
   showDialog: boolean;
   reuseProjection: boolean = false;
+  totalSpent: number;
+  totals: any;
+  mergeTotals: number;
 
   // decorator for all budgets for select input drop down
   @Input() budgets: Budget[];
@@ -30,11 +33,16 @@ export class HeaderComponent implements OnInit {
   createEmptyBudget() {
     let newBudget = new Budget();
     let newDate = new Date();
+    let previousBudget = this.obtainPreviousBudget('pre');
 
     // adds new budget with the budgetService
     this.budgetService.addBudget(newBudget);
     // calls convertDate function & passes in new Date()
     this.convertDate(newBudget, newDate);
+    // // ending cash amount
+    // this.endingCash = this.selectedBudget.existing_cash + this.selectedBudget.current_income - this.mergeTotals;
+    newBudget.existing_cash = (previousBudget.existing_cash + previousBudget.current_income) - previousBudget.total_spent;
+    newBudget.current_income = previousBudget.current_income;
     // make this new budget the shown one in the modal for editing
     this.shownBudget = newBudget;
   }
@@ -101,14 +109,14 @@ export class HeaderComponent implements OnInit {
 
   // reuse projections from last budget
   reuseProjections(budget) {
-    let newArray;
+    let prevProjection;
 
     // get the budget items
-    newArray = this.obtainProjection();
+    prevProjection = this.obtainPreviousBudget('post');
 
     // update the new budget with last period's budget items
     this.budgetService.updateBudgetById(budget.id, {
-      budget_items: newArray
+      budget_items: prevProjection.budget_items
     });
 
     // Handle the event & add change to selected budget
@@ -116,28 +124,66 @@ export class HeaderComponent implements OnInit {
   }
 
   // get the projection or budget items from last period
-  obtainProjection() {
+  obtainPreviousBudget(string) {
     let budgetItems;
-    let newArray;
+    let prevBudget;
 
     // loop through each budget item
     for (let i = 0; i < this.budgets.length; i++) {
       // find the budget that was created last week
-      if (i === (this.budgets.length - 2)) {
-        // assign the last budget to shownBudget variable
-        budgetItems = this.budgets[i].budget_items;
+      if (string === 'post') {
+        if (i === (this.budgets.length - 2)) {
+          // assign the last budget to shownBudget variable
+          budgetItems = this.budgets[i];
+        }
+      } else if (string === 'pre') {
+        if (i === (this.budgets.length - 1)) {
+          // assign the last budget to shownBudget variable
+          budgetItems = this.budgets[i];
+        }
       }
     }
 
     // use a hack to make a deep copy of an array
-    newArray = JSON.parse(JSON.stringify(budgetItems));
+    prevBudget = JSON.parse(JSON.stringify(budgetItems));
+
+    prevBudget.total_spent = this.getActualTotals(prevBudget.budget_items);
 
     // loop through to remove all the actual values
-    for (let i = 0; i < newArray.length; i++) {
-      newArray[i].actual = [];
+    for (let i = 0; i < prevBudget.budget_items.length; i++) {
+      prevBudget.budget_items[i].actual = [];
     }
 
     // return the new budget_items array to use in the new budget
-    return newArray;
+    return prevBudget;
+  }
+
+  getActualTotals(budgetItems) {
+    // initialize totalSpent to 0
+    this.totalSpent = 0;
+    // initialize totals variable to empty array
+    this.totals = [];
+    // initialize mergeTotals to 0
+    this.mergeTotals = 0;
+
+    // loop through each item in budget_items
+    for (let i = 0; i < budgetItems.length; i++) {
+      let item = budgetItems[i];
+      // for each budget_item, loop through the actual array
+      for (let j = 0; j < item.actual.length; j++) {
+        // add amount to totalSpent
+        this.totalSpent += +item.actual[j].amount;
+      }
+    }
+
+    // push totalSpent total to totals array
+    this.totals.push(this.totalSpent);
+
+    // loop through the totals array
+    for (let i = 0; i < this.totals.length; i++) {
+      // merge the total together
+      this.mergeTotals += +this.totals[i];
+    }
+    return this.mergeTotals;
   }
 }

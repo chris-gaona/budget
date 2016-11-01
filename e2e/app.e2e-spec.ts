@@ -47,7 +47,7 @@ describe('Budget App', () => {
     });
   });
 
-  describe('Projection / Actual Component Tests', () => {
+  describe('Projection / Actual - Main Section Tests', () => {
     it('should display correct projection items based on budget selected', () => {
       let projectionItems = element.all(by.css('.projection'));
       expect(projectionItems.get(0).getText()).toBe('$200.00\nGas');
@@ -174,6 +174,17 @@ describe('Budget App', () => {
       expect(resultsItems.get(1).getText()).toBe('$1,500.00');
       expect(resultsItems.get(2).getText()).toBe('83%');
       expect(resultsItems.get(3).getText()).toBe('$24,025.00');
+    });
+  });
+
+  describe('Modal Component Tests', () => {
+    it('should show the modal on click of "Start new period" button', () => {
+      let button = element(by.id('modal-button'));
+      let modal = element(by.id('modal-container'));
+
+      expect(modal.isPresent()).toBeFalsy();
+      button.click();
+      expect(modal.isPresent()).toBeTruthy();
     });
   });
 });
