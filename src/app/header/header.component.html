@@ -8,31 +8,31 @@
           <div class="modal-content">
             <div class="modal-header bg-faded rounded-top">
               <button type="button" class="close" aria-label="Close" (click)="showDialog = !showDialog; cancelBudget()">
-                <span aria-hidden="true">&times;</span>
+                <span>&times;</span>
               </button>
               <h4 class="modal-title">You just got paid...time to track it!</h4>
             </div>
             <div class="modal-body">
               <small class="text-muted mb-2 d-block">I've done my best to populate the following fields for you! Your welcome!</small>
               <div class="form-group mb-2">
-                <label for="formGroupExampleInput">When does the current period start?</label>
+                <label for="formGroupInput">When does the current period start?</label>
                 <div class="input-group">
                   <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                  <input type="date" class="form-control" id="formGroupExampleInput" placeholder="Date" *ngIf="showDialog" [(ngModel)]="shownBudget.start_period">
+                  <input type="date" class="form-control" id="formGroupInput" placeholder="Date" *ngIf="showDialog" [(ngModel)]="shownBudget.start_period">
                 </div>
               </div>
               <div class="form-group mb-2">
-                <label for="formGroupExampleInpu2">What's your current total cash?</label>
+                <label for="formGroupInput2">What's your current total cash?</label>
                 <div class="input-group">
                   <span class="input-group-addon"><span class="fa fa-usd"></span></span>
-                  <input type="number" class="form-control" id="formGroupExampleInpu2" placeholder="Amount" *ngIf="showDialog" [(ngModel)]="shownBudget.existing_cash">
+                  <input type="number" class="form-control" id="formGroupInput2" placeholder="Amount" *ngIf="showDialog" [(ngModel)]="shownBudget.existing_cash">
                 </div>
               </div>
               <div class="form-group mb-2">
-                <label for="formGroupExampleInput3">What's your current income?</label>
+                <label for="formGroupInput3">What's your current income?</label>
                 <div class="input-group">
                   <span class="input-group-addon"><span class="fa fa-usd"></span></span>
-                  <input type="number" class="form-control" id="formGroupExampleInput3" placeholder="Amount" *ngIf="showDialog" [(ngModel)]="shownBudget.current_income">
+                  <input type="number" class="form-control" id="formGroupInput3" placeholder="Amount" *ngIf="showDialog" [(ngModel)]="shownBudget.current_income">
                 </div>
               </div>
               <label class="custom-control custom-checkbox">
@@ -42,8 +42,8 @@
               </label>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" (click)="createBudget(shownBudget)">Let's go!</button>
-              <button type="button" class="btn btn-secondary" (click)="showDialog = !showDialog; cancelBudget()">Close</button>
+              <button type="button" id="create-button" class="btn btn-primary" (click)="createBudget(shownBudget)">Let's go!</button>
+              <button type="button" id="cancel-button" class="btn btn-secondary" (click)="showDialog = !showDialog; cancelBudget()">Close</button>
             </div>
           </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

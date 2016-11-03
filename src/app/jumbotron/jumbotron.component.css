@@ -1,9 +1,11 @@
-.health-snapshot {
-  text-align: center;
+.snapshot-pill {
+  background-color: #fff;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
 }
 
 .health-symbol {
-  text-align: center;
-  font-size: 4em;
+  font-size: 3em;
   color: forestgreen;
 }

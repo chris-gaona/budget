@@ -1,7 +1,5 @@
 <app-jumbotron></app-jumbotron>
 
-<app-navbar></app-navbar>
-
 <app-header [budgets]="budgets" [selectedBudget]="selectedBudget" (chosenBudget)="chosenBudget($event)"></app-header>
 
 <app-overview [selectedBudget]="selectedBudget" [totalSpent]="getTotalSpent(selectedBudget.budget_items, 'actual')"></app-overview>

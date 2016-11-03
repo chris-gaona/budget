@@ -1,4 +1,5 @@
-import {browser, element, by, protractor} from "protractor";
+import { browser, element, by, protractor } from "protractor";
+import {el} from "@angular/platform-browser/testing/browser_util";
 
 describe('Budget App', () => {
   describe('Jumbotron Component Tests', () => {
@@ -12,11 +13,11 @@ describe('Budget App', () => {
     });
 
     it('should display a simple sub title', () => {
-      expect(element(by.css('.lead')).getText()).toEqual('This is a simple budget tracker using Bootstrap 4 and Angular 2!');
+      expect(element(by.css('.lead')).getText()).toEqual('This is a simple budget tracker built with & !');
     });
 
     it('should display a Health Snapshot header', () => {
-      expect(element(by.css('.health-snapshot')).getText()).toEqual('Health Snapshot');
+      expect(element(by.css('.health-snapshot')).getText()).toEqual('HEALTH SNAPSHOT');
     });
   });
 
@@ -181,10 +182,113 @@ describe('Budget App', () => {
     it('should show the modal on click of "Start new period" button', () => {
       let button = element(by.id('modal-button'));
       let modal = element(by.id('modal-container'));
+      let overlay = element(by.css('.overlay'));
 
       expect(modal.isPresent()).toBeFalsy();
+      expect(overlay.isPresent()).toBeFalsy();
       button.click();
       expect(modal.isPresent()).toBeTruthy();
+      expect(overlay.isPresent()).toBeTruthy();
+    });
+
+    it('should display a modal tile and info text', () => {
+      // makes browser sleep for .5 seconds to give modal time to load for following tests
+      browser.sleep(500);
+      expect(element(by.css('.modal-title')).getText()).toEqual('You just got paid...time to track it!');
+      expect(element(by.css('.modal-body small')).getText()).toEqual('I\'ve done my best to populate the following fields for you! Your welcome!')
+    });
+
+    let label = element.all(by.css('label'));
+
+    it('should have current period field', () => {
+      expect(label.get(0).getText()).toEqual('When does the current period start?');
+      expect(element(by.id('formGroupInput')).getAttribute('value')).toBeTruthy();
+    });
+
+    it('should have current total cash field', () => {
+      expect(label.get(1).getText()).toEqual('What\'s your current total cash?');
+      expect(element(by.id('formGroupInput2')).getAttribute('value')).toBeTruthy();
+    });
+
+    it('should have current income field', () => {
+      expect(label.get(2).getText()).toEqual('What\'s your current income?');
+      expect(element(by.id('formGroupInput3')).getAttribute('value')).toBeTruthy();
+    });
+
+    it('should allow the user to check to use previous projections', () => {
+      let checkbox = element(by.css('.custom-control-input'));
+      let checkboxLabel = element(by.css('.custom-checkbox'));
+
+      expect(checkbox.isSelected()).toBeFalsy();
+      checkboxLabel.click();
+      expect(checkbox.isSelected()).toBeTruthy();
+    });
+
+    it('should close the modal on click of X icon & cancel button', () => {
+      let cancel = element(by.id('cancel-button'));
+      let xButton = element(by.css('.close span'));
+      let button = element(by.id('modal-button'));
+      let modal = element(by.id('modal-container'));
+      let overlay = element(by.css('.overlay'));
+
+      expect(cancel.getText()).toEqual('Close');
+      cancel.click();
+      browser.sleep(500);
+      expect(modal.isPresent()).toBeFalsy();
+      expect(overlay.isPresent()).toBeFalsy();
+      button.click();
+      expect(modal.isPresent()).toBeTruthy();
+      expect(overlay.isPresent()).toBeTruthy();
+      browser.sleep(500);
+      xButton.click();
+      browser.sleep(500);
+      expect(modal.isPresent()).toBeFalsy();
+      expect(overlay.isPresent()).toBeFalsy();
+      button.click();
+      expect(modal.isPresent()).toBeTruthy();
+      expect(overlay.isPresent()).toBeTruthy();
+    });
+
+    it('should remove the modal when Let\'s go button is clicked', () => {
+      let createButton = element(by.id('create-button'));
+      let modal = element(by.id('modal-container'));
+      let overlay = element(by.css('.overlay'));
+
+      browser.sleep(500);
+      createButton.click();
+      browser.sleep(500);
+      expect(modal.isPresent()).toBeFalsy();
+      expect(overlay.isPresent()).toBeFalsy();
+    });
+
+    it('should display entered input data on main page when create button is clicked', () => {
+      // let input1 = element(by.id('formGroupInput'));
+      let input2 = element(by.id('formGroupInput2'));
+      let input3 = element(by.id('formGroupInput3'));
+      let button = element(by.id('modal-button'));
+      let createButton = element(by.id('create-button'));
+
+      button.click();
+      browser.sleep(500);
+
+      // input1.clear();
+      // input1.sendKeys('2016-10-29');
+      input2.clear();
+      input2.sendKeys('26000');
+      input3.clear();
+      input3.sendKeys('1800');
+
+      // expect(element(by.id('formGroupInput')).getAttribute('value')).toEqual('2016-10-29');
+      expect(element(by.id('formGroupInput2')).getAttribute('value')).toEqual('26000');
+      expect(element(by.id('formGroupInput3')).getAttribute('value')).toEqual('1800');
+
+      createButton.click();
+      browser.sleep(500);
+
+      let overviewItem = element.all(by.css('h3.overview'));
+      expect(overviewItem.get(0).getText()).toBe('Total: $26,000.00');
+      expect(overviewItem.get(1).getText()).toBe('Income: $1,800.00');
+      expect(overviewItem.get(2).getText()).toBe('Expense: $0.00');
     });
   });
 });
