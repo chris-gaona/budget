@@ -3,4 +3,6 @@
   <ng-content></ng-content>
 </div>
 
-<div *ngIf="visible" class="overlay" (click)="close(); cancelBudget()"></div>
+<div *ngIf="visible && !editing" class="overlay" (click)="close(); cancelBudget()"></div>
+
+<div *ngIf="visible && editing" class="overlay" (click)="close(); reverseDate()"></div>

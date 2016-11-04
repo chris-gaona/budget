@@ -14,6 +14,7 @@ export class HeaderComponent implements OnInit {
   totalSpent: number;
   totals: any;
   mergeTotals: number;
+  editingBudget: boolean;
 
   // decorator for all budgets for select input drop down
   @Input() budgets: Budget[];
@@ -66,6 +67,16 @@ export class HeaderComponent implements OnInit {
     return budget.start_period = dateString;
   }
 
+  reverseDate(budget) {
+    let startDate = budget.start_period.split('-');
+    let newDateString = startDate[1] + '/' + startDate[2] + '/' + startDate[0];
+    let newDate = new Date(newDateString);
+
+    budget.start_period = newDate;
+
+    this.editingBudget = false;
+  }
+
   // connection function between header component & this component to create new budget
   // connected through @Output decorator
   createBudget(budget) {
@@ -105,6 +116,11 @@ export class HeaderComponent implements OnInit {
         this.budgets.splice(i, 1);
       }
     }
+  }
+
+  editBudget(budget) {
+    this.convertDate(budget, budget.start_period);
+    this.shownBudget = budget;
   }
 
   // reuse projections from last budget

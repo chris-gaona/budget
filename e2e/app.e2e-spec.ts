@@ -195,7 +195,7 @@ describe('Budget App', () => {
       // makes browser sleep for .5 seconds to give modal time to load for following tests
       browser.sleep(500);
       expect(element(by.css('.modal-title')).getText()).toEqual('You just got paid...time to track it!');
-      expect(element(by.css('.modal-body small')).getText()).toEqual('I\'ve done my best to populate the following fields for you! Your welcome!')
+      expect(element(by.css('.modal-body small')).getText()).toEqual('I\'ve done my best to populate the following fields for you. Your welcome!')
     });
 
     let label = element.all(by.css('label'));

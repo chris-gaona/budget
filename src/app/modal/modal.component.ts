@@ -32,7 +32,15 @@ export class ModalComponent implements OnInit {
 
   @Input() visible: boolean;
 
+  @Input() editing: boolean;
+
+  @Input() budget: Budget;
+
   @Output() visibleChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  @Output() editingChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  @Output() budgetChange: EventEmitter<Budget> = new EventEmitter<Budget>();
 
   constructor() { }
 
@@ -42,6 +50,21 @@ export class ModalComponent implements OnInit {
   close() {
     this.visible = false;
     this.visibleChange.emit(this.visible);
+
+    if (this.editing === true) {
+      this.editing = false;
+      this.editingChange.emit(this.editing);
+    }
+  }
+
+  reverseDate() {
+    let startDate = this.budget.start_period.split('-');
+    let newDateString = startDate[1] + '/' + startDate[2] + '/' + startDate[0];
+    let newDate = new Date(newDateString);
+
+    this.budget.start_period = newDate;
+
+    this.budgetChange.emit(this.budget);
   }
 
   cancelBudget() {

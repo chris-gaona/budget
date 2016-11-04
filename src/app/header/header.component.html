@@ -1,19 +1,22 @@
 <div class="container-fluid">
   <div class="row">
     <div class="float-xs-left mb-2 mx-1">
-      <button type="button" id="modal-button" class="btn btn-outline-primary text-uppercase" (click)="showDialog = !showDialog; createEmptyBudget()">Start new period</button>
+      <button type="button" id="modal-button" class="btn btn-primary text-uppercase" (click)="showDialog = !showDialog; createEmptyBudget()">Start new period</button>
 
-      <app-modal [(visible)]="showDialog" [budgets]="budgets">
+      <app-modal [(visible)]="showDialog" [budgets]="budgets" [(editing)]="editingBudget" [(budget)]="shownBudget">
         <div class="modal-dialog my-0" id="modal-container">
           <div class="modal-content">
             <div class="modal-header bg-faded rounded-top">
-              <button type="button" class="close" aria-label="Close" (click)="showDialog = !showDialog; cancelBudget()">
+              <button *ngIf="editingBudget" type="button" class="close" aria-label="Close" (click)="showDialog = !showDialog; reverseDate(shownBudget)">
                 <span>&times;</span>
               </button>
-              <h4 class="modal-title">You just got paid...time to track it!</h4>
+              <button *ngIf="!editingBudget" type="button" class="close" aria-label="Close" (click)="showDialog = !showDialog; cancelBudget()">
+              <span>&times;</span>
+            </button>
+              <h4 class="modal-title">{{editingBudget ? 'Let\'s make some changes' : 'You just got paid...time to track it!'}}</h4>
             </div>
             <div class="modal-body">
-              <small class="text-muted mb-2 d-block">I've done my best to populate the following fields for you! Your welcome!</small>
+              <small class="text-muted mb-2 d-block">{{editingBudget ? 'Please be careful while editing. I take no responsibility for your mistakes.' : 'I\'ve done my best to populate the following fields for you. Your welcome!'}}</small>
               <div class="form-group mb-2">
                 <label for="formGroupInput">When does the current period start?</label>
                 <div class="input-group">
@@ -35,7 +38,7 @@
                   <input type="number" class="form-control" id="formGroupInput3" placeholder="Amount" *ngIf="showDialog" [(ngModel)]="shownBudget.current_income">
                 </div>
               </div>
-              <label class="custom-control custom-checkbox">
+              <label *ngIf="!editingBudget" class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input" [(ngModel)]="reuseProjection">
                 <span class="custom-control-indicator"></span>
                 <span class="custom-control-description">Use last period's projections as a starting point?</span>
@@ -43,7 +46,8 @@
             </div>
             <div class="modal-footer">
               <button type="button" id="create-button" class="btn btn-primary" (click)="createBudget(shownBudget)">Let's go!</button>
-              <button type="button" id="cancel-button" class="btn btn-secondary" (click)="showDialog = !showDialog; cancelBudget()">Close</button>
+              <button type="button" id="cancel-button" class="btn btn-secondary" *ngIf="editingBudget" (click)="showDialog = !showDialog; reverseDate(shownBudget)">Close</button>
+              <button type="button" id="cancel-button" class="btn btn-secondary" *ngIf="!editingBudget" (click)="showDialog = !showDialog; cancelBudget()">Close</button>
             </div>
           </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -53,6 +57,9 @@
       <select class="form-control" [(ngModel)]="selectedBudget" (ngModelChange)="updateBudget($event)">
         <option *ngFor="let budget of budgets" [ngValue]="budget">{{budget.start_period | date}}</option>
       </select>
+    </div>
+    <div class="float-xs-left mb-2 mx-1">
+      <button type="button" id="edit-button" class="btn btn-secondary" (click)="showDialog = !showDialog; editBudget(selectedBudget); editingBudget = true"><span class="fa fa-edit"></span> Edit</button>
     </div>
   </div>
 </div>
