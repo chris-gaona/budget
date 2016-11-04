@@ -25,17 +25,33 @@ describe('ModalComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    // let fixture = TestBed.createComponent(ModalComponent);
-    // let app = fixture.debugElement.componentInstance;
-    expect(component).toBeTruthy();
-  });
+  // it('should create', () => {
+  //   // let fixture = TestBed.createComponent(ModalComponent);
+  //   // let app = fixture.debugElement.componentInstance;
+  //   expect(component).toBeTruthy();
+  // });
 
   describe('#close()', () => {
-    it('should .....', async(() => {
+    it('should close the modal and make editing variable false', async(() => {
+      component.visible = true;
+      component.editing = false;
       component.close();
       expect(component.visible).toEqual(false);
+      component.editing = true;
+      component.close();
+      expect(component.editing).toEqual(false);
     }));
+  });
+
+  describe('#reverseDate()', () => {
+    it('should reverse the date format from 2016-10-29 to new Date() format', () => {
+      let budget = {
+        start_period: '2016-10-29'
+      };
+      component.budget = budget;
+      component.reverseDate();
+      expect(budget.start_period).toEqual(new Date ('Sat Oct 29 2016 00:00:00 GMT-0700 (PDT)'));
+    });
   });
 
   describe('#cancelBudget()', () => {

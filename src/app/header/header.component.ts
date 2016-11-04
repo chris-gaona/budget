@@ -31,6 +31,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
   }
 
+  // creates empty budget
   createEmptyBudget() {
     let newBudget = new Budget();
     let newDate = new Date();
@@ -40,14 +41,13 @@ export class HeaderComponent implements OnInit {
     this.budgetService.addBudget(newBudget);
     // calls convertDate function & passes in new Date()
     this.convertDate(newBudget, newDate);
-    // // ending cash amount
-    // this.endingCash = this.selectedBudget.existing_cash + this.selectedBudget.current_income - this.mergeTotals;
     newBudget.existing_cash = (previousBudget.existing_cash + previousBudget.current_income) - previousBudget.total_spent;
     newBudget.current_income = previousBudget.current_income;
     // make this new budget the shown one in the modal for editing
     this.shownBudget = newBudget;
   }
 
+  // converts date string to 2016-10-29
   convertDate(budget, date) {
     let dateString;
 

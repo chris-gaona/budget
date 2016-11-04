@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="float-xs-left mb-2 mx-1">
+    <div class="float-xs-left mb-2 ml-1">
       <button type="button" id="modal-button" class="btn btn-primary text-uppercase" (click)="showDialog = !showDialog; createEmptyBudget()">Start new period</button>
 
       <app-modal [(visible)]="showDialog" [budgets]="budgets" [(editing)]="editingBudget" [(budget)]="shownBudget">
@@ -58,7 +58,7 @@
         <option *ngFor="let budget of budgets" [ngValue]="budget">{{budget.start_period | date}}</option>
       </select>
     </div>
-    <div class="float-xs-left mb-2 mx-1">
+    <div class="float-xs-left mb-2 mr-1">
       <button type="button" id="edit-button" class="btn btn-secondary" (click)="showDialog = !showDialog; editBudget(selectedBudget); editingBudget = true"><span class="fa fa-edit"></span> Edit</button>
     </div>
   </div>
