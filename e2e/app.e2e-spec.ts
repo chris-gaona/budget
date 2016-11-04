@@ -22,12 +22,24 @@ describe('Budget App', () => {
   });
 
   describe('Header Component Tests', () => {
+    it('should display the Start New Period button', () => {
+      let button = element(by.id('modal-button'));
+      expect(button.isPresent()).toBeTruthy();
+      expect(button.getText()).toEqual('START NEW PERIOD');
+    });
+
     it('should display option value as the selected budget from data', () => {
       expect(element(by.css('select')).element(by.css('option:checked')).getText()).toEqual('Sep 24, 2016');
       element(by.cssContainingText('option', 'Oct 5, 2016')).click();
       expect(element(by.css('select')).element(by.css('option:checked')).getText()).toEqual('Oct 5, 2016');
       // changing back so tests following this don't break
       element(by.cssContainingText('option', 'Sep 24, 2016')).click();
+    });
+
+    it('should display the Edit button', () => {
+      let button = element(by.id('edit-button'));
+      expect(button.isPresent()).toBeTruthy();
+      expect(button.getText()).toEqual('Edit');
     });
   });
 
@@ -178,7 +190,7 @@ describe('Budget App', () => {
     });
   });
 
-  describe('Modal Component Tests', () => {
+  describe('Modal Component Tests When Creating New Budget', () => {
     it('should show the modal on click of "Start new period" button', () => {
       let button = element(by.id('modal-button'));
       let modal = element(by.id('modal-container'));
@@ -283,6 +295,111 @@ describe('Budget App', () => {
       expect(element(by.id('formGroupInput3')).getAttribute('value')).toEqual('1800');
 
       createButton.click();
+      browser.sleep(500);
+
+      let overviewItem = element.all(by.css('h3.overview'));
+      expect(overviewItem.get(0).getText()).toBe('Total: $26,000.00');
+      expect(overviewItem.get(1).getText()).toBe('Income: $1,800.00');
+      expect(overviewItem.get(2).getText()).toBe('Expense: $0.00');
+    });
+  });
+
+  describe('Modal Component Tests When Editing Existing Budget', () => {
+    it('should show the modal on click of Edit button', () => {
+      let button = element(by.id('edit-button'));
+      let modal = element(by.id('modal-container'));
+      let overlay = element(by.css('.overlay'));
+
+      expect(modal.isPresent()).toBeFalsy();
+      expect(overlay.isPresent()).toBeFalsy();
+      button.click();
+      expect(modal.isPresent()).toBeTruthy();
+      expect(overlay.isPresent()).toBeTruthy();
+    });
+
+    it('should display a modal tile and info text correctly', () => {
+      // makes browser sleep for .5 seconds to give modal time to load for following tests
+      browser.sleep(500);
+      expect(element(by.css('.modal-title')).getText()).toEqual('Let\'s make some changes');
+      expect(element(by.css('.modal-body small')).getText()).toEqual('Please be careful while editing. I take no responsibility for your mistakes.')
+    });
+
+    let label = element.all(by.css('label'));
+
+    it('should have current period field', () => {
+      expect(label.get(0).getText()).toEqual('When does the current period start?');
+      expect(element(by.id('formGroupInput')).getAttribute('value')).toBeTruthy();
+    });
+
+    it('should have current total cash field', () => {
+      expect(label.get(1).getText()).toEqual('What\'s your current total cash?');
+      expect(element(by.id('formGroupInput2')).getAttribute('value')).toBeTruthy();
+    });
+
+    it('should have current income field', () => {
+      expect(label.get(2).getText()).toEqual('What\'s your current income?');
+      expect(element(by.id('formGroupInput3')).getAttribute('value')).toBeTruthy();
+    });
+
+    it('should close the modal on click of X icon & cancel button', () => {
+      let cancel = element(by.id('cancel-button'));
+      let xButton = element(by.css('.close span'));
+      let button = element(by.id('modal-button'));
+      let modal = element(by.id('modal-container'));
+      let overlay = element(by.css('.overlay'));
+
+      expect(cancel.getText()).toEqual('Close');
+      cancel.click();
+      browser.sleep(500);
+      expect(modal.isPresent()).toBeFalsy();
+      expect(overlay.isPresent()).toBeFalsy();
+      button.click();
+      expect(modal.isPresent()).toBeTruthy();
+      expect(overlay.isPresent()).toBeTruthy();
+      browser.sleep(500);
+      xButton.click();
+      browser.sleep(500);
+      expect(modal.isPresent()).toBeFalsy();
+      expect(overlay.isPresent()).toBeFalsy();
+      button.click();
+      expect(modal.isPresent()).toBeTruthy();
+      expect(overlay.isPresent()).toBeTruthy();
+    });
+
+    it('should remove the modal when Let\'s go button is clicked', () => {
+      let createButton = element(by.id('create-button'));
+      let modal = element(by.id('modal-container'));
+      let overlay = element(by.css('.overlay'));
+
+      browser.sleep(500);
+      createButton.click();
+      browser.sleep(500);
+      expect(modal.isPresent()).toBeFalsy();
+      expect(overlay.isPresent()).toBeFalsy();
+    });
+
+    it('should display entered input data on main page when update button is clicked', () => {
+      // let input1 = element(by.id('formGroupInput'));
+      let input2 = element(by.id('formGroupInput2'));
+      let input3 = element(by.id('formGroupInput3'));
+      let button = element(by.id('modal-button'));
+      let updateButton = element(by.id('create-button'));
+
+      button.click();
+      browser.sleep(500);
+
+      // input1.clear();
+      // input1.sendKeys('2016-10-29');
+      input2.clear();
+      input2.sendKeys('26000');
+      input3.clear();
+      input3.sendKeys('1800');
+
+      // expect(element(by.id('formGroupInput')).getAttribute('value')).toEqual('2016-10-29');
+      expect(element(by.id('formGroupInput2')).getAttribute('value')).toEqual('26000');
+      expect(element(by.id('formGroupInput3')).getAttribute('value')).toEqual('1800');
+
+      updateButton.click();
       browser.sleep(500);
 
       let overviewItem = element.all(by.css('h3.overview'));

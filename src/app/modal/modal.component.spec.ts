@@ -44,14 +44,14 @@ describe('ModalComponent', () => {
   });
 
   describe('#reverseDate()', () => {
-    it('should reverse the date format from 2016-10-29 to new Date() format', () => {
+    it('should reverse the date format from 2016-10-29 to new Date() format', async(() => {
       let budget = {
         start_period: '2016-10-29'
       };
       component.budget = budget;
       component.reverseDate();
       expect(budget.start_period).toEqual(new Date ('Sat Oct 29 2016 00:00:00 GMT-0700 (PDT)'));
-    });
+    }));
   });
 
   describe('#cancelBudget()', () => {

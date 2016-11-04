@@ -53,7 +53,7 @@ describe('HeaderComponent', () => {
   });
 
   describe('#reverseDate(budget)', () => {
-    it('should convert the date from yyyy-mm-dd format to actual new Date() format', () => {
+    it('should convert the date from yyyy-mm-dd format to actual new Date() format', async(() => {
       let budget = {
         start_period: '2016-10-29'
       };
@@ -61,7 +61,7 @@ describe('HeaderComponent', () => {
       component.reverseDate(budget);
       expect(component.editingBudget).toEqual(false);
       expect(budget.start_period).toEqual(new Date ('Sat Oct 29 2016 00:00:00 GMT-0700 (PDT)'));
-    });
+    }));
   });
 
   describe('#createBudget(budget)', () => {
@@ -94,7 +94,7 @@ describe('HeaderComponent', () => {
   });
 
   describe('#editBudget(budget)', () => {
-    it('should make the existing budget ready to be edited in the modal', () => {
+    it('should make the existing budget ready to be edited in the modal', async(() => {
       let budget = ['apples'];
       let realBudget = {
         start_period: new Date('10/29/2016')
@@ -102,7 +102,7 @@ describe('HeaderComponent', () => {
       component.shownBudget = budget;
       component.editBudget(realBudget);
       expect(component.shownBudget).toEqual({ start_period: '2016-10-29' });
-    });
+    }));
   });
 
   // describe('#reuseProjection(budget)', () => {
