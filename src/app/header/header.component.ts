@@ -15,6 +15,7 @@ export class HeaderComponent implements OnInit {
   totals: any;
   mergeTotals: number;
   editingBudget: boolean;
+  showDeleteButton: boolean = false;
 
   // decorator for all budgets for select input drop down
   @Input() budgets: Budget[];
@@ -126,6 +127,31 @@ export class HeaderComponent implements OnInit {
         this.budgets.splice(i, 1);
       }
     }
+  }
+
+  deleteBudget(budget) {
+    this.budgetService.deleteBudgetById(budget.id)
+      .subscribe(data => {
+        console.log(data);
+        this.showDialog = false;
+      }, err => {
+        console.log(err);
+      });
+
+    let newIndex;
+
+    // loop through each budget item
+    for (let i = 0; i < this.budgets.length; i++) {
+      // find the newly created last budget item in the array
+      if (this.budgets[i].id === budget.id) {
+        // remove the budget
+        this.budgets.splice(i, 1);
+        newIndex = i - 1;
+      }
+    }
+
+    this.shownBudget = this.budgets[newIndex];
+    this.chosenBudget.emit(this.shownBudget);
   }
 
   editBudget(budget) {

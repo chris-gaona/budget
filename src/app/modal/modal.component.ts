@@ -34,11 +34,15 @@ export class ModalComponent implements OnInit {
 
   @Input() editing: boolean;
 
+  @Input() showDelete: boolean;
+
   @Input() budget: Budget;
 
   @Output() visibleChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   @Output() editingChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  @Output() showDeleteChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   @Output() budgetChange: EventEmitter<Budget> = new EventEmitter<Budget>();
 
@@ -54,6 +58,8 @@ export class ModalComponent implements OnInit {
     if (this.editing === true) {
       this.editing = false;
       this.editingChange.emit(this.editing);
+      this.showDelete = false;
+      this.showDeleteChange.emit(this.showDelete);
     }
   }
 

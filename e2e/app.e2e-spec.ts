@@ -54,7 +54,7 @@ describe('Budget App', () => {
 
       expect(overviewItem.get(0).getText()).toBe('Total: $25,525.00');
       expect(overviewItem.get(1).getText()).toBe('Income: $1,650.00');
-      expect(overviewItem.get(2).getText()).toBe('Expense: $312.00');
+      expect(overviewItem.get(2).getText()).toBe('Expense: $437.00');
 
       element(by.cssContainingText('option', 'Sep 24, 2016')).click();
     });

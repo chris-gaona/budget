@@ -3,7 +3,7 @@
     <div class="float-xs-left mb-2 ml-1">
       <button type="button" id="modal-button" class="btn btn-primary text-uppercase" (click)="showDialog = !showDialog; createEmptyBudget()">Start new period</button>
 
-      <app-modal [(visible)]="showDialog" [budgets]="budgets" [(editing)]="editingBudget" [(budget)]="shownBudget">
+      <app-modal [(visible)]="showDialog" [budgets]="budgets" [(editing)]="editingBudget" [(budget)]="shownBudget" [(showDelete)]="showDeleteButton">
         <div class="modal-dialog my-0" id="modal-container">
           <div class="modal-content">
             <div class="modal-header bg-faded rounded-top">
@@ -45,9 +45,11 @@
               </label>
             </div>
             <div class="modal-footer">
-              <button type="button" id="create-button" class="btn btn-primary" (click)="createBudget(shownBudget)">Let's go!</button>
-              <button type="button" id="cancel-button" class="btn btn-secondary" *ngIf="editingBudget" (click)="showDialog = !showDialog; reverseDate(shownBudget)">Close</button>
+              <button type="button" id="create-button" class="btn btn-primary" (click)="createBudget(shownBudget); showDeleteButton = false">Let's go!</button>
+              <button type="button" id="cancel-button" class="btn btn-secondary" *ngIf="editingBudget" (click)="showDialog = !showDialog; reverseDate(shownBudget); showDeleteButton = false">Close</button>
               <button type="button" id="cancel-button" class="btn btn-secondary" *ngIf="!editingBudget" (click)="showDialog = !showDialog; cancelBudget()">Close</button>
+              <button type="button" id="delete-ask-button" class="btn btn-danger" *ngIf="editingBudget && !showDeleteButton" (click)="showDeleteButton = true"><span class="fa fa-trash"></span></button>
+              <button type="button" id="delete-button" class="btn btn-danger" *ngIf="editingBudget && showDeleteButton" (click)="showDialog = !showDialog; deleteBudget(shownBudget); showDeleteButton = false">Delete</button>
             </div>
           </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

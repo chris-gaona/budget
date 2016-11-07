@@ -3,7 +3,7 @@
     {
       "id": 1,
       "start_period": "2016-09-24T07:00:00.000Z",
-      "existing_cash": 23525,
+      "existing_cash": 22525,
       "current_income": 1800,
       "budget_items": [
         {
@@ -24,11 +24,7 @@
           "actual": [
             {
               "name": "Hello",
-              "amount": 125
-            },
-            {
-              "name": "Safeway",
-              "amount": 55
+              "amount": 180
             }
           ]
         },
@@ -40,17 +36,6 @@
             {
               "name": "Blah blah",
               "amount": 75
-            }
-          ]
-        },
-        {
-          "editing": false,
-          "item": "Another",
-          "projection": 50,
-          "actual": [
-            {
-              "name": "",
-              "amount": 0
             }
           ]
         }
@@ -103,22 +88,22 @@
     },
     {
       "start_period": "2016-11-06T07:00:00.000Z",
-      "existing_cash": 26738,
+      "existing_cash": 28388,
       "current_income": 1650,
       "budget_items": [
         {
           "editing": false,
-          "item": "Misc",
-          "projection": 150,
+          "item": "",
+          "projection": 0,
           "actual": [
             {
-              "name": "Starbucks",
-              "amount": 10
+              "name": "",
+              "amount": 0
             }
           ]
         }
       ],
-      "id": 3
+      "id": 5
     }
   ]
 }
