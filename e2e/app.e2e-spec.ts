@@ -308,6 +308,10 @@ describe('Budget App', () => {
       expect(element(by.id('formGroupInput2')).getAttribute('value')).toEqual('26000');
       expect(element(by.id('formGroupInput3')).getAttribute('value')).toEqual('1800');
 
+      let checkbox = element(by.css('.custom-control-input'));
+
+      expect(checkbox.isSelected()).toBeFalsy();
+
       createButton.click();
       browser.sleep(500);
 
@@ -315,6 +319,62 @@ describe('Budget App', () => {
       expect(overviewItem.get(0).getText()).toBe('Total: $26,000.00');
       expect(overviewItem.get(1).getText()).toBe('Income: $1,800.00');
       expect(overviewItem.get(2).getText()).toBe('Expense: $0.00');
+
+      let editButton = element(by.id('edit-button'));
+      let deleteAskButton = element(by.id('delete-ask-button'));
+      let deleteButton = element(by.id('delete-button'));
+      editButton.click();
+      browser.sleep(500);
+      deleteAskButton.click();
+      deleteButton.click();
+    });
+
+    it('should display entered input data on main page when create button is clicked WITH checking use last projection checkbox', () => {
+      // let input1 = element(by.id('formGroupInput'));
+      let input2 = element(by.id('formGroupInput2'));
+      let input3 = element(by.id('formGroupInput3'));
+      let button = element(by.id('modal-button'));
+      let createButton = element(by.id('create-button'));
+
+      button.click();
+      browser.sleep(500);
+
+      // input1.clear();
+      // input1.sendKeys('2016-10-29');
+      input2.clear();
+      input2.sendKeys('26000');
+      input3.clear();
+      input3.sendKeys('1800');
+
+      // expect(element(by.id('formGroupInput')).getAttribute('value')).toEqual('2016-10-29');
+      expect(element(by.id('formGroupInput2')).getAttribute('value')).toEqual('26000');
+      expect(element(by.id('formGroupInput3')).getAttribute('value')).toEqual('1800');
+
+      let checkbox = element(by.css('.custom-control-input'));
+      let checkboxLabel = element(by.css('.custom-checkbox'));
+
+      expect(checkbox.isSelected()).toBeFalsy();
+      checkboxLabel.click();
+      expect(checkbox.isSelected()).toBeTruthy();
+
+      createButton.click();
+      browser.sleep(500);
+
+      let overviewItem = element.all(by.css('h3.overview'));
+      expect(overviewItem.get(0).getText()).toBe('Total: $26,000.00');
+      expect(overviewItem.get(1).getText()).toBe('Income: $1,800.00');
+      expect(overviewItem.get(2).getText()).toBe('Expense: $0.00');
+
+      // checks to make sure the projection items and actual items match the last budget's projections, but actuals should all be 0
+      let projectionItems = element.all(by.css('.projection'));
+      expect(projectionItems.get(0).getText()).toBe('$140.00\nGas');
+      expect(projectionItems.get(1).getText()).toBe('$190.00\nFood');
+      expect(projectionItems.get(2).getText()).toBe('$50.00\nOther');
+
+      let actualItems = element.all(by.css('.actual'));
+      expect(actualItems.get(0).getText()).toBe('$0.00\nGas');
+      expect(actualItems.get(1).getText()).toBe('$0.00\nFood');
+      expect(actualItems.get(2).getText()).toBe('$0.00\nOther');
     });
   });
 
