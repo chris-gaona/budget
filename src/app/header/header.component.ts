@@ -38,7 +38,8 @@ export class HeaderComponent implements OnInit {
     let previousBudget = this.obtainPreviousBudget('pre');
 
     // adds new budget with the budgetService
-    this.budgetService.addBudget(newBudget);
+    this.budgets.push(newBudget);
+
     // calls convertDate function & passes in new Date()
     this.convertDate(newBudget, newDate);
     newBudget.existing_cash = (previousBudget.existing_cash + previousBudget.current_income) - previousBudget.total_spent;
@@ -49,6 +50,7 @@ export class HeaderComponent implements OnInit {
 
   // converts date string to 2016-10-29
   convertDate(budget, date) {
+    date = new Date(date);
     let dateString;
 
     if ((date.getMonth() + 1) < 10 && date.getDate() < 10) {
@@ -84,6 +86,14 @@ export class HeaderComponent implements OnInit {
     let startDate = budget.start_period.split('-');
     let newDateString = startDate[1] + '/' + startDate[2] + '/' + startDate[0];
     let newDate = new Date(newDateString);
+    budget.start_period = newDate;
+
+    this.budgetService.addBudget(budget)
+      .subscribe(data => {
+        console.log(data);
+      }, err => {
+        console.log(err);
+      });
 
     // close the modal window on Let's go button clicked
     this.showDialog = false;
@@ -119,6 +129,7 @@ export class HeaderComponent implements OnInit {
   }
 
   editBudget(budget) {
+    // console.log(budget.start_period);
     this.convertDate(budget, budget.start_period);
     this.shownBudget = budget;
   }

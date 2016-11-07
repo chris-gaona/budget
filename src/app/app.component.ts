@@ -28,11 +28,22 @@ export class AppComponent implements OnInit {
 
   // on initialization of the app
   ngOnInit() {
+    this.getAllBudgets();
+    // this.budgets = this.budgetService.getAllBudgets();
+    // console.log(this.budgets);
+    // // initializes the first budget as the selected budget
+    // this.selectedBudget = this.budgets[0];
+  }
+
+  getAllBudgets() {
     // retrieves all budgets from budgetService
-    this.budgets = this.budgetService.getAllBudgets();
-    console.log(this.budgets);
-    // initializes the first budget as the selected budget
-    this.selectedBudget = this.budgets[0];
+    this.budgetService.getAllBudgets()
+      .subscribe(data => {
+        this.budgets = data;
+        this.selectedBudget = data[0];
+      }, err => {
+        console.log(err);
+      });
   }
 
   // connection function between header component & this component to change the selected budget
@@ -47,8 +58,18 @@ export class AppComponent implements OnInit {
     // changes cancel button to + add new
     this.addingBudgetItem = false;
     let budget = this.selectedBudget.id;
+    // loop through all budget items
+    for (let i = 0; i < this.selectedBudget.budget_items.length; i++) {
+      // mark each budget item as editing false
+      this.selectedBudget.budget_items[i].editing = false;
+    }
     // passes budget_items array to saveAll function on budgetService
-    this.budgetService.updateBudgetById(budget, this.selectedBudget);
+    this.budgetService.updateBudgetById(budget, this.selectedBudget)
+      .subscribe(data => {
+        console.log(data);
+      }, err => {
+        console.log(err);
+      });
     // todo: remove actual items with empty string on save
   }
 
