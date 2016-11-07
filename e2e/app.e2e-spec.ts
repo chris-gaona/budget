@@ -83,7 +83,7 @@ describe('Budget App', () => {
     });
 
     it('should add a new editable budget/actual item on +Add New button click', () => {
-      let projectionInputs = element.all(by.css('.projection-inputs'));
+      let projectionItems = element.all(by.css('.projection-inputs'));
       let actualItems = element.all(by.css('.actual-inputs'));
       let projectionInputValue = element.all(by.css('.projection-inputs input'));
       let actualInputValue = element.all(by.css('.actual-inputs input'));
@@ -94,7 +94,7 @@ describe('Budget App', () => {
       expect(element(by.id('add-new-btn')).isPresent()).toBeFalsy();
       expect(element(by.id('cancel-btn')).isDisplayed()).toBeTruthy();
 
-      expect(projectionInputs.get(0).isPresent()).toBeTruthy();
+      expect(projectionItems.get(0).isPresent()).toBeTruthy();
       expect(actualItems.get(0).isPresent()).toBeTruthy();
       expect(projectionInputValue.get(0).getAttribute('value')).toEqual('');
       expect(projectionInputValue.get(1).getAttribute('value')).toEqual('0');
@@ -118,12 +118,19 @@ describe('Budget App', () => {
 
       element(by.id('save-all')).click();
 
-      let projectionItems = element.all(by.css('.projection'));
-      expect(projectionItems.get(3).getText()).toBe('$50.00\nMisc');
+      let projectionResults = element.all(by.css('.projection'));
+      expect(projectionResults.get(3).getText()).toBe('$50.00\nMisc');
       expect(resultsItems.get(0).getText()).toBe('$750.00');
       expect(resultsItems.get(1).getText()).toBe('$1,050.00');
       expect(resultsItems.get(2).getText()).toBe('58%');
       expect(resultsItems.get(3).getText()).toBe('$23,575.00');
+
+      let projectionItems = element.all(by.css('.projection'));
+      let deleteButton = element.all(by.css('.delete-button'));
+      projectionItems.get(3).click();
+      deleteButton.get(0).click();
+      element(by.id('save-all')).click();
+      expect(projectionItems.get(3).isPresent()).toBeFalsy();
     });
 
     it('should delete the recently created budget item when cancel is clicked', () => {
@@ -203,7 +210,7 @@ describe('Budget App', () => {
       expect(overlay.isPresent()).toBeTruthy();
     });
 
-    it('should display a modal tile and info text', () => {
+    it('should display a modal title and info text', () => {
       // makes browser sleep for .5 seconds to give modal time to load for following tests
       browser.sleep(500);
       expect(element(by.css('.modal-title')).getText()).toEqual('You just got paid...time to track it!');
@@ -265,15 +272,22 @@ describe('Budget App', () => {
       let createButton = element(by.id('create-button'));
       let modal = element(by.id('modal-container'));
       let overlay = element(by.css('.overlay'));
+      let editButton = element(by.id('edit-button'));
+      let deleteAskButton = element(by.id('delete-ask-button'));
+      let deleteButton = element(by.id('delete-button'));
 
       browser.sleep(500);
       createButton.click();
       browser.sleep(500);
       expect(modal.isPresent()).toBeFalsy();
       expect(overlay.isPresent()).toBeFalsy();
+      editButton.click();
+      browser.sleep(500);
+      deleteAskButton.click();
+      deleteButton.click();
     });
 
-    it('should display entered input data on main page when create button is clicked', () => {
+    it('should display entered input data on main page when create button is clicked WITHOUT checking use last projection checkbox', () => {
       // let input1 = element(by.id('formGroupInput'));
       let input2 = element(by.id('formGroupInput2'));
       let input3 = element(by.id('formGroupInput3'));
@@ -306,13 +320,13 @@ describe('Budget App', () => {
 
   describe('Modal Component Tests When Editing Existing Budget', () => {
     it('should show the modal on click of Edit button', () => {
-      let button = element(by.id('edit-button'));
+      let editButton = element(by.id('edit-button'));
       let modal = element(by.id('modal-container'));
       let overlay = element(by.css('.overlay'));
 
       expect(modal.isPresent()).toBeFalsy();
       expect(overlay.isPresent()).toBeFalsy();
-      button.click();
+      editButton.click();
       expect(modal.isPresent()).toBeTruthy();
       expect(overlay.isPresent()).toBeTruthy();
     });
@@ -341,12 +355,33 @@ describe('Budget App', () => {
       expect(element(by.id('formGroupInput3')).getAttribute('value')).toBeTruthy();
     });
 
+    it('should delete the current editing budget when delete button is clicked & remove the modal', () => {
+      let deleteAskButton = element(by.id('delete-ask-button'));
+      let deleteButton = element(by.id('delete-button'));
+      expect(deleteButton.isPresent()).toBeFalsy();
+      deleteAskButton.click();
+      expect(deleteButton.isPresent()).toBeTruthy();
+      deleteButton.click();
+      let modal = element(by.id('modal-container'));
+      let overlay = element(by.css('.overlay'));
+
+      browser.sleep(500);
+
+      expect(modal.isPresent()).toBeFalsy();
+      expect(overlay.isPresent()).toBeFalsy();
+    });
+
     it('should close the modal on click of X icon & cancel button', () => {
+      let editButton = element(by.id('edit-button'));
       let cancel = element(by.id('cancel-button'));
       let xButton = element(by.css('.close span'));
       let button = element(by.id('modal-button'));
       let modal = element(by.id('modal-container'));
       let overlay = element(by.css('.overlay'));
+
+      editButton.click();
+
+      browser.sleep(500);
 
       expect(cancel.getText()).toEqual('Close');
       cancel.click();
@@ -370,12 +405,19 @@ describe('Budget App', () => {
       let createButton = element(by.id('create-button'));
       let modal = element(by.id('modal-container'));
       let overlay = element(by.css('.overlay'));
+      let editButton = element(by.id('edit-button'));
+      let deleteAskButton = element(by.id('delete-ask-button'));
+      let deleteButton = element(by.id('delete-button'));
 
       browser.sleep(500);
       createButton.click();
       browser.sleep(500);
       expect(modal.isPresent()).toBeFalsy();
       expect(overlay.isPresent()).toBeFalsy();
+      editButton.click();
+      browser.sleep(500);
+      deleteAskButton.click();
+      deleteButton.click();
     });
 
     it('should display entered input data on main page when update button is clicked', () => {
@@ -384,6 +426,9 @@ describe('Budget App', () => {
       let input3 = element(by.id('formGroupInput3'));
       let button = element(by.id('modal-button'));
       let updateButton = element(by.id('create-button'));
+      let editButton = element(by.id('edit-button'));
+      let deleteAskButton = element(by.id('delete-ask-button'));
+      let deleteButton = element(by.id('delete-button'));
 
       button.click();
       browser.sleep(500);
@@ -406,6 +451,11 @@ describe('Budget App', () => {
       expect(overviewItem.get(0).getText()).toBe('Total: $26,000.00');
       expect(overviewItem.get(1).getText()).toBe('Income: $1,800.00');
       expect(overviewItem.get(2).getText()).toBe('Expense: $0.00');
+
+      editButton.click();
+      browser.sleep(500);
+      deleteAskButton.click();
+      deleteButton.click();
     });
   });
 });
