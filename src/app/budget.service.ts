@@ -138,9 +138,9 @@ export class BudgetService {
 
   // add new budget
   addBudget(budget: Budget): Observable<Budget> {
-    if (!budget.id) {
-      budget.id = ++this.lastId;
-    }
+    // if (!budget.id) {
+    //   budget.id = ++this.lastId;
+    // }
     //
     // this.budgets.push(budget);
     // return this;

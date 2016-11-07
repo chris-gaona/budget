@@ -49,6 +49,7 @@ export class AppComponent implements OnInit {
   // connection function between header component & this component to change the selected budget
   // connected through @Output decorator
   chosenBudget(budget) {
+    console.log('chosen budget', budget);
     // Handle the event & add change to selected budget
     this.selectedBudget = budget;
   }

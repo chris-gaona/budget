@@ -49,15 +49,14 @@
               <button type="button" id="cancel-button" class="btn btn-secondary" *ngIf="editingBudget" (click)="showDialog = !showDialog; reverseDate(shownBudget); showDeleteButton = false">Close</button>
               <button type="button" id="cancel-button" class="btn btn-secondary" *ngIf="!editingBudget" (click)="showDialog = !showDialog; cancelBudget()">Close</button>
               <button type="button" id="delete-ask-button" class="btn btn-danger" *ngIf="editingBudget && !showDeleteButton" (click)="showDeleteButton = true"><span class="fa fa-trash"></span></button>
-              <button type="button" id="delete-button" class="btn btn-danger" *ngIf="editingBudget && showDeleteButton" (click)="showDialog = !showDialog; deleteBudget(shownBudget); showDeleteButton = false">Delete</button>
+              <button type="button" id="delete-button" class="btn btn-danger" *ngIf="editingBudget && showDeleteButton" (click)="showDialog = !showDialog; deleteBudget(shownBudget); showDeleteButton = false; editingBudget = false">Delete</button>
             </div>
           </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
       </app-modal>
     </div>
     <div class="float-xs-left mb-2 mx-1">
-      <!--<div (click)="changeBudget = true">{{selectedBudget.start_period | date}}</div>-->
-      <select class="form-control" [ngModel]="selectedBudget" (ngModelChange)="updateBudget($event)">
+      <select class="form-control" [(ngModel)]="selectedBudget" (ngModelChange)="updateBudget($event)">
         <option *ngFor="let budget of budgets" [ngValue]="budget">{{budget.start_period | date}}</option>
       </select>
     </div>

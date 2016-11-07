@@ -38,8 +38,22 @@ export class HeaderComponent implements OnInit {
     let newDate = new Date();
     let previousBudget = this.obtainPreviousBudget('pre');
 
+    // find last id created in budgets and add 1 for new budget id
+    let newIdIndex;
+    // loop through each budget item
+    for (let i = 0; i < this.budgets.length; i++) {
+      // find the newly created last budget item in the array
+      if (i === (this.budgets.length - 1)) {
+        // remove the budget
+        newIdIndex = (+this.budgets[i].id + 1);
+      }
+    }
+    newBudget.id = newIdIndex;
+
     // adds new budget with the budgetService
     this.budgets.push(newBudget);
+
+    console.log('1', this.budgets);
 
     // calls convertDate function & passes in new Date()
     this.convertDate(newBudget, newDate);
@@ -83,37 +97,42 @@ export class HeaderComponent implements OnInit {
   // connection function between header component & this component to create new budget
   // connected through @Output decorator
   createBudget(budget) {
+    console.log('2', budget);
     // converts the date string from 2016-10-30 to 10/30/2016
     let startDate = budget.start_period.split('-');
     let newDateString = startDate[1] + '/' + startDate[2] + '/' + startDate[0];
     let newDate = new Date(newDateString);
     budget.start_period = newDate;
 
-    this.budgetService.addBudget(budget)
-      .subscribe(data => {
-        console.log(data);
-      }, err => {
-        console.log(err);
-      });
-
     // close the modal window on Let's go button clicked
     this.showDialog = false;
     // sets start_period to newDate
     budget.start_period = newDate;
 
-    if (this.reuseProjection === false) {
-      // Handle the event & add change to selected budget
-      this.chosenBudget.emit(budget);
+    this.budgetService.addBudget(budget)
+      .subscribe(data => {
+        console.log('3', data);
+        if (this.reuseProjection === false) {
+          let budgetID = budget.id;
+          // Handle the event & add change to selected budget
+          let editableBudget = this.budgets.filter(budget => budget.id === budgetID).pop();
+          Object.assign(editableBudget, data);
+          // was trying to assign chosenBudget to data...don't do that! Needed to find correct budget in this.budgets and make that chosenBudget
+          this.updateBudget(editableBudget);
 
-    } else {
-      this.reuseProjections(budget);
-    }
+        } else {
+          this.reuseProjections(data);
+        }
 
-    this.reuseProjection = false;
+        this.reuseProjection = false;
+      }, err => {
+        console.log(err);
+      });
   }
 
   // updatedBudget function passes in the $event of the select input binding with (ngModuleChange)
   updateBudget(budget) {
+    console.log('updatebudget', budget);
     // using the @Output decorator above, emit the chosen budget to the outside world
     this.chosenBudget.emit(budget);
   }
@@ -132,7 +151,7 @@ export class HeaderComponent implements OnInit {
   deleteBudget(budget) {
     this.budgetService.deleteBudgetById(budget.id)
       .subscribe(data => {
-        console.log(data);
+        // console.log(data);
         this.showDialog = false;
       }, err => {
         console.log(err);
@@ -151,7 +170,7 @@ export class HeaderComponent implements OnInit {
     }
 
     this.shownBudget = this.budgets[newIndex];
-    this.chosenBudget.emit(this.shownBudget);
+    this.updateBudget(this.shownBudget);
   }
 
   editBudget(budget) {
@@ -162,18 +181,26 @@ export class HeaderComponent implements OnInit {
 
   // reuse projections from last budget
   reuseProjections(budget) {
+    // console.log('reuse budget', budget);
     let prevProjection;
 
     // get the budget items
     prevProjection = this.obtainPreviousBudget('post');
 
-    // update the new budget with last period's budget items
-    this.budgetService.updateBudgetById(budget.id, {
-      budget_items: prevProjection.budget_items
-    });
+    budget.budget_items = prevProjection.budget_items;
 
-    // Handle the event & add change to selected budget
-    return this.chosenBudget.emit(budget);
+    // update the new budget with last period's budget items
+    this.budgetService.updateBudgetById(budget.id, budget)
+      .subscribe(data => {
+        // console.log(data);
+        let budgetID = data.id;
+        let editableBudget = this.budgets.filter(budget => budget.id === budgetID).pop();
+        Object.assign(editableBudget, data);
+        // was trying to assign chosenBudget to data...don't do that! Needed to find correct budget in this.budgets and make that chosenBudget
+        this.updateBudget(editableBudget);
+      }, err => {
+        console.log(err);
+      });
   }
 
   // get the projection or budget items from last period
