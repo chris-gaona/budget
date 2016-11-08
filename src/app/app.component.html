@@ -1,5 +1,5 @@
 <div *ngIf="budgets">
-  <app-jumbotron></app-jumbotron>
+  <app-jumbotron [selectedBudget]="selectedBudget" [totalSpentActual]="getTotalSpent(selectedBudget.budget_items, 'actual')"></app-jumbotron>
 
   <app-header [budgets]="budgets" [selectedBudget]="selectedBudget" (chosenBudget)="chosenBudget($event)"></app-header>
 
@@ -41,8 +41,7 @@
           </ul>
           <div class="card-footer">
             <button id="save-all" class="btn btn-primary mr-1" (click)="saveAll()">Save</button>
-            <button id="add-new-btn" class="btn btn-secondary" (click)="addBudgetItem(); addingBudgetItem = true" *ngIf="!addingBudgetItem">+ Add new</button>
-            <button id="cancel-btn" class="btn btn-secondary" (click)="cancelAdd(); addingBudgetItem = false" *ngIf="addingBudgetItem">Cancel</button>
+            <button id="add-new-btn" class="btn btn-secondary" (click)="addBudgetItem()">+ Add new</button>
           </div>
         </div>
       </div>
@@ -88,7 +87,7 @@
         </div>
       </div>
 
-      <app-results [totalSpentProjection]="getTotalSpent(selectedBudget.budget_items, 'projection')" [totalSpentActual]="getTotalSpent(selectedBudget.budget_items, 'actual')"></app-results>
+      <app-results [selectedBudget]="selectedBudget" [totalSpentProjection]="getTotalSpent(selectedBudget.budget_items, 'projection')" [totalSpentActual]="getTotalSpent(selectedBudget.budget_items, 'actual')"></app-results>
 
     </div>
   </div>

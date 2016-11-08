@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Budget } from '../budget';
 
 @Component({
   selector: 'app-jumbotron',
@@ -6,6 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./jumbotron.component.css']
 })
 export class JumbotronComponent implements OnInit {
+
+  @Input() selectedBudget: Budget;
+
+  @Input() totalSpentActual: number;
+
   title: string = 'Budget Tracker';
 
   constructor() { }

@@ -107,21 +107,12 @@ describe('App: Budget', () => {
       }));
     });
 
-    describe('#cancelAdd()', () => {
-      it('should cancel adding a new budget item & delete the last budget item in the array', async(() => {
-        component.selectedBudget = budget;
-        expect(component.selectedBudget.budget_items.length).toEqual(3);
-        component.cancelAdd();
-        expect(component.selectedBudget.budget_items.length).toEqual(2);
-      }));
-    });
-
     describe('#deleteBudgetItem(budgetItem)', () => {
       it('should delete a specific budget item within a budget', async(() => {
         component.selectedBudget = budget;
-        expect(component.selectedBudget.budget_items.length).toEqual(2);
+        expect(component.selectedBudget.budget_items.length).toEqual(3);
         component.deleteBudgetItem(budget.budget_items[0]);
-        expect(component.selectedBudget.budget_items.length).toEqual(1);
+        expect(component.selectedBudget.budget_items.length).toEqual(2);
         expect(component.selectedBudget.budget_items[0].item).toEqual('food');
         expect(component.selectedBudget.budget_items[0].projection).toEqual(250);
       }));

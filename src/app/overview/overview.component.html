@@ -8,7 +8,7 @@
       <h3 class="overview"><span class="tag tag-default p-1 w-100"><small>Income: </small>{{selectedBudget.current_income | currency:'USD':true}}</span></h3>
     </div>
     <div class="col-md-4">
-      <h3 class="overview"><span class="tag tag-default p-1 w-100"><small>Expense: </small>{{totalSpent.totalSpent | currency:'USD':true}}</span></h3>
+      <h3 class="overview"><span class="tag tag-default p-1 w-100" [class.tag-danger]="totalSpent.totalSpent > selectedBudget.current_income"><small>Expense: </small>{{totalSpent.totalSpent | currency:'USD':true}}</span></h3>
     </div>
   </div>
 </div>

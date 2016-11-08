@@ -1,4 +1,5 @@
 import {Component, OnInit, Input} from '@angular/core';
+import { Budget } from '../budget';
 
 @Component({
   selector: 'app-results',
@@ -6,6 +7,8 @@ import {Component, OnInit, Input} from '@angular/core';
   styleUrls: ['./results.component.css']
 })
 export class ResultsComponent implements OnInit {
+
+  @Input() selectedBudget: Budget;
 
   @Input() totalSpentActual: number;
 

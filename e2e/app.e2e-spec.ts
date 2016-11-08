@@ -89,10 +89,7 @@ describe('Budget App', () => {
       let actualInputValue = element.all(by.css('.actual-inputs input'));
 
       expect(element(by.id('add-new-btn')).isDisplayed()).toBeTruthy();
-      expect(element(by.id('cancel-btn')).isPresent()).toBeFalsy();
       element(by.id('add-new-btn')).click();
-      expect(element(by.id('add-new-btn')).isPresent()).toBeFalsy();
-      expect(element(by.id('cancel-btn')).isDisplayed()).toBeTruthy();
 
       expect(projectionItems.get(0).isPresent()).toBeTruthy();
       expect(actualItems.get(0).isPresent()).toBeTruthy();
@@ -133,17 +130,17 @@ describe('Budget App', () => {
       expect(projectionItems.get(3).isPresent()).toBeFalsy();
     });
 
-    it('should delete the recently created budget item when cancel is clicked', () => {
-      let projectionInputs = element.all(by.css('.projection-inputs'));
-      let actualItems = element.all(by.css('.actual-inputs'));
-
-      element(by.id('add-new-btn')).click();
-      expect(projectionInputs.get(0).isPresent()).toBeTruthy();
-      expect(actualItems.get(0).isPresent()).toBeTruthy();
-      element(by.id('cancel-btn')).click();
-      expect(projectionInputs.get(0).isPresent()).toBeFalsy();
-      expect(actualItems.get(0).isPresent()).toBeFalsy();
-    });
+    // it('should delete the recently created budget item when cancel is clicked', () => {
+    //   let projectionInputs = element.all(by.css('.projection-inputs'));
+    //   let actualItems = element.all(by.css('.actual-inputs'));
+    //
+    //   element(by.id('add-new-btn')).click();
+    //   expect(projectionInputs.get(0).isPresent()).toBeTruthy();
+    //   expect(actualItems.get(0).isPresent()).toBeTruthy();
+    //   element(by.id('cancel-btn')).click();
+    //   expect(projectionInputs.get(0).isPresent()).toBeFalsy();
+    //   expect(actualItems.get(0).isPresent()).toBeFalsy();
+    // });
 
     it('should add new actual item when + Add button is clicked', () => {
       let addButton = element(by.css('.add-actual'));

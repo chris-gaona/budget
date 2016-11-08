@@ -1,22 +1,22 @@
 <div class="col-md-5 py-2">
   <h4 class="text-muted">Projection</h4>
   <hr class="my-1">
-  <h4><small class="text-muted">Spent:</small> <span class="tag tag-default float-xs-right projection-result">{{totalSpentProjection.totalSpent | currency:'USD':true}}</span></h4>
+  <h4><small class="text-muted">Spent:</small> <span class="tag tag-default float-xs-right projection-result" [class.tag-danger]="totalSpentProjection.totalSpent > selectedBudget.current_income">{{totalSpentProjection.totalSpent | currency:'USD':true}}</span></h4>
   <hr class="my-1">
-  <h4><small class="text-muted">Saving:</small> <span class="tag tag-default float-xs-right projection-result">{{totalSpentProjection.totalSaving | currency:'USD':true}}</span></h4>
+  <h4><small class="text-muted">Saving:</small> <span class="tag tag-default float-xs-right projection-result" [class.tag-default]="(totalSpentProjection.totalSaving / selectedBudget.current_income) > .1" [class.tag-warning]="(totalSpentProjection.totalSaving / selectedBudget.current_income) <= .1 && (totalSpentProjection.totalSaving / selectedBudget.current_income) >= 0" [class.tag-danger]="(totalSpentProjection.totalSaving / selectedBudget.current_income) < 0">{{totalSpentProjection.totalSaving | currency:'USD':true}}</span></h4>
   <hr class="my-1">
-  <h4><small class="text-muted">% Saving:</small> <span class="tag tag-default float-xs-right projection-result">{{totalSpentProjection.percSaving | percent:'1.0-0'}}</span></h4>
+  <h4><small class="text-muted">% Saving:</small> <span class="tag tag-default float-xs-right projection-result" [class.tag-default]="totalSpentProjection.percSaving > .1" [class.tag-warning]="totalSpentProjection.percSaving <= .1 && totalSpentProjection.percSaving >= 0" [class.tag-danger]="totalSpentProjection.percSaving < 0">{{totalSpentProjection.percSaving | percent:'1.0-0'}}</span></h4>
   <hr class="my-1">
-  <h4>Ending Cash: <span class="tag tag-success float-xs-right projection-result">{{totalSpentProjection.endingCash | currency:'USD':true}}</span></h4>
+  <h4>Ending Cash: <span class="tag tag-default float-xs-right projection-result" [class.tag-success]="totalSpentProjection.percSaving > .1">{{totalSpentProjection.endingCash | currency:'USD':true}}</span></h4>
 </div>
 <div class="col-md-7 py-2">
   <h4 class="text-muted">Actual</h4>
   <hr class="my-1">
-  <h4><small class="text-muted">Spent:</small> <span class="tag tag-default float-xs-right actual-result">{{totalSpentActual.totalSpent | currency:'USD':true}}</span></h4>
+  <h4><small class="text-muted">Spent:</small> <span class="tag tag-default float-xs-right actual-result" [class.tag-danger]="totalSpentActual.totalSpent > selectedBudget.current_income">{{totalSpentActual.totalSpent | currency:'USD':true}}</span></h4>
   <hr class="my-1">
-  <h4><small class="text-muted">Saving:</small> <span class="tag tag-default float-xs-right actual-result">{{totalSpentActual.totalSaving | currency:'USD':true}}</span></h4>
+  <h4><small class="text-muted">Saving:</small> <span class="tag tag-default float-xs-right actual-result" [class.tag-default]="(totalSpentActual.totalSaving / selectedBudget.current_income) > .1" [class.tag-warning]="(totalSpentActual.totalSaving / selectedBudget.current_income) <= .1 && (totalSpentActual.totalSaving / selectedBudget.current_income) >= 0" [class.tag-danger]="(totalSpentActual.totalSaving / selectedBudget.current_income) < 0">{{totalSpentActual.totalSaving | currency:'USD':true}}</span></h4>
   <hr class="my-1">
-  <h4><small class="text-muted">% Saving:</small> <span class="tag tag-default float-xs-right actual-result">{{totalSpentActual.percSaving | percent:'1.0-0'}}</span></h4>
+  <h4><small class="text-muted">% Saving:</small> <span class="tag tag-default float-xs-right actual-result" [class.tag-default]="totalSpentActual.percSaving > .1" [class.tag-warning]="totalSpentActual.percSaving <= .1 && totalSpentActual.percSaving >= 0" [class.tag-danger]="totalSpentActual.percSaving < 0">{{totalSpentActual.percSaving | percent:'1.0-0'}}</span></h4>
   <hr class="my-1">
-  <h4>Ending Cash: <span class="tag tag-success float-xs-right actual-result">{{totalSpentActual.endingCash | currency:'USD':true}}</span></h4>
+  <h4>Ending Cash: <span class="tag tag-default float-xs-right actual-result" [class.tag-success]="totalSpentActual.percSaving > .1">{{totalSpentActual.endingCash | currency:'USD':true}}</span></h4>
 </div>

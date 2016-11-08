@@ -83,18 +83,6 @@ export class AppComponent implements OnInit {
     this.selectedBudget.budget_items.push(newBudgetItem);
   }
 
-  // cancel adding a new budget item
-  cancelAdd() {
-    let budget = this.selectedBudget.budget_items;
-    // loop through each budget item
-    for (let i = 0; i < budget.length; i++) {
-      // remove the newly created last budget item in the array
-      if (i === (budget.length - 1)) {
-        budget.splice(i, 1);
-      }
-    }
-  }
-
   // delete specific budget item
   deleteBudgetItem(budgetItem) {
     let budget = this.selectedBudget.budget_items;

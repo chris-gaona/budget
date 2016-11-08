@@ -31,9 +31,9 @@ describe('Component: Jumbotron', () => {
     expect(component.title).toEqual('Budget Tracker');
   }));
 
-  it('should render title in a h1 tag', async(() => {
-    fixture.detectChanges();
-    let compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Budget Tracker');
-  }));
+  // it('should render title in a h1 tag', async(() => {
+  //   fixture.detectChanges();
+  //   let compiled = fixture.debugElement.nativeElement;
+  //   expect(compiled.querySelector('h1').textContent).toContain('Budget Tracker');
+  // }));
 });
