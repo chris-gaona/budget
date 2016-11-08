@@ -12,11 +12,20 @@ import { ResultsComponent } from './results/results.component';
 import { FormsModule } from '@angular/forms';
 import { BudgetService } from './budget.service';
 import { ModalComponent } from './modal/modal.component';
+import { AbstractMockObservableService } from './mock-budget.service';
+
+class MockService extends AbstractMockObservableService {
+  // getBudgets() {
+  //   return this;
+  // }
+}
 
 describe('App: Budget', () => {
   let component;
+  let fixture;
 
   beforeEach(() => {
+    // refine the test module by declaring the test component
     TestBed.configureTestingModule({
       imports: [
         FormsModule
@@ -28,13 +37,18 @@ describe('App: Budget', () => {
         OverviewComponent,
         ResultsComponent,
         ModalComponent
-      ],
-      providers: [
-        BudgetService
       ]
+    }).overrideComponent(AppComponent, {
+      set: {
+        providers: [
+          { provide: BudgetService, useClass: MockService }
+        ]
+      }
     });
 
-    const fixture = TestBed.createComponent(AppComponent);
+    // create component and test fixture
+    fixture = TestBed.createComponent(AppComponent);
+    // get test component from the fixture
     component = fixture.componentInstance;
   });
 
@@ -130,80 +144,80 @@ describe('App: Budget', () => {
         expect(budget.budget_items[0].actual.length).toEqual(1);
       }));
     });
-  });
 
-  describe('Using the data', () => {
-    let budget = {
-      id: 1,
-      start_period: '9/24/2016',
-      existing_cash: 22525,
-      current_income: 1800,
-      budget_items: [
-        {
-          editing: false,
-          item: 'gas',
-          projection: 200,
-          actual: [
-            {
-              name: 'Done 10/15',
-              amount: 35
-            }
-          ]
-        },
-        {
-          editing: false,
-          item: 'food',
-          projection: 250,
-          actual: [
-            {
-              name: 'Trader Joe\'s',
-              amount: 125
-            }
-          ]
-        }
-      ]
-    };
+    describe('Using the data', () => {
+      let budgetItem = {
+        id: 1,
+        start_period: '9/24/2016',
+        existing_cash: 22525,
+        current_income: 1800,
+        budget_items: [
+          {
+            editing: false,
+            item: 'gas',
+            projection: 200,
+            actual: [
+              {
+                name: 'Done 10/15',
+                amount: 35
+              }
+            ]
+          },
+          {
+            editing: false,
+            item: 'food',
+            projection: 250,
+            actual: [
+              {
+                name: 'Trader Joe\'s',
+                amount: 125
+              }
+            ]
+          }
+        ]
+      };
 
-    describe('#getActualTotal(budget)', () => {
-      it('should calculate the sub total for each budget item', async(() => {
-        component.totalActual = 0;
-        expect(component.totalActual).toEqual(0);
-        component.getActualTotal(budget.budget_items[0]);
-        expect(component.totalActual).toEqual(35);
-      }));
-    });
+      describe('#getActualTotal(budget)', () => {
+        it('should calculate the sub total for each budget item', async(() => {
+          component.totalActual = 0;
+          expect(component.totalActual).toEqual(0);
+          component.getActualTotal(budgetItem.budget_items[0]);
+          expect(component.totalActual).toEqual(35);
+        }));
+      });
 
-    describe('#getTotalSpent()', () => {
-      it('should calculate total spent for actual', async(() => {
-        component.totalSpent = 0;
-        component.totals = [];
-        component.mergeTotals = 0;
-        component.selectedBudget = budget;
-        component.getTotalSpent(budget.budget_items, 'actual');
-        expect(component.totals).toEqual([160]);
-        expect(component.mergeTotals).toEqual(160);
-        expect(component.actualObject).toEqual({
-          totalSpent: 160,
-          totalSaving: 1640,
-          percSaving: 0.9111111111111111,
-          endingCash: 24165
-        });
-      }));
+      describe('#getTotalSpent()', () => {
+        it('should calculate total spent for actual', async(() => {
+          component.totalSpent = 0;
+          component.totals = [];
+          component.mergeTotals = 0;
+          component.selectedBudget = budget;
+          component.getTotalSpent(budget.budget_items, 'actual');
+          expect(component.totals).toEqual([125]);
+          expect(component.mergeTotals).toEqual(125);
+          expect(component.actualObject).toEqual({
+            totalSpent: 125,
+            totalSaving: 1675,
+            percSaving: 0.9305555555555556,
+            endingCash: 24200
+          });
+        }));
 
-      it('should calculate total spent for projection', async(() => {
-        component.totalSpent = 0;
-        component.totals = [];
-        component.mergeTotals = 0;
-        component.selectedBudget = budget;
-        component.getTotalSpent(budget.budget_items, 'projection');
-        expect(component.totalSpent).toEqual(450);
-        expect(component.projectionObject).toEqual({
-          totalSpent: 450,
-          totalSaving: 1350,
-          percSaving: 0.75,
-          endingCash: 23875
-        });
-      }));
+        it('should calculate total spent for projection', async(() => {
+          component.totalSpent = 0;
+          component.totals = [];
+          component.mergeTotals = 0;
+          component.selectedBudget = budget;
+          component.getTotalSpent(budget.budget_items, 'projection');
+          expect(component.totalSpent).toEqual(250);
+          expect(component.projectionObject).toEqual({
+            totalSpent: 250,
+            totalSaving: 1550,
+            percSaving: 0.8611111111111112,
+            endingCash: 24075
+          });
+        }));
+      });
     });
   });
 });

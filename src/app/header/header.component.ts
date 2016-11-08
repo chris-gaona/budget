@@ -53,8 +53,6 @@ export class HeaderComponent implements OnInit {
     // adds new budget with the budgetService
     this.budgets.push(newBudget);
 
-    console.log('1', this.budgets);
-
     // calls convertDate function & passes in new Date()
     this.convertDate(newBudget, newDate);
     newBudget.existing_cash = (previousBudget.existing_cash + previousBudget.current_income) - previousBudget.total_spent;
@@ -97,7 +95,6 @@ export class HeaderComponent implements OnInit {
   // connection function between header component & this component to create new budget
   // connected through @Output decorator
   createBudget(budget) {
-    console.log('2', budget);
     // converts the date string from 2016-10-30 to 10/30/2016
     let startDate = budget.start_period.split('-');
     let newDateString = startDate[1] + '/' + startDate[2] + '/' + startDate[0];
@@ -115,9 +112,10 @@ export class HeaderComponent implements OnInit {
         if (this.reuseProjection === false) {
           let budgetID = budget.id;
           // Handle the event & add change to selected budget
-          let editableBudget = this.budgets.filter(budget => budget.id === budgetID).pop();
+          let editableBudget = this.budgets.filter(item => item.id === budgetID).pop();
           Object.assign(editableBudget, data);
-          // was trying to assign chosenBudget to data...don't do that! Needed to find correct budget in this.budgets and make that chosenBudget
+          // was trying to assign chosenBudget to data...don't do that!
+          // Needed to find correct budget in this.budgets and make that chosenBudget
           this.updateBudget(editableBudget);
 
         } else {
@@ -132,7 +130,6 @@ export class HeaderComponent implements OnInit {
 
   // updatedBudget function passes in the $event of the select input binding with (ngModuleChange)
   updateBudget(budget) {
-    console.log('updatebudget', budget);
     // using the @Output decorator above, emit the chosen budget to the outside world
     this.chosenBudget.emit(budget);
   }
@@ -194,9 +191,10 @@ export class HeaderComponent implements OnInit {
       .subscribe(data => {
         // console.log(data);
         let budgetID = data.id;
-        let editableBudget = this.budgets.filter(budget => budget.id === budgetID).pop();
+        let editableBudget = this.budgets.filter(item => item.id === budgetID).pop();
         Object.assign(editableBudget, data);
-        // was trying to assign chosenBudget to data...don't do that! Needed to find correct budget in this.budgets and make that chosenBudget
+        // was trying to assign chosenBudget to data...don't do that!
+        // Needed to find correct budget in this.budgets and make that chosenBudget
         this.updateBudget(editableBudget);
       }, err => {
         console.log(err);

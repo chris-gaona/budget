@@ -8,6 +8,13 @@ import { HeaderComponent } from './header.component';
 import { FormsModule } from '@angular/forms';
 import { ModalComponent } from '../modal/modal.component';
 import { BudgetService } from '../budget.service';
+import { AbstractMockObservableService } from '../mock-budget.service';
+
+class MockService extends AbstractMockObservableService {
+  addBudget() {
+    return this;
+  }
+}
 
 describe('HeaderComponent', () => {
   let component;
@@ -20,10 +27,13 @@ describe('HeaderComponent', () => {
       declarations: [
         HeaderComponent,
         ModalComponent
-      ],
-      providers: [
-        BudgetService
       ]
+    }).overrideComponent(HeaderComponent, {
+      set: {
+        providers: [
+          { provide: BudgetService, useClass: MockService }
+        ]
+      }
     });
 
     const fixture = TestBed.createComponent(HeaderComponent);
