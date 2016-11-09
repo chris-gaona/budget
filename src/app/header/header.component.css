@@ -1,0 +1,11 @@
+.modal-content {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+@media (min-width: 450px) {
+  .modal-content {
+    max-height: none;
+    overflow-y: auto;
+  }
+}

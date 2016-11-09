@@ -29,11 +29,9 @@ describe('Budget App', () => {
     });
 
     it('should display option value as the selected budget from data', () => {
-      expect(element(by.css('select')).element(by.css('option:checked')).getText()).toEqual('Sep 24, 2016');
-      element(by.cssContainingText('option', 'Oct 5, 2016')).click();
       expect(element(by.css('select')).element(by.css('option:checked')).getText()).toEqual('Oct 5, 2016');
-      // changing back so tests following this don't break
       element(by.cssContainingText('option', 'Sep 24, 2016')).click();
+      expect(element(by.css('select')).element(by.css('option:checked')).getText()).toEqual('Sep 24, 2016');
     });
 
     it('should display the Edit button', () => {

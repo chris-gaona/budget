@@ -29,10 +29,6 @@ export class AppComponent implements OnInit {
   // on initialization of the app
   ngOnInit() {
     this.getAllBudgets();
-    // this.budgets = this.budgetService.getAllBudgets();
-    // console.log(this.budgets);
-    // // initializes the first budget as the selected budget
-    // this.selectedBudget = this.budgets[0];
   }
 
   getAllBudgets() {
@@ -40,7 +36,14 @@ export class AppComponent implements OnInit {
     this.budgetService.getAllBudgets()
       .subscribe(data => {
         this.budgets = data;
-        this.selectedBudget = data[0];
+        // loop through each budget entry
+        for (let i = 0; i < this.budgets.length; i++) {
+          // find the latest created budget entry in the array
+          if (i === (this.budgets.length - 1)) {
+            // make that one the selected budget on load
+            this.selectedBudget = this.budgets[i];
+          }
+        }
       }, err => {
         console.log(err);
       });
