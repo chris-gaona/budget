@@ -9,6 +9,8 @@ import { HeaderComponent } from './header/header.component';
 import { OverviewComponent } from './overview/overview.component';
 import { ResultsComponent } from './results/results.component';
 import { ModalComponent } from './modal/modal.component';
+import { BudgetService } from './budget.service';
+import { UserService } from './user.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,7 @@ import { ModalComponent } from './modal/modal.component';
     FormsModule,
     HttpModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [ BudgetService, UserService],
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }

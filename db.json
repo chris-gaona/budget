@@ -86,5 +86,13 @@
         }
       ]
     }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "name": "Chris",
+      "email": "thebeloved88@sbcglobal.net",
+      "password": "password"
+    }
   ]
 }

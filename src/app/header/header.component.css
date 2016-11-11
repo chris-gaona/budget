@@ -1,9 +1,18 @@
+.modal-container {
+  float: none !important;
+  clear: both;
+}
+
 .modal-content {
   max-height: 500px;
   overflow-y: auto;
 }
 
 @media (min-width: 450px) {
+  .modal-container {
+    float: left !important;
+  }
+
   .modal-content {
     max-height: none;
     overflow-y: auto;

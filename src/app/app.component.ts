@@ -5,8 +5,7 @@ import { Budget, BudgetItems, ActualItems } from './budget';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-  providers: [ BudgetService ]
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
   // defines all typescript variables & their types

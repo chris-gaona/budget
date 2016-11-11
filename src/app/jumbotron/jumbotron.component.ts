@@ -19,4 +19,8 @@ export class JumbotronComponent implements OnInit {
   ngOnInit() {
   }
 
+  // isLoggedIn() {
+  //   return this.userService.isLoggedIn();
+  // }
+
 }
