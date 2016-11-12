@@ -14,7 +14,7 @@ export class BudgetService {
   budgets: Budget[] = [];
 
   // private instance variable to hold base url
-  private budgetsURL = 'http://localhost:3000/budgets';
+  private budgetsURL = 'http://localhost:3001/api/budgets';
 
   // Resolve HTTP using the constructor
   constructor(private http: Http) { }
