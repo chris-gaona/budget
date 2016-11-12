@@ -103,8 +103,6 @@ export class HeaderComponent implements OnInit {
 
     // close the modal window on Let's go button clicked
     this.showDialog = false;
-    // sets start_period to newDate
-    budget.start_period = newDate;
 
     this.budgetService.addBudget(budget)
       .subscribe(data => {
@@ -174,6 +172,30 @@ export class HeaderComponent implements OnInit {
     // console.log(budget.start_period);
     this.convertDate(budget, budget.start_period);
     this.shownBudget = budget;
+  }
+
+  addUpdate(budget) {
+    // converts the date string from 2016-10-30 to 10/30/2016
+    let startDate = budget.start_period.split('-');
+    let newDateString = startDate[1] + '/' + startDate[2] + '/' + startDate[0];
+    let newDate = new Date(newDateString);
+    budget.start_period = newDate;
+
+    // close the modal window on Let's go button clicked
+    this.showDialog = false;
+    // update the new budget with last period's budget items
+    this.budgetService.updateBudgetById(budget.id, budget)
+      .subscribe(data => {
+        // console.log(data);
+        let budgetID = data.id;
+        let editableBudget = this.budgets.filter(item => item.id === budgetID).pop();
+        // Object.assign(data, editableBudget);
+        // was trying to assign chosenBudget to data...don't do that!
+        // Needed to find correct budget in this.budgets and make that chosenBudget
+        this.updateBudget(editableBudget);
+      }, err => {
+        console.log(err);
+      });
   }
 
   // reuse projections from last budget

@@ -95,25 +95,33 @@ router.get('/budgets', function(req, res, next) {
   res.json(budgets);
 });
 
-// // POST create budget entry
-// router.post('/budgets', function (req, res, next) {
-//   if (req.body) {
-//     budgets.push(req.body);
-//   }
-//
-//   res.status(201).json(req.body);
-// });
-//
-// // PUT update a budget entry
-// router.put('/budgets/:id', function (req, res, next) {
-//   budgets.filter(function (budget) {
-//     if (budget.id === req.params.id) {
-//       Object.assign(budget, req.body);
-//     }
-//     res.sendStatus(200);
-//   });
-//
-//   console.log(budgets);
-// });
+// POST create budget entry
+router.post('/budgets', function (req, res, next) {
+  if (req.body) {
+    budgets.push(req.body);
+  }
+
+  res.status(201).json(req.body);
+});
+
+// PUT update a budget entry
+router.put('/budgets/:id', function (req, res, next) {
+  budgets.filter(function (budget) {
+    if (budget.id === req.params.id) {
+      Object.assign(req.body, budget);
+    }
+  });
+  res.status(200).json(req.body);
+});
+
+// DELETE delete a budget entry
+router.delete('/budgets/:id', function (req, res, next) {
+  for(var i = 0; i < budgets.length; i++) {
+    if (budgets[i].id === req.params.id) {
+      budgets.splice(i, 1);
+    }
+  }
+  res.sendStatus(204);
+});
 
 module.exports = router;

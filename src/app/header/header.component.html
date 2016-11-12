@@ -45,7 +45,8 @@
               </label>
             </div>
             <div class="modal-footer">
-              <button type="button" id="create-button" class="btn btn-primary" (click)="createBudget(shownBudget); showDeleteButton = false">Let's go!</button>
+              <button type="button" id="create-button" class="btn btn-primary" *ngIf="!editingBudget" (click)="createBudget(shownBudget); showDeleteButton = false">Let's go</button>
+              <button type="button" id="update-button" class="btn btn-primary" *ngIf="editingBudget" (click)="addUpdate(shownBudget); showDeleteButton = false">Update</button>
               <button type="button" id="cancel-button" class="btn btn-secondary" *ngIf="editingBudget" (click)="showDialog = !showDialog; reverseDate(shownBudget); showDeleteButton = false">Close</button>
               <button type="button" id="cancel-button" class="btn btn-secondary" *ngIf="!editingBudget" (click)="showDialog = !showDialog; cancelBudget()">Close</button>
               <button type="button" id="delete-ask-button" class="btn btn-danger" *ngIf="editingBudget && !showDeleteButton" (click)="showDeleteButton = true"><span class="fa fa-trash"></span></button>
