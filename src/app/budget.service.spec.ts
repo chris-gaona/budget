@@ -114,7 +114,7 @@ describe('BudgetService', () => {
       (connection: MockConnection) => {
 
         // make sure the URL is correct
-        expect(connection.request.url).toMatch(/3000\/budgets\/3/);
+        expect(connection.request.url).toMatch(/3001\/api\/budgets\/3/);
         connection.mockRespond(
           new Response(
             new ResponseOptions({
@@ -201,7 +201,7 @@ describe('BudgetService', () => {
   it('should save updates to an existing budget entry', async(inject([BudgetService], (budgetService) => {
     mockBackend.connections.subscribe(connection => {
       // make sure the URL is correct
-      expect(connection.request.url).toMatch(/3000\/budgets\/2/);
+      expect(connection.request.url).toMatch(/3001\/api\/budgets\/2/);
       // is it the correct REST type for an update? (PUT)
       expect(connection.request.method).toBe(RequestMethod.Put);
       connection.mockRespond(new Response(new ResponseOptions({body: { status: 204 }})));
@@ -237,7 +237,7 @@ describe('BudgetService', () => {
     async(inject([BudgetService], (budgetService) => {
       mockBackend.connections.subscribe(connection => {
         // make sure the URL is correct
-        expect(connection.request.url).toMatch(/3000\/budgets\/2/);
+        expect(connection.request.url).toMatch(/3001\/api\/budgets\/2/);
         // is it the correct REST type for a delete? (DELETE)
         expect(connection.request.method).toBe(RequestMethod.Delete);
         connection.mockRespond(new Response(new ResponseOptions({body: { status: 204 }})));

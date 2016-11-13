@@ -16,9 +16,9 @@ describe('Budget App', () => {
       expect(element(by.css('.lead')).getText()).toEqual('This is a simple budget tracker built with & !');
     });
 
-    it('should display a Health Snapshot header', () => {
-      expect(element(by.css('.health-snapshot')).getText()).toEqual('HEALTH SNAPSHOT');
-    });
+    // it('should display a Health Snapshot header', () => {
+    //   expect(element(by.css('.health-snapshot')).getText()).toEqual('HEALTH SNAPSHOT');
+    // });
   });
 
   describe('Header Component Tests', () => {

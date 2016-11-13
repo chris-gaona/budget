@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BudgetService } from './budget.service';
 import { Budget, BudgetItems, ActualItems } from './budget';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +24,7 @@ export class AppComponent implements OnInit {
   endingCash: number;
 
   // injects budget service into this component
-  constructor(private budgetService: BudgetService) { }
+  constructor(private budgetService: BudgetService, private auth: AuthService) { }
 
   // on initialization of the app
   ngOnInit() {

@@ -5,6 +5,14 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { JumbotronComponent } from './jumbotron.component';
+import { AbstractMockObservableService } from '../mock-budget.service';
+import { AuthService } from '../auth.service';
+
+class MockService extends AbstractMockObservableService {
+  // getBudgets() {
+  //   return this;
+  // }
+}
 
 describe('Component: Jumbotron', () => {
   let fixture;
@@ -15,6 +23,12 @@ describe('Component: Jumbotron', () => {
       declarations: [
         JumbotronComponent
       ],
+    }).overrideComponent(JumbotronComponent, {
+      set: {
+        providers: [
+          { provide: AuthService, useClass: MockService }
+        ]
+      }
     });
 
     // create component and test fixture
