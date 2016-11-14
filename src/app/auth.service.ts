@@ -16,6 +16,8 @@ export class AuthService {
     this.lock.on('authenticated', (authResult) => {
       localStorage.setItem('id_token', authResult.idToken);
 
+      console.log(authResult);
+
       // Fetch profile information
       this.lock.getProfile(authResult.idToken, (error, profile) => {
         if (error) {
@@ -24,7 +26,7 @@ export class AuthService {
           return;
         }
 
-        localStorage.setItem('profile', JSON.stringify(profile));
+        localStorage.setItem('profile', JSON.stringify(profile.nickname));
       });
     });
   }

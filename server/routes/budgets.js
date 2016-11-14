@@ -1,5 +1,10 @@
+'use strict';
+
 var express = require('express');
 var router = express.Router();
+
+var mongoose = require('mongoose');
+var Budget = mongoose.model('Budget');
 
 var budgets = [
   {
@@ -92,7 +97,20 @@ var budgets = [
 
 // GET all budgets entries
 router.get('/budgets', function(req, res, next) {
-  res.json(budgets);
+  // res.json(budgets);
+
+  Budget.find(function(err, budgets){
+    if(err) { return next(err); }
+
+    if (budgets.length === 0) {
+      var error = new Error('No budgets yet');
+      error.status = 200;
+      return next(error);
+    }
+
+    // send projects
+    res.json(budgets);
+  });
 });
 
 // POST create budget entry

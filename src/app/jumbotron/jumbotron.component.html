@@ -12,7 +12,7 @@
           <button class="btn btn-primary w-100 mt-1" (click)="auth.login()">Log In</button>
         </div>
         <div *ngIf="auth.authenticated() && auth.getUserInfo()">
-          <h6 class="d-block text-xs-center">Hello, {{auth.getUserInfo().nickname}}</h6>
+          <h6 class="d-block text-xs-center">Hello, {{auth.getUserInfo()}}</h6>
           <div>
             <a href="#" class="text-muted d-block text-xs-center" (click)="auth.logout()">Logout</a>
           </div>

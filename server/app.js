@@ -8,10 +8,26 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var cors = require('cors');
 
+//mongoose connection
+var mongoose = require('mongoose');
+require('./models/Budgets');
+require('./models/Users');
+var config = require('./database');
+
 var routes = require('./routes/budgets');
 var users = require('./routes/users');
 
 var app = express();
+
+mongoose.connect(config.mongoURI[app.settings.env], function(err) {
+  if (err) {
+    console.log('Failed connecting to Mongodb!');
+  } else {
+    // seed database
+    // require('./seed.js');
+    console.log('Successfully connected to Mongodb: ' + config.mongoURI[app.settings.env]);
+  }
+});
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
