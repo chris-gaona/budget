@@ -38,27 +38,23 @@ export class HeaderComponent implements OnInit {
     let newDate = new Date();
     let previousBudget = this.obtainPreviousBudget('pre');
 
-    // find last id created in budgets and add 1 for new budget id
-    let newIdIndex;
-    // loop through each budget item
-    for (let i = 0; i < this.budgets.length; i++) {
-      // find the newly created last budget item in the array
-      if (i === (this.budgets.length - 1)) {
-        // remove the budget
-        newIdIndex = (+this.budgets[i].id + 1);
-      }
-    }
-    newBudget.id = newIdIndex;
-
-    // adds new budget with the budgetService
-    this.budgets.push(newBudget);
-
-    // calls convertDate function & passes in new Date()
-    this.convertDate(newBudget, newDate);
     newBudget.existing_cash = (previousBudget.existing_cash + previousBudget.current_income) - previousBudget.total_spent;
     newBudget.current_income = previousBudget.current_income;
     // make this new budget the shown one in the modal for editing
     this.shownBudget = newBudget;
+
+    this.budgetService.addBudget(newBudget)
+      .subscribe(data => {
+        console.log('2', data);
+        this.budgets.push(data);
+        // calls convertDate function & passes in new Date()
+        this.convertDate(data, newDate);
+        this.shownBudget = data;
+
+        console.log('All budgets', this.budgets);
+      }, err => {
+        console.log(err);
+      });
   }
 
   // converts date string to 2016-10-29
@@ -104,20 +100,20 @@ export class HeaderComponent implements OnInit {
     // close the modal window on Let's go button clicked
     this.showDialog = false;
 
-    this.budgetService.addBudget(budget)
+    this.budgetService.updateBudgetById(budget._id, budget)
       .subscribe(data => {
         console.log('3', data);
         if (this.reuseProjection === false) {
-          let budgetID = budget.id;
+          let budgetID = budget._id;
           // Handle the event & add change to selected budget
-          let editableBudget = this.budgets.filter(item => item.id === budgetID).pop();
+          let editableBudget = this.budgets.filter(item => item._id === budgetID).pop();
           Object.assign(editableBudget, data);
           // was trying to assign chosenBudget to data...don't do that!
           // Needed to find correct budget in this.budgets and make that chosenBudget
           this.updateBudget(editableBudget);
 
         } else {
-          this.reuseProjections(data);
+          this.reuseProjections(budget);
         }
 
         this.reuseProjection = false;
@@ -130,6 +126,7 @@ export class HeaderComponent implements OnInit {
   updateBudget(budget) {
     // using the @Output decorator above, emit the chosen budget to the outside world
     this.chosenBudget.emit(budget);
+    this.showDialog = false;
   }
 
   cancelBudget() {
@@ -138,16 +135,15 @@ export class HeaderComponent implements OnInit {
       // find the newly created last budget item in the array
       if (i === (this.budgets.length - 1)) {
         // remove the budget
-        this.budgets.splice(i, 1);
+        this.deleteBudget(this.budgets[i]);
       }
     }
   }
 
   deleteBudget(budget) {
-    this.budgetService.deleteBudgetById(budget.id)
+    this.budgetService.deleteBudgetById(budget._id)
       .subscribe(data => {
-        // console.log(data);
-        this.showDialog = false;
+        console.log(data);
       }, err => {
         console.log(err);
       });
@@ -157,7 +153,7 @@ export class HeaderComponent implements OnInit {
     // loop through each budget item
     for (let i = 0; i < this.budgets.length; i++) {
       // find the newly created last budget item in the array
-      if (this.budgets[i].id === budget.id) {
+      if (this.budgets[i]._id === budget._id) {
         // remove the budget
         this.budgets.splice(i, 1);
         newIndex = i - 1;
@@ -181,14 +177,12 @@ export class HeaderComponent implements OnInit {
     let newDate = new Date(newDateString);
     budget.start_period = newDate;
 
-    // close the modal window on Let's go button clicked
-    this.showDialog = false;
     // update the new budget with last period's budget items
-    this.budgetService.updateBudgetById(budget.id, budget)
+    this.budgetService.updateBudgetById(budget._id, budget)
       .subscribe(data => {
         // console.log(data);
-        let budgetID = data.id;
-        let editableBudget = this.budgets.filter(item => item.id === budgetID).pop();
+        let budgetID = budget._id;
+        let editableBudget = this.budgets.filter(item => item._id === budgetID).pop();
         // Object.assign(data, editableBudget);
         // was trying to assign chosenBudget to data...don't do that!
         // Needed to find correct budget in this.budgets and make that chosenBudget
@@ -200,7 +194,7 @@ export class HeaderComponent implements OnInit {
 
   // reuse projections from last budget
   reuseProjections(budget) {
-    // console.log('reuse budget', budget);
+    console.log('reuse budget', budget);
     let prevProjection;
 
     // get the budget items
@@ -209,11 +203,11 @@ export class HeaderComponent implements OnInit {
     budget.budget_items = prevProjection.budget_items;
 
     // update the new budget with last period's budget items
-    this.budgetService.updateBudgetById(budget.id, budget)
+    this.budgetService.updateBudgetById(budget._id, budget)
       .subscribe(data => {
         // console.log(data);
-        let budgetID = data.id;
-        let editableBudget = this.budgets.filter(item => item.id === budgetID).pop();
+        let budgetID = budget._id;
+        let editableBudget = this.budgets.filter(item => item._id === budgetID).pop();
         Object.assign(editableBudget, data);
         // was trying to assign chosenBudget to data...don't do that!
         // Needed to find correct budget in this.budgets and make that chosenBudget

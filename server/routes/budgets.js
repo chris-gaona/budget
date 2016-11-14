@@ -95,10 +95,31 @@ var budgets = [
   }
 ];
 
+// creates middleware for all budgets urls to go through first
+router.param('id', function (req, res, next, id) {
+  // query to find specific budget by ID
+  var query = Budget.findById(id);
+
+  // executes the query
+  query.exec(function (err, budget) {
+    // if err pass the error onto the next error handler
+    if (err) { return next(err); }
+
+    // if there is no budget return error to error handler saying can't find the budget
+    if (!budget) {
+      var error = new Error('Cannot find the budget');
+      error.status = 404;
+      return next(error);
+    }
+
+    // sets budget to req.project to be passed to next handler
+    req.budget = budget;
+    return next();
+  });
+});
+
 // GET all budgets entries
 router.get('/budgets', function(req, res, next) {
-  // res.json(budgets);
-
   Budget.find(function(err, budgets){
     if(err) { return next(err); }
 
@@ -115,31 +136,34 @@ router.get('/budgets', function(req, res, next) {
 
 // POST create budget entry
 router.post('/budgets', function (req, res, next) {
-  if (req.body) {
-    budgets.push(req.body);
-  }
+  var budget = new Budget(req.body);
 
-  res.status(201).json(req.body);
+  budget.save(function(err, budget) {
+    if (err) return next(err);
+
+    //send the budget
+    res.status(201).json(budget);
+  });
 });
 
 // PUT update a budget entry
 router.put('/budgets/:id', function (req, res, next) {
-  budgets.filter(function (budget) {
-    if (budget.id === req.params.id) {
-      Object.assign(req.body, budget);
-    }
+  // runValidators makes it so the updated values are validated again before saving
+  req.budget.update(req.body, { runValidators: true }, function (err, budget) {
+    if (err) return next(err);
+
+    // send budget
+    res.status(200).json(budget);
   });
-  res.status(200).json(req.body);
 });
 
 // DELETE delete a budget entry
 router.delete('/budgets/:id', function (req, res, next) {
-  for(var i = 0; i < budgets.length; i++) {
-    if (budgets[i].id === req.params.id) {
-      budgets.splice(i, 1);
-    }
-  }
-  res.sendStatus(204);
+  req.budget.remove(function(err, response) {
+    if (err) return next(err);
+
+    res.status(201).json(response);
+  });
 });
 
 module.exports = router;

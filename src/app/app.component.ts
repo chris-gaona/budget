@@ -60,7 +60,7 @@ export class AppComponent implements OnInit {
   saveAll() {
     // changes cancel button to + add new
     this.addingBudgetItem = false;
-    let budget = this.selectedBudget.id;
+    let budget = this.selectedBudget._id;
     // loop through all budget items
     for (let i = 0; i < this.selectedBudget.budget_items.length; i++) {
       // mark each budget item as editing false

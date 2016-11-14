@@ -1,5 +1,5 @@
 export class Budget {
-  id: number;
+  _id: any;
   start_period: any = new Date();
   existing_cash: number = 0;
   current_income: number = 0;
