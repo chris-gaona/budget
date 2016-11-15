@@ -26,7 +26,9 @@ export class AuthService {
           return;
         }
 
-        localStorage.setItem('profile', JSON.stringify(profile.nickname));
+        console.log(profile);
+
+        localStorage.setItem('profile', JSON.stringify(profile));
       });
     });
   }

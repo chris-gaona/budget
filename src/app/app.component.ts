@@ -36,6 +36,7 @@ export class AppComponent implements OnInit {
     this.budgetService.getAllBudgets()
       .subscribe(data => {
         this.budgets = data;
+        console.log(this.budgets);
         // loop through each budget entry
         for (let i = 0; i < this.budgets.length; i++) {
           // find the latest created budget entry in the array

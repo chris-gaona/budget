@@ -2,6 +2,7 @@
   "budgets": {
     "_model": "Budget",
     "budget1": {
+      "user_id": "auth0|5827fbe993352dd95d103552",
       "_id": "57029ed4795118be119cc437",
       "start_period": "2016-09-24T07:00:00.000Z",
       "existing_cash": 22525,
@@ -43,6 +44,7 @@
       ]
     },
     "budget2": {
+      "user_id": "auth0|5827fbe993352dd95d103552",
       "_id": "57029ed4795118be119cc438",
       "start_period": "2016-10-05T07:00:00.000Z",
       "existing_cash": 25525,

@@ -11,11 +11,9 @@ var cors = require('cors');
 //mongoose connection
 var mongoose = require('mongoose');
 require('./models/Budgets');
-require('./models/Users');
 var config = require('./database');
 
 var routes = require('./routes/budgets');
-var users = require('./routes/users');
 
 var app = express();
 
@@ -42,7 +40,6 @@ app.use(cors({
 }));
 
 app.use('/api', routes);
-app.use('/users', users);
 
 app.get('/favicon.ico', function(req, res) {
   res.send(200);
