@@ -24,15 +24,29 @@ export class AppComponent implements OnInit {
   percSaving: number;
   endingCash: number;
   showDialog: boolean;
+  currentUser: string;
 
   // injects budget service into this component
   constructor(private budgetService: BudgetService, private userService: UserService) { }
 
   // on initialization of the app
   ngOnInit() {
+    if (this.userService.isLoggedIn()) {
+      this.loggedInUser();
+    }
     this.getAllBudgets();
 
     console.log(this.userService.isLoggedIn());
+  }
+
+  loggedInUser() {
+    this.userService.getUser()
+      .subscribe(data => {
+        this.currentUser = data;
+        console.log('data', data);
+      }, err => {
+        console.log(err);
+      });
   }
 
   getAllBudgets() {
@@ -40,7 +54,6 @@ export class AppComponent implements OnInit {
     this.budgetService.getAllBudgets()
       .subscribe(data => {
         this.budgets = data;
-        console.log(this.budgets);
         // loop through each budget entry
         for (let i = 0; i < this.budgets.length; i++) {
           // find the latest created budget entry in the array

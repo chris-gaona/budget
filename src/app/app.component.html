@@ -61,7 +61,7 @@
             </div><!-- /.modal-dialog -->
           </app-modal>
         </div>
-        <app-jumbotron *ngIf="budgets && userService.isLoggedIn()" [selectedBudget]="selectedBudget" [totalSpentActual]="getTotalSpent(selectedBudget.budget_items, 'actual')"></app-jumbotron>
+        <app-jumbotron *ngIf="budgets && userService.isLoggedIn()" [currentUser]="currentUser" [selectedBudget]="selectedBudget" [totalSpentActual]="getTotalSpent(selectedBudget.budget_items, 'actual')"></app-jumbotron>
       </div>
     </div>
   </div>

@@ -13,6 +13,8 @@ export class JumbotronComponent implements OnInit {
 
   @Input() totalSpentActual: number;
 
+  @Input() currentUser: string;
+
   constructor(private userService: UserService) { }
 
   ngOnInit() {

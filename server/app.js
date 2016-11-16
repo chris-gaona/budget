@@ -17,7 +17,8 @@ var config = require('./config/database');
 require('./config/passport');
 
 var routes = require('./routes/budgets');
-var userRoutes = require('./routes/users');
+var userRoutes = require('./routes/auth');
+var getUser = require('./routes/users');
 
 var app = express();
 
@@ -51,8 +52,9 @@ if (app.get('env') === 'production') {
   app.use(express.static(path.join(__dirname, '/../dist')));
 }
 
-app.use('/api', routes);
+app.use('/api/budgets', routes);
 app.use('/', userRoutes);
+app.use('/user', getUser);
 
 app.get('/favicon.ico', function(req, res) {
   res.send(200);

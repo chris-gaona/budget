@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
+import { AuthHttp, JwtHelper } from 'angular2-jwt';
 import { tokenNotExpired } from 'angular2-jwt';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class UserService {
 
-  constructor(private http: Http) {
+  jwtHelper: JwtHelper = new JwtHelper();
+
+  constructor(private http: Http, private authHttp: AuthHttp) {
   }
 
   register(username, password, confirmPassword, firstName) {
@@ -23,7 +27,7 @@ export class UserService {
       .map(res => res.json())
       .map((res) => {
         if (res) {
-          localStorage.setItem('auth_token', res.token);
+          localStorage.setItem('id_token', res.token);
         }
 
         return res;
@@ -45,7 +49,7 @@ export class UserService {
       .map(res => res.json())
       .map((res) => {
         if (res) {
-          localStorage.setItem('auth_token', res.token);
+          localStorage.setItem('id_token', res.token);
         }
 
         return res;
@@ -53,10 +57,19 @@ export class UserService {
   }
 
   logout() {
-    localStorage.removeItem('auth_token');
+    localStorage.removeItem('id_token');
   }
 
   isLoggedIn() {
-    return tokenNotExpired('auth_token');
+    return tokenNotExpired();
+  }
+
+  getUser() {
+    let token = localStorage.getItem('id_token');
+    let decodedToken = this.jwtHelper.decodeToken(token);
+
+    return this.http.get('http://localhost:3001/user/' + decodedToken.username)
+      .map(res => res.json())
+      .catch((err: any) => Observable.throw(err.json().error || 'Server Error'));
   }
 }

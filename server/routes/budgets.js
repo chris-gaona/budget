@@ -6,6 +6,15 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var Budget = mongoose.model('Budget');
 
+var jwt = require('express-jwt');
+var jwtSecret;
+
+if (process.env.JWT_SIGNATURE !== undefined) {
+  jwtSecret = process.env.JWT_SIGNATURE;
+} else {
+  jwtSecret = 'SECRET';
+}
+
 var budgets = [
   {
     "id": 1,
@@ -95,6 +104,12 @@ var budgets = [
   }
 ];
 
+//middleware for authenticating jwt tokens
+var auth = jwt({
+  secret: jwtSecret,
+  userProperty: 'payload'
+});
+
 // creates middleware for all budgets urls to go through first
 router.param('id', function (req, res, next, id) {
   // query to find specific budget by ID
@@ -124,7 +139,7 @@ router.param('id', function (req, res, next, id) {
 // });
 
 // GET all budgets entries
-router.get('/budgets', function(req, res, next) {
+router.get('/', auth, function(req, res, next) {
   Budget.find(function(err, budgets){
     if(err) { return next(err); }
 
@@ -140,7 +155,7 @@ router.get('/budgets', function(req, res, next) {
 });
 
 // POST create budget entry
-router.post('/budgets', function (req, res, next) {
+router.post('/', function (req, res, next) {
   var budget = new Budget(req.body);
 
   budget.save(function(err, budget) {
@@ -152,7 +167,7 @@ router.post('/budgets', function (req, res, next) {
 });
 
 // PUT update a budget entry
-router.put('/budgets/:id', function (req, res, next) {
+router.put('/:id', function (req, res, next) {
   // runValidators makes it so the updated values are validated again before saving
   req.budget.update(req.body, { runValidators: true }, function (err, budget) {
     if (err) return next(err);
@@ -163,7 +178,7 @@ router.put('/budgets/:id', function (req, res, next) {
 });
 
 // DELETE delete a budget entry
-router.delete('/budgets/:id', function (req, res, next) {
+router.delete('/:id', function (req, res, next) {
   req.budget.remove(function(err, response) {
     if (err) return next(err);
 

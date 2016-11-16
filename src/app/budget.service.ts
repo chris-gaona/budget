@@ -22,7 +22,7 @@ export class BudgetService {
 
   // get all budgets
   getAllBudgets(): Observable<Budget[]> {
-    return this.http.get(this.budgetsURL)
+    return this.authHttp.get(this.budgetsURL)
       // With the map operator, we call the .json method on the response because the actual
       // response is not a collection of data but a JSON string.
       .map(response => response.json())
