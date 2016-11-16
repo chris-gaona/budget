@@ -11,9 +11,13 @@ var cors = require('cors');
 //mongoose connection
 var mongoose = require('mongoose');
 require('./models/Budgets');
-var config = require('./database');
+require('./models/Users');
+var config = require('./config/database');
+
+require('./config/passport');
 
 var routes = require('./routes/budgets');
+var userRoutes = require('./routes/users');
 
 var app = express();
 
@@ -39,12 +43,6 @@ app.use(cors({
   origin: 'http://localhost:4200'
 }));
 
-app.use('/api', routes);
-
-app.get('/favicon.ico', function(req, res) {
-  res.send(200);
-});
-
 // app.set('env', 'production');
 
 if (app.get('env') === 'production') {
@@ -52,6 +50,13 @@ if (app.get('env') === 'production') {
   // in production mode run application from dist folder
   app.use(express.static(path.join(__dirname, '/../dist')));
 }
+
+app.use('/api', routes);
+app.use('/', userRoutes);
+
+app.get('/favicon.ico', function(req, res) {
+  res.send(200);
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

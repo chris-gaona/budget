@@ -118,6 +118,11 @@ router.param('id', function (req, res, next, id) {
   });
 });
 
+// // GET all MOCK budgets entries
+// router.get('/budgets', function(req, res, next) {
+//   res.status(200).json(budgets);
+// });
+
 // GET all budgets entries
 router.get('/budgets', function(req, res, next) {
   Budget.find(function(err, budgets){

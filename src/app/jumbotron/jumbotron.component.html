@@ -1,31 +1,14 @@
-<div class="jumbotron mb-2 pt-3 pb-1">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-8 mb-2">
-        <h1 class="display-4">{{title}}</h1>
-        <h1 class="display-5">{{title}}</h1>
-        <p class="lead">A simple budget tracker built with <span class="fa fa-heart"></span> & <span class="fa fa-coffee"></span>!</p>
-      </div>
-      <div class="col-md-4 mb-2">
-        <div *ngIf="!auth.authenticated()">
-          <small class="text-muted">You are not logged in, please click the 'Log In' button to get started</small>
-          <button class="btn btn-primary w-100 mt-1" (click)="auth.login()">Log In</button>
-        </div>
-        <div *ngIf="auth.authenticated() && auth.getUserInfo()">
-          <h6 class="d-block text-xs-center">Hello, {{auth.getUserInfo().nickname}}</h6>
-          <div>
-            <a href="#" class="text-muted d-block text-xs-center" (click)="auth.logout()">Logout</a>
-          </div>
-          <div class="clearfix"></div>
-          <div class="bg-faded p-1 snapshot-pill mt-2 text-success" [class.text-success]="(totalSpentActual.totalSaving / selectedBudget.current_income) > .1" [class.text-warning]="(totalSpentActual.totalSaving / selectedBudget.current_income) <= .1 && (totalSpentActual.totalSaving / selectedBudget.current_income) >= 0" [class.text-danger]="(totalSpentActual.totalSaving / selectedBudget.current_income) < 0">
-            <small class="mb-0 mt-1 text-xs-center d-block text-uppercase health-snapshot float-xs-left">Health Snapshot</small>
-            <div class="health-symbol text-xs-center">
-              <span class="fa fa-check-circle float-xs-right" [class.text-success]="(totalSpentActual.totalSaving / selectedBudget.current_income) > .1" [class.fa-check-circle]="(totalSpentActual.totalSaving / selectedBudget.current_income) > .1" [class.text-warning]="(totalSpentActual.totalSaving / selectedBudget.current_income) <= .1 && (totalSpentActual.totalSaving / selectedBudget.current_income) >= 0" [class.fa-exclamation-circle]="(totalSpentActual.totalSaving / selectedBudget.current_income) <= .1 && (totalSpentActual.totalSaving / selectedBudget.current_income) >= 0" [class.text-danger]="(totalSpentActual.totalSaving / selectedBudget.current_income) < 0" [class.fa-times-circle]="(totalSpentActual.totalSaving / selectedBudget.current_income) < 0"></span>
-            </div>
-            <div class="clearfix"></div>
-          </div>
-        </div>
-      </div>
-    </div>
+ <div>
+  <h6 class="d-block text-xs-center">Hello, Chris</h6>
+  <div>
+    <a href="#" class="text-muted d-block text-xs-center" (click)="userService.logout()">Logout</a>
   </div>
-</div>
+  <div class="clearfix"></div>
+  <div class="bg-faded p-1 snapshot-pill mt-2 text-success" [class.text-success]="(totalSpentActual.totalSaving / selectedBudget.current_income) > .1" [class.text-warning]="(totalSpentActual.totalSaving / selectedBudget.current_income) <= .1 && (totalSpentActual.totalSaving / selectedBudget.current_income) >= 0" [class.text-danger]="(totalSpentActual.totalSaving / selectedBudget.current_income) < 0">
+    <small class="mb-0 mt-1 text-xs-center d-block text-uppercase health-snapshot float-xs-left">Health Snapshot</small>
+    <div class="health-symbol text-xs-center">
+      <span class="fa fa-check-circle float-xs-right" [class.text-success]="(totalSpentActual.totalSaving / selectedBudget.current_income) > .1" [class.fa-check-circle]="(totalSpentActual.totalSaving / selectedBudget.current_income) > .1" [class.text-warning]="(totalSpentActual.totalSaving / selectedBudget.current_income) <= .1 && (totalSpentActual.totalSaving / selectedBudget.current_income) >= 0" [class.fa-exclamation-circle]="(totalSpentActual.totalSaving / selectedBudget.current_income) <= .1 && (totalSpentActual.totalSaving / selectedBudget.current_income) >= 0" [class.text-danger]="(totalSpentActual.totalSaving / selectedBudget.current_income) < 0" [class.fa-times-circle]="(totalSpentActual.totalSaving / selectedBudget.current_income) < 0"></span>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+ </div>

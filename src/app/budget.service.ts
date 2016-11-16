@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Budget } from './budget';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
+import { AuthHttp } from 'angular2-jwt';
 
 // Import RxJs required methods
 import 'rxjs/add/operator/map';
@@ -17,7 +18,7 @@ export class BudgetService {
   private budgetsURL = 'http://localhost:3001/api/budgets';
 
   // Resolve HTTP using the constructor
-  constructor(private http: Http) { }
+  constructor(private http: Http, private authHttp: AuthHttp) { }
 
   // get all budgets
   getAllBudgets(): Observable<Budget[]> {
@@ -29,6 +30,17 @@ export class BudgetService {
       // operator to return another subscribable observable but this time a failed one.
       .catch((err: any) => Observable.throw(err.json().error || 'Server Error'));
   }
+
+  // // get all budgets
+  // getMockBudgets(): Observable<Budget[]> {
+  //   return this.http.get(this.budgetsURL)
+  //   // With the map operator, we call the .json method on the response because the actual
+  //   // response is not a collection of data but a JSON string.
+  //     .map(response => response.json())
+  //     // It is always advisable to handle errors so we can use the catch
+  //     // operator to return another subscribable observable but this time a failed one.
+  //     .catch((err: any) => Observable.throw(err.json().error || 'Server Error'));
+  // }
 
   // get a single budget
   getBudgetById(id: number): Observable<Budget> {

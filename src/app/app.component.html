@@ -1,6 +1,73 @@
-<div *ngIf="budgets">
-  <app-jumbotron [selectedBudget]="selectedBudget" [totalSpentActual]="getTotalSpent(selectedBudget.budget_items, 'actual')"></app-jumbotron>
+<div class="jumbotron mb-2 pt-3 pb-1">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8 mb-2">
+        <h1 class="display-4">{{title}}</h1>
+        <h1 class="display-5">{{title}}</h1>
+        <p class="lead">A simple budget tracker built with <span class="fa fa-heart"></span> & <span class="fa fa-coffee"></span>!</p>
+      </div>
+      <div class="col-md-4 mb-2">
+        <div *ngIf="!userService.isLoggedIn()">
+          <small class="text-muted">You are not logged in, please click the 'Log In' button to get started</small>
+          <button class="btn btn-primary w-100 mt-1" (click)="showDialog = true">Log In</button>
+          <app-modal [(visible)]="showDialog">
+            <div class="modal-dialog my-0" id="modal-container">
+              <div class="modal-content">
+                <div class="modal-header bg-faded rounded-top">
+                  <button type="button" class="close" aria-label="Close" (click)="showDialog = !showDialog">
+                    <span>&times;</span>
+                  </button>
+                  <h4 class="modal-title">{{register ? 'Sign Up Now!' : 'Log In'}}</h4>
+                </div>
+                <div class="modal-body">
+                  <small class="text-muted mb-2 d-block">{{register ? 'The power to register is in your hands now!' : 'Please login below to start your adventure!'}}</small>
+                  <div class="form-group mb-2" *ngIf="register">
+                    <label for="formGroupInput">First Name</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><span class="fa fa-user"></span></span>
+                      <input type="text" class="form-control" id="formGroupInput" placeholder="Enter here" [(ngModel)]="firstName">
+                    </div>
+                  </div>
+                  <div class="form-group mb-2">
+                    <label for="formGroupInput1">Username</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><span class="fa fa-user"></span></span>
+                      <input type="text" class="form-control" id="formGroupInput1" placeholder="Enter here" [(ngModel)]="username">
+                    </div>
+                  </div>
+                  <div class="form-group mb-2">
+                    <label for="formGroupInput2">Password</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><span class="fa fa-lock"></span></span>
+                      <input type="password" class="form-control" id="formGroupInput2" placeholder="Enter here" [(ngModel)]="password">
+                    </div>
+                  </div>
+                  <div class="form-group mb-2" *ngIf="register">
+                    <label for="formGroupInput3">Confirm Password</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><span class="fa fa-lock"></span></span>
+                      <input type="password" class="form-control" id="formGroupInput3" placeholder="Enter here" [(ngModel)]="confirmPassword">
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button *ngIf="!register" type="button" id="create-button" class="btn btn-primary" (click)="login(username, password)">Log In</button>
+                  <button *ngIf="register" type="button" id="create-button" class="btn btn-primary" (click)="signUp(username, password, confirmPassword, firstName)">Register</button>
+                  <button *ngIf="register" type="button" id="signup-button" class="btn btn-secondary" (click)="register = false">Sign In</button>
+                  <button *ngIf="!register" type="button" id="signup-button" class="btn btn-secondary" (click)="register = true">Sign Up</button>
+                  <button type="button" id="cancel-button" class="btn btn-secondary" (click)="showDialog = !showDialog">Close</button>
+                </div>
+              </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+          </app-modal>
+        </div>
+        <app-jumbotron *ngIf="budgets && userService.isLoggedIn()" [selectedBudget]="selectedBudget" [totalSpentActual]="getTotalSpent(selectedBudget.budget_items, 'actual')"></app-jumbotron>
+      </div>
+    </div>
+  </div>
+</div>
 
+<div *ngIf="budgets && userService.isLoggedIn()">
   <app-header [budgets]="budgets" [selectedBudget]="selectedBudget" (chosenBudget)="chosenBudget($event)"></app-header>
 
   <app-overview [selectedBudget]="selectedBudget" [totalSpent]="getTotalSpent(selectedBudget.budget_items, 'actual')"></app-overview>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BudgetService } from './budget.service';
 import { Budget, BudgetItems, ActualItems } from './budget';
-import { AuthService } from './auth.service';
+import { UserService } from './user.service';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +10,7 @@ import { AuthService } from './auth.service';
 })
 export class AppComponent implements OnInit {
   // defines all typescript variables & their types
+  title: string = 'Budget Tracker';
   budgets: Budget[];
   selectedBudget: Budget;
   totalActual: number;
@@ -22,13 +23,16 @@ export class AppComponent implements OnInit {
   totalSaving: number;
   percSaving: number;
   endingCash: number;
+  showDialog: boolean;
 
   // injects budget service into this component
-  constructor(private budgetService: BudgetService, private auth: AuthService) { }
+  constructor(private budgetService: BudgetService, private userService: UserService) { }
 
   // on initialization of the app
   ngOnInit() {
     this.getAllBudgets();
+
+    console.log(this.userService.isLoggedIn());
   }
 
   getAllBudgets() {
@@ -207,6 +211,24 @@ export class AppComponent implements OnInit {
 
       return this.projectionObject;
     }
+  }
+
+  login(username, password) {
+    this.userService.login(username, password).subscribe((result) => {
+      if (result) {
+        console.log(result);
+        this.showDialog = false;
+      }
+    });
+  }
+
+  signUp(username, password, confirmPassword, firstName) {
+    this.userService.register(username, password, confirmPassword, firstName).subscribe((result) => {
+      if (result) {
+        console.log(result);
+        this.showDialog = false;
+      }
+    });
   }
 }
 

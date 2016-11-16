@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Budget } from '../budget';
-import { AuthService } from '../auth.service';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-jumbotron',
@@ -13,9 +13,7 @@ export class JumbotronComponent implements OnInit {
 
   @Input() totalSpentActual: number;
 
-  title: string = 'Budget Tracker';
-
-  constructor(private auth: AuthService) { }
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
   }

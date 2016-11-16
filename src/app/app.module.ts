@@ -12,7 +12,7 @@ import { OverviewComponent } from './overview/overview.component';
 import { ResultsComponent } from './results/results.component';
 import { ModalComponent } from './modal/modal.component';
 import { BudgetService } from './budget.service';
-import { AuthService } from './auth.service';
+import { UserService } from './user.service';
 
 @NgModule({
   declarations: [
@@ -28,7 +28,7 @@ import { AuthService } from './auth.service';
     FormsModule,
     HttpModule
   ],
-  providers: [ BudgetService, AuthService, AUTH_PROVIDERS],
+  providers: [ BudgetService, UserService, AUTH_PROVIDERS],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

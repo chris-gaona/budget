@@ -9,21 +9,3 @@
   font-size: 3em;
   color: forestgreen;
 }
-
-h1.display-4 {
-  display: none;
-}
-
-h1.display-5 {
-  display: block;
-}
-
-@media(min-width: 450px) {
-  h1.display-4 {
-    display: block;
-  }
-
-  h1.display-5 {
-    display: none;
-  }
-}

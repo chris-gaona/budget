@@ -13,7 +13,6 @@ import { FormsModule } from '@angular/forms';
 import { BudgetService } from './budget.service';
 import { ModalComponent } from './modal/modal.component';
 import { AbstractMockObservableService } from './mock-budget.service';
-import { AuthService } from './auth.service';
 
 class MockService extends AbstractMockObservableService {
   // getBudgets() {
@@ -42,8 +41,7 @@ describe('App: Budget', () => {
     }).overrideComponent(AppComponent, {
       set: {
         providers: [
-          { provide: BudgetService, useClass: MockService },
-          { provide: AuthService, useClass: MockService }
+          { provide: BudgetService, useClass: MockService }
         ]
       }
     });
