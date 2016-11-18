@@ -246,6 +246,7 @@ export class AppComponent implements OnInit {
         this.showDialog = false;
         this.userService.isLoggedIn();
         this.loggedInUser();
+        this.getAllBudgets();
       }
     });
   }
@@ -257,6 +258,7 @@ export class AppComponent implements OnInit {
         this.showDialog = false;
         this.userService.isLoggedIn();
         this.loggedInUser();
+        this.getAllBudgets();
       }
     });
   }

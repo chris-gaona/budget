@@ -4,7 +4,9 @@
   "license": "MIT",
   "angular-cli": {},
   "scripts": {
-    "start": "ng serve",
+    "start": "node ./server/bin/www",
+    "start-angular:dev": "ng serve",
+    "start-server:dev": "nodemon ./server/bin/www",
     "lint": "tslint \"src/**/*.ts\"",
     "test": "ng test",
     "test:server": "mocha -w server/test.js",
@@ -21,6 +23,7 @@
     "@angular/platform-browser": "^2.1.0",
     "@angular/platform-browser-dynamic": "^2.1.0",
     "@angular/router": "^3.1.0",
+    "angular2-jwt": "^0.1.25",
     "bcryptjs": "^2.3.0",
     "body-parser": "^1.15.2",
     "cookie-parser": "^1.4.3",
