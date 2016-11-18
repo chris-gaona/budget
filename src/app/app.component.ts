@@ -25,6 +25,7 @@ export class AppComponent implements OnInit {
   endingCash: number;
   showDialog: boolean;
   currentUser: string;
+  visibleBudgets: boolean;
 
   // injects budget service into this component
   constructor(private budgetService: BudgetService, private userService: UserService) { }
@@ -33,8 +34,8 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     if (this.userService.isLoggedIn()) {
       this.loggedInUser();
+      this.getAllBudgets();
     }
-    this.getAllBudgets();
 
     console.log(this.userService.isLoggedIn());
   }
@@ -53,13 +54,19 @@ export class AppComponent implements OnInit {
     // retrieves all budgets from budgetService
     this.budgetService.getAllBudgets()
       .subscribe(data => {
-        this.budgets = data;
-        // loop through each budget entry
-        for (let i = 0; i < this.budgets.length; i++) {
-          // find the latest created budget entry in the array
-          if (i === (this.budgets.length - 1)) {
-            // make that one the selected budget on load
-            this.selectedBudget = this.budgets[i];
+        console.log(data);
+        if (data.length === 0) {
+          this.visibleBudgets = false;
+        } else {
+          this.budgets = data;
+          this.visibleBudgets = true;
+          // loop through each budget entry
+          for (let i = 0; i < this.budgets.length; i++) {
+            // find the latest created budget entry in the array
+            if (i === (this.budgets.length - 1)) {
+              // make that one the selected budget on load
+              this.selectedBudget = this.budgets[i];
+            }
           }
         }
       }, err => {
@@ -72,6 +79,12 @@ export class AppComponent implements OnInit {
   chosenBudget(budget) {
     // Handle the event & add change to selected budget
     this.selectedBudget = budget;
+  }
+
+  changeVisibleBudget(boolean) {
+    // Handle the event & add change to selected budget
+    this.visibleBudgets = boolean;
+    console.log(this.visibleBudgets);
   }
 
   // save all edits
@@ -231,6 +244,8 @@ export class AppComponent implements OnInit {
       if (result) {
         console.log(result);
         this.showDialog = false;
+        this.userService.isLoggedIn();
+        this.loggedInUser();
       }
     });
   }
@@ -240,8 +255,28 @@ export class AppComponent implements OnInit {
       if (result) {
         console.log(result);
         this.showDialog = false;
+        this.userService.isLoggedIn();
+        this.loggedInUser();
       }
     });
+  }
+
+  // creates empty budget
+  createFirstBudget() {
+    let newBudget = new Budget();
+
+    this.budgetService.addBudget(newBudget)
+      .subscribe(data => {
+        console.log('2', data);
+        this.budgets = [];
+        this.budgets.push(data);
+        this.selectedBudget = data;
+        this.visibleBudgets = true;
+
+        console.log('First Budget', this.budgets);
+      }, err => {
+        console.log(err);
+      });
   }
 }
 

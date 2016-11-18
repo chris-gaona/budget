@@ -1,7 +1,7 @@
 'use strict';
 
 var mongoose = require('mongoose');
-var crypto = require('crypto');
+var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 
 var jwtSecret;
@@ -31,7 +31,11 @@ var UserSchema = new mongoose.Schema({
   salt: {
     type: String,
     required: true
-  }
+  },
+  userBudgets: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Budget'
+  }]
 });
 
 // add custom validation to username to make sure the username is not already taken
@@ -46,15 +50,13 @@ UserSchema.path('username').validate(function (value, done) {
 }, 'The username you provided is already in use.');
 
 UserSchema.methods.setPassword = function(password){
-  this.salt = crypto.randomBytes(16).toString('hex');
+  this.salt = bcrypt.genSaltSync(10);
 
-  this.hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64).toString('hex');
+  this.hash = bcrypt.hashSync(password, this.salt);
 };
 
 UserSchema.methods.validPassword = function(password) {
-  var hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64).toString('hex');
-
-  return this.hash === hash;
+  return bcrypt.compareSync(password, this.hash);
 };
 
 UserSchema.methods.generateJWT = function() {
@@ -67,7 +69,7 @@ UserSchema.methods.generateJWT = function() {
   return jwt.sign({
     _id: this._id,
     username: this.username,
-    exp: parseInt(exp.getTime() / 1000),
+    exp: parseInt(exp.getTime() / 1000)
   }, jwtSecret);
 };
 

@@ -25,27 +25,16 @@ export class BudgetService {
     return this.authHttp.get(this.budgetsURL)
       // With the map operator, we call the .json method on the response because the actual
       // response is not a collection of data but a JSON string.
-      .map(response => response.json())
+      .map(res => res.json())
       // It is always advisable to handle errors so we can use the catch
-      // operator to return another subscribable observable but this time a failed one.
+      // operator to return another subscribe observable but this time a failed one.
       .catch((err: any) => Observable.throw(err.json().error || 'Server Error'));
   }
-
-  // // get all budgets
-  // getMockBudgets(): Observable<Budget[]> {
-  //   return this.http.get(this.budgetsURL)
-  //   // With the map operator, we call the .json method on the response because the actual
-  //   // response is not a collection of data but a JSON string.
-  //     .map(response => response.json())
-  //     // It is always advisable to handle errors so we can use the catch
-  //     // operator to return another subscribable observable but this time a failed one.
-  //     .catch((err: any) => Observable.throw(err.json().error || 'Server Error'));
-  // }
 
   // get a single budget
   getBudgetById(id: number): Observable<Budget> {
     return this.http.get(`${this.budgetsURL}/${id}`)
-      .map(response => response.json())
+      .map(res => res.json())
       .catch((err: any) => Observable.throw(err.json().error || 'Server Error'));
   }
 
@@ -55,7 +44,7 @@ export class BudgetService {
     let headers = new Headers({ 'Content-Type': 'application/json' }); // ... Set content type to JSON
     let options = new RequestOptions({ headers: headers }); // Create a request option
 
-    return this.http.post(this.budgetsURL, budget, options) // ...using post request
+    return this.authHttp.post(this.budgetsURL, budget, options) // ...using post request
       .map((res) => res.json()) // ...and calling .json() on the response to return data
       .catch((error: any) => Observable.throw(error.json().error || 'Server error')); // ...errors if
   }
@@ -66,14 +55,14 @@ export class BudgetService {
     let headers = new Headers({ 'Content-Type': 'application/json' }); // ... Set content type to JSON
     let options = new RequestOptions({ headers: headers }); // Create a request option
 
-    return this.http.put(`${this.budgetsURL}/${id}`, budget, options) // ...using put request
-      .map(response => response.json()) // ...and calling .json() on the response to return data
+    return this.authHttp.put(`${this.budgetsURL}/${id}`, budget, options) // ...using put request
+      .map(res => res.json()) // ...and calling .json() on the response to return data
       .catch((err: any) => Observable.throw(err.json().error || 'Server error')); // ...errors if any
   }
 
   // delete an existing budget
   deleteBudgetById(id: number): Observable<Budget> {
-    return this.http.delete(`${this.budgetsURL}/${id}`) // ...using put request
+    return this.authHttp.delete(`${this.budgetsURL}/${id}`) // ...using put request
       .map((res) => res.json()) // ...and calling .json() on the response to return data
       .catch((err: any) => Observable.throw(err.json().error || 'Server error')); // ...errors if
   }

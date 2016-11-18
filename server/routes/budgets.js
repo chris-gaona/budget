@@ -5,6 +5,7 @@ var router = express.Router();
 
 var mongoose = require('mongoose');
 var Budget = mongoose.model('Budget');
+var User = mongoose.model('User');
 
 var jwt = require('express-jwt');
 var jwtSecret;
@@ -138,25 +139,63 @@ router.param('id', function (req, res, next, id) {
 //   res.status(200).json(budgets);
 // });
 
-// GET all budgets entries
-router.get('/', auth, function(req, res, next) {
-  Budget.find(function(err, budgets){
-    if(err) { return next(err); }
+// // GET all budgets entries
+// router.get('/', auth, function(req, res, next) {
+//   Budget.find(function(err, budgets){
+//     if(err) { return next(err); }
+//
+//     if (budgets.length === 0) {
+//       var error = new Error('No budgets yet');
+//       error.status = 200;
+//       return next(error);
+//     }
+//
+//     // send projects
+//     res.json(budgets);
+//   });
+// });
 
-    if (budgets.length === 0) {
-      var error = new Error('No budgets yet');
-      error.status = 200;
-      return next(error);
-    }
+router.get('/', auth, function (req, res, next) {
+    User.findOne({_id: req.payload._id}, '_id userBudgets', function(err, user) {
+        if (err) return next(err);
 
-    // send projects
-    res.json(budgets);
-  });
+        if (!user) {
+            var error = new Error('No user found');
+            error.status = 404;
+            return next(error);
+        }
+
+        console.log(user);
+        // res.json(user);
+        user.populate('userBudgets', function(err, budgets) {
+            if (err) {return next(err);}
+
+            res.json(budgets.userBudgets);
+        });
+    });
 });
 
 // POST create budget entry
-router.post('/', function (req, res, next) {
+router.post('/', auth, function (req, res, next) {
   var budget = new Budget(req.body);
+
+  User.findOne({_id: req.payload._id}, 'userBudgets', function(err, user) {
+    if (err) return next(err);
+
+    if (!user) {
+      var error = new Error('No user found');
+      error.status = 404;
+      return next(error);
+    }
+    // res.json(user);
+    user.userBudgets.push(budget);
+
+    user.save(function(err, user) {
+      if(err) return next(err);
+
+      console.log('Success!');
+    });
+  });
 
   budget.save(function(err, budget) {
     if (err) return next(err);
@@ -167,7 +206,7 @@ router.post('/', function (req, res, next) {
 });
 
 // PUT update a budget entry
-router.put('/:id', function (req, res, next) {
+router.put('/:id', auth, function (req, res, next) {
   // runValidators makes it so the updated values are validated again before saving
   req.budget.update(req.body, { runValidators: true }, function (err, budget) {
     if (err) return next(err);
@@ -178,11 +217,24 @@ router.put('/:id', function (req, res, next) {
 });
 
 // DELETE delete a budget entry
-router.delete('/:id', function (req, res, next) {
+router.delete('/:id', auth, function (req, res, next) {
   req.budget.remove(function(err, response) {
     if (err) return next(err);
+  });
 
-    res.status(201).json(response);
+  //find correct user in order to remove connected to budget
+  User.findOne({_id: req.payload._id}, 'userBudgets', function(err, user) {
+    if (err) return next(err);
+
+    //splice out the deleted post from userPosts array
+    user.userBudgets.splice(user.userBudgets.indexOf(req.params.id), 1);
+
+    user.save(function(err, user) {
+      if(err) return next(err);
+
+      console.log('User Budget Deleted');
+      res.status(201).json(user);
+    });
   });
 });
 

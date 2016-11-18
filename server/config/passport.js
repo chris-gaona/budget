@@ -11,7 +11,7 @@ passport.use(new LocalStrategy(
   function(username, password, done) {
     // if user is found
     User.findOne({ username: username }, function (err, user) {
-      if (err) { return done(err); }
+      if (err) return done(err);
       //if no user is found
       if (!user) {
         return done(null, false, { message: 'Validation Failed', errors: { property: [ { code: 400, message: 'Incorrect username or password' } ] } });

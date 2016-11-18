@@ -33,8 +33,6 @@ router.post('/register', function(req, res, next) {
     });
   }
 
-  console.log('password', req.body.password);
-  console.log('confirm', req.body.confirmPassword);
   // if password and confirm password do not match do this
   if (req.body.password !== req.body.confirmPassword) {
     return res.status(400).json({
@@ -99,7 +97,6 @@ router.post('/register', function(req, res, next) {
 
 // LOGIN a user
 router.post('/login', function(req, res, next) {
-  console.log('username', req.body.username);
   // if username & password do not exist do this
   if (!req.body.username || !req.body.password) {
     return res.status(400).json({
@@ -108,10 +105,8 @@ router.post('/login', function(req, res, next) {
   }
 
   // use passport local to authenticate user provided credentials
-  passport.authenticate('local', function(err, user, info){
-    if(err){
-      return next(err);
-    }
+  passport.authenticate('local', function(err, user, info) {
+    if (err) return next(err);
 
     // if user is returned return the token
     if(user){

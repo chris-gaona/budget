@@ -10,6 +10,7 @@
         <div *ngIf="!userService.isLoggedIn()">
           <small class="text-muted">You are not logged in, please click the 'Log In' button to get started</small>
           <button class="btn btn-primary w-100 mt-1" (click)="showDialog = true">Log In</button>
+
           <app-modal [(visible)]="showDialog">
             <div class="modal-dialog my-0" id="modal-container">
               <div class="modal-content">
@@ -51,9 +52,9 @@
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button *ngIf="!register" type="button" id="create-button" class="btn btn-primary" (click)="login(username, password)">Log In</button>
-                  <button *ngIf="register" type="button" id="create-button" class="btn btn-primary" (click)="signUp(username, password, confirmPassword, firstName)">Register</button>
-                  <button *ngIf="register" type="button" id="signup-button" class="btn btn-secondary" (click)="register = false">Sign In</button>
+                  <button *ngIf="!register" type="button" id="login-button" class="btn btn-primary" (click)="login(username, password)">Log In</button>
+                  <button *ngIf="register" type="button" id="register-button" class="btn btn-primary" (click)="signUp(username, password, confirmPassword, firstName)">Register</button>
+                  <button *ngIf="register" type="button" id="signin-button" class="btn btn-secondary" (click)="register = false">Sign In</button>
                   <button *ngIf="!register" type="button" id="signup-button" class="btn btn-secondary" (click)="register = true">Sign Up</button>
                   <button type="button" id="cancel-button" class="btn btn-secondary" (click)="showDialog = !showDialog">Close</button>
                 </div>
@@ -61,14 +62,26 @@
             </div><!-- /.modal-dialog -->
           </app-modal>
         </div>
-        <app-jumbotron *ngIf="budgets && userService.isLoggedIn()" [currentUser]="currentUser" [selectedBudget]="selectedBudget" [totalSpentActual]="getTotalSpent(selectedBudget.budget_items, 'actual')"></app-jumbotron>
+
+        <div *ngIf="userService.isLoggedIn() && currentUser">
+          <h5 class="d-block text-xs-center">Hello, {{currentUser.firstName}}</h5>
+          <div>
+            <a href="#" class="text-muted d-block text-xs-center" (click)="userService.logout()">Logout</a>
+          </div>
+        </div>
+        <div *ngIf="userService.isLoggedIn() && currentUser && !visibleBudgets">
+          <button class="btn btn-primary w-100 mt-1 text-uppercase" (click)="createFirstBudget()">Start New Budget</button>
+        </div>
+
+
+        <app-jumbotron *ngIf="visibleBudgets && userService.isLoggedIn()" [currentUser]="currentUser" [selectedBudget]="selectedBudget" [totalSpentActual]="getTotalSpent(selectedBudget.budget_items, 'actual')"></app-jumbotron>
       </div>
     </div>
   </div>
 </div>
 
-<div *ngIf="budgets && userService.isLoggedIn()">
-  <app-header [budgets]="budgets" [selectedBudget]="selectedBudget" (chosenBudget)="chosenBudget($event)"></app-header>
+<div *ngIf="visibleBudgets && userService.isLoggedIn()">
+  <app-header [budgets]="budgets" [selectedBudget]="selectedBudget" (chosenBudget)="chosenBudget($event)" (changeVisibleBudget)="changeVisibleBudget($event)"></app-header>
 
   <app-overview [selectedBudget]="selectedBudget" [totalSpent]="getTotalSpent(selectedBudget.budget_items, 'actual')"></app-overview>
 

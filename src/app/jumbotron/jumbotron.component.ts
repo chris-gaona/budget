@@ -18,5 +18,6 @@ export class JumbotronComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit() {
+
   }
 }

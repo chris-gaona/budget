@@ -26,6 +26,8 @@ export class HeaderComponent implements OnInit {
   // decorator for emitting changed selected budget to other components for use
   @Output() chosenBudget: EventEmitter<Budget> = new EventEmitter<Budget>();
 
+  @Output() changeVisibleBudget: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   constructor(private budgetService: BudgetService) {
   }
 
@@ -143,29 +145,28 @@ export class HeaderComponent implements OnInit {
   deleteBudget(budget) {
     this.budgetService.deleteBudgetById(budget._id)
       .subscribe(data => {
-        console.log(data);
+        console.log('returned deleted data', data);
+        let newIndex = 0;
+
+        this.budgets.filter((item, i) => {
+          if (item._id === budget._id) {
+            this.budgets.splice(i, 1);
+            newIndex = i - 1;
+          }
+        });
+
+        if (this.budgets.length > 0) {
+          this.shownBudget = this.budgets[newIndex];
+          this.updateBudget(this.shownBudget);
+        } else {
+          this.changeVisibleBudget.emit(false);
+        }
       }, err => {
         console.log(err);
       });
-
-    let newIndex;
-
-    // loop through each budget item
-    for (let i = 0; i < this.budgets.length; i++) {
-      // find the newly created last budget item in the array
-      if (this.budgets[i]._id === budget._id) {
-        // remove the budget
-        this.budgets.splice(i, 1);
-        newIndex = i - 1;
-      }
-    }
-
-    this.shownBudget = this.budgets[newIndex];
-    this.updateBudget(this.shownBudget);
   }
 
   editBudget(budget) {
-    // console.log(budget.start_period);
     this.convertDate(budget, budget.start_period);
     this.shownBudget = budget;
   }
@@ -187,6 +188,7 @@ export class HeaderComponent implements OnInit {
         // was trying to assign chosenBudget to data...don't do that!
         // Needed to find correct budget in this.budgets and make that chosenBudget
         this.updateBudget(editableBudget);
+        this.editingBudget = false;
       }, err => {
         console.log(err);
       });
