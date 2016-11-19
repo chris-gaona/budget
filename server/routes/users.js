@@ -23,7 +23,7 @@ var auth = jwt({
 });
 
 // get a specific user
-router.get('/:username', function(req, res, next) {
+router.get('/:username', auth, function(req, res, next) {
   // username taken from the url
   var user = req.params.username;
 

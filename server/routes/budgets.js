@@ -139,22 +139,6 @@ router.param('id', function (req, res, next, id) {
 //   res.status(200).json(budgets);
 // });
 
-// // GET all budgets entries
-// router.get('/', auth, function(req, res, next) {
-//   Budget.find(function(err, budgets){
-//     if(err) { return next(err); }
-//
-//     if (budgets.length === 0) {
-//       var error = new Error('No budgets yet');
-//       error.status = 200;
-//       return next(error);
-//     }
-//
-//     // send projects
-//     res.json(budgets);
-//   });
-// });
-
 router.get('/', auth, function (req, res, next) {
     User.findOne({_id: req.payload._id}, '_id userBudgets', function(err, user) {
         if (err) return next(err);
@@ -233,7 +217,7 @@ router.delete('/:id', auth, function (req, res, next) {
       if(err) return next(err);
 
       console.log('User Budget Deleted');
-      res.status(201).json(user);
+      res.status(200).json(user);
     });
   });
 });

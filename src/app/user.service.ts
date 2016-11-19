@@ -68,7 +68,7 @@ export class UserService {
     let token = localStorage.getItem('id_token');
     let decodedToken = this.jwtHelper.decodeToken(token);
 
-    return this.http.get('http://localhost:3001/user/' + decodedToken.username)
+    return this.authHttp.get('http://localhost:3001/user/' + decodedToken.username)
       .map(res => res.json())
       .catch((err: any) => Observable.throw(err.json().error || 'Server Error'));
   }
