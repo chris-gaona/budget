@@ -66,7 +66,7 @@
         <div *ngIf="userService.isLoggedIn() && currentUser">
           <h5 class="d-block text-xs-center">Hello, {{currentUser.firstName}}</h5>
           <div>
-            <a href="#" class="text-muted d-block text-xs-center" (click)="userService.logout()">Logout</a>
+            <a href="#" class="text-muted d-block text-xs-center" (click)="userService.logout(); visibleBudgets = false">Logout</a>
           </div>
         </div>
         <div *ngIf="userService.isLoggedIn() && currentUser && !visibleBudgets">
@@ -76,6 +76,37 @@
 
         <app-jumbotron *ngIf="visibleBudgets && userService.isLoggedIn()" [currentUser]="currentUser" [selectedBudget]="selectedBudget" [totalSpentActual]="getTotalSpent(selectedBudget.budget_items, 'actual')"></app-jumbotron>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="dog-container" *ngIf="!visibleBudgets && !userService.isLoggedIn()">
+  <div class="dog">
+    <div class="ears"></div>
+
+    <div class="body">
+      <div class="eyes"></div>
+      <div class="beard">
+        <div class="mouth">
+          <div class="tongue"></div>
+        </div>
+      </div>
+      <div class="belt">
+        <div class="locket"></div>
+        <div class="dot dot1"></div>
+        <div class="dot dot2"></div>
+        <div class="dot dot3"></div>
+        <div class="dot dot4"></div>
+        <div class="tag"></div>
+      </div>
+      <div class="stomach">
+      </div>
+      <div class="legs">
+        <div class="left"></div>
+        <div class="right"></div>
+      </div>
+    </div>
+    <div class="tail">
     </div>
   </div>
 </div>

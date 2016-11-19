@@ -134,11 +134,6 @@ router.param('id', function (req, res, next, id) {
   });
 });
 
-// // GET all MOCK budgets entries
-// router.get('/budgets', function(req, res, next) {
-//   res.status(200).json(budgets);
-// });
-
 router.get('/', auth, function (req, res, next) {
     User.findOne({_id: req.payload._id}, '_id userBudgets', function(err, user) {
         if (err) return next(err);

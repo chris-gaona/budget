@@ -58,6 +58,7 @@ export class UserService {
 
   logout() {
     localStorage.removeItem('id_token');
+    this.isLoggedIn();
   }
 
   isLoggedIn() {

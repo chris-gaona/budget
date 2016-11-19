@@ -20,6 +20,17 @@ export class BudgetService {
   // Resolve HTTP using the constructor
   constructor(private http: Http, private authHttp: AuthHttp) { }
 
+  // get mock budgets
+  getMockBudgets(): Observable<Budget[]> {
+    return this.http.get(this.budgetsURL + '/mock')
+    // With the map operator, we call the .json method on the response because the actual
+    // response is not a collection of data but a JSON string.
+      .map(res => res.json())
+      // It is always advisable to handle errors so we can use the catch
+      // operator to return another subscribe observable but this time a failed one.
+      .catch((err: any) => Observable.throw(err.json().error || 'Server Error'));
+  }
+
   // get all budgets
   getAllBudgets(): Observable<Budget[]> {
     return this.authHttp.get(this.budgetsURL)

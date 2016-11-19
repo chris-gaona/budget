@@ -36,15 +36,12 @@ export class AppComponent implements OnInit {
       this.loggedInUser();
       this.getAllBudgets();
     }
-
-    console.log(this.userService.isLoggedIn());
   }
 
   loggedInUser() {
     this.userService.getUser()
       .subscribe(data => {
         this.currentUser = data;
-        console.log('data', data);
       }, err => {
         console.log(err);
       });
@@ -54,7 +51,6 @@ export class AppComponent implements OnInit {
     // retrieves all budgets from budgetService
     this.budgetService.getAllBudgets()
       .subscribe(data => {
-        console.log(data);
         if (data.length === 0) {
           this.visibleBudgets = false;
         } else {
@@ -84,7 +80,6 @@ export class AppComponent implements OnInit {
   changeVisibleBudget(boolean) {
     // Handle the event & add change to selected budget
     this.visibleBudgets = boolean;
-    console.log(this.visibleBudgets);
   }
 
   // save all edits
@@ -100,7 +95,7 @@ export class AppComponent implements OnInit {
     // passes budget_items array to saveAll function on budgetService
     this.budgetService.updateBudgetById(budget, this.selectedBudget)
       .subscribe(data => {
-        console.log(data);
+
       }, err => {
         console.log(err);
       });
