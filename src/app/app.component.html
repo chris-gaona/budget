@@ -80,7 +80,7 @@
   </div>
 </div>
 
-<div class="dog-container" *ngIf="!visibleBudgets && !userService.isLoggedIn()">
+<div class="dog-container" *ngIf="(!visibleBudgets && !userService.isLoggedIn()) || (!visibleBudgets && userService.isLoggedIn())">
   <div class="dog">
     <div class="ears"></div>
 
@@ -164,14 +164,16 @@
           <ul class="list-group list-group-flush">
             <li class="list-group-item" *ngFor="let budget of selectedBudget.budget_items" (click)="budget.editing = true">
               <p class="mb-0 actual text-capitalize">
-                <span class="float-xs-right">{{getActualTotal(budget) | currency:'USD':true}}</span>
+                <span class="float-xs-right" [class.text-danger]="getActualTotal(budget) > budget.projection">{{getActualTotal(budget) | currency:'USD':true}}</span>
                 {{budget.item}}
+                <span *ngIf="getActualTotal(budget) > 0" class="fa fa-minus-circle text-danger"></span>
+                <span *ngIf="getActualTotal(budget) < 0" class="fa fa-plus-circle text-success"></span>
               </p>
               <div *ngIf="budget.editing" class="actual-inputs">
                 <div class="col-xs-12 mt-1 mb-1 p-0" *ngFor="let actual of budget.actual">
                   <div class="col-md-6 px-0">
                     <div class="input-group">
-                      <span class="input-group-addon"><span class="fa fa-info"></span></span>
+                      <span class="input-group-addon" (click)="toggleAddSubtract(actual)"><span class="fa fa-minus-circle" [class.fa-plus-circle]="!actual.expense" [class.text-success]="!actual.expense" [class.fa-minus-circle]="actual.expense" [class.text-danger]="actual.expense"></span></span>
                       <input class="form-control text-capitalize" type="text" [(ngModel)]="actual.name">
                     </div>
                   </div>

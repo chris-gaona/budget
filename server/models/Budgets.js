@@ -24,7 +24,8 @@ var BudgetSchema = new mongoose.Schema({
       actual: [
         {
           name: String,
-          amount: Number
+          amount: Number,
+          expense: Boolean
         }
       ]
     }

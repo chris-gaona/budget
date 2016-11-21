@@ -24,6 +24,7 @@ export class BudgetItems {
 export class ActualItems {
   name: string = '';
   amount: number = 0;
+  expense: boolean = true;
 
   constructor(values: Object = {}) {
     Object.assign(this, values);

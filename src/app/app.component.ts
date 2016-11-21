@@ -153,8 +153,13 @@ export class AppComponent implements OnInit {
     this.totalActual = 0;
     // loop through each actual item in the array
     for (let i = 0; i < budget.actual.length; i++) {
-      // add each amount to the total
-      this.totalActual += +budget.actual[i].amount;
+      if (budget.actual[i].expense === true) {
+        // add each amount to the total
+        this.totalActual += +budget.actual[i].amount;
+      } else {
+        // subtract each amount to the total
+        this.totalActual -= +budget.actual[i].amount;
+      }
     }
     // return the total calculated
     return this.totalActual;
@@ -175,8 +180,13 @@ export class AppComponent implements OnInit {
         let item = budget[i];
         // for each budget_item, loop through the actual array
         for (let j = 0; j < item.actual.length; j++) {
-          // add amount to totalSpent
-          this.totalSpent += +item.actual[j].amount;
+          if (item.actual[j].expense === true) {
+            // add amount to totalSpent
+            this.totalSpent += +item.actual[j].amount;
+          } else {
+            // subtract amount to totalSpent
+            this.totalSpent -= +item.actual[j].amount;
+          }
         }
       }
 
@@ -274,6 +284,10 @@ export class AppComponent implements OnInit {
       }, err => {
         console.log(err);
       });
+  }
+
+  toggleAddSubtract(actual) {
+    actual.expense = !actual.expense;
   }
 }
 
