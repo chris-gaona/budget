@@ -1,6 +1,8 @@
 
 'use strict';
 
+var configFile = require('./config.json');
+
 // database configuration
 
 var config = {};
@@ -10,7 +12,7 @@ var MODULUS_PASSWORD = process.env.MODULUS_PASSWORD;
 config.mongoURI = {
   development: 'mongodb://localhost/budget',
   test: 'mongodb://localhost/budget-test',
-  production: 'mongodb://chrisgaona:iamhis4ever@olympia.modulusmongo.net:27017/iW3otapu'
+  production: configFile.production
 };
 
 module.exports = config;
