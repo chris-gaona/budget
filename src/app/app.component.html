@@ -22,34 +22,36 @@
                 </div>
                 <div class="modal-body">
                   <small class="text-muted mb-2 d-block">{{register ? 'The power to register is in your hands now!' : 'Please login below to start your adventure!'}}</small>
-                  <div class="form-group mb-2" *ngIf="register">
-                    <label for="formGroupInput">First Name</label>
-                    <div class="input-group">
-                      <span class="input-group-addon"><span class="fa fa-user"></span></span>
-                      <input type="text" class="form-control" id="formGroupInput" placeholder="Enter here" [(ngModel)]="firstName">
+                  <form>
+                    <div class="form-group mb-2" *ngIf="register">
+                      <label for="formGroupInput">First Name</label>
+                      <div class="input-group">
+                        <span class="input-group-addon"><span class="fa fa-user"></span></span>
+                        <input type="text" class="form-control" id="formGroupInput" name="firstName" placeholder="Enter here" (keyup.enter)="register ? signUp(username, password, confirmPassword, firstName) : login(username, password)" [(ngModel)]="firstName">
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-group mb-2">
-                    <label for="formGroupInput1">Username</label>
-                    <div class="input-group">
-                      <span class="input-group-addon"><span class="fa fa-user"></span></span>
-                      <input type="text" class="form-control" id="formGroupInput1" placeholder="Enter here" [(ngModel)]="username">
+                    <div class="form-group mb-2">
+                      <label for="formGroupInput1">Username</label>
+                      <div class="input-group">
+                        <span class="input-group-addon"><span class="fa fa-user"></span></span>
+                        <input type="text" class="form-control" id="formGroupInput1" name="username" placeholder="Enter here" (keyup.enter)="register ? signUp(username, password, confirmPassword, firstName) : login(username, password)" [(ngModel)]="username">
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-group mb-2">
-                    <label for="formGroupInput2">Password</label>
-                    <div class="input-group">
-                      <span class="input-group-addon"><span class="fa fa-lock"></span></span>
-                      <input type="password" class="form-control" id="formGroupInput2" placeholder="Enter here" [(ngModel)]="password">
+                    <div class="form-group mb-2">
+                      <label for="formGroupInput2">Password</label>
+                      <div class="input-group">
+                        <span class="input-group-addon"><span class="fa fa-lock"></span></span>
+                        <input type="password" class="form-control" id="formGroupInput2" name="password" placeholder="Enter here" (keyup.enter)="register ? signUp(username, password, confirmPassword, firstName) : login(username, password)" [(ngModel)]="password">
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-group mb-2" *ngIf="register">
-                    <label for="formGroupInput3">Confirm Password</label>
-                    <div class="input-group">
-                      <span class="input-group-addon"><span class="fa fa-lock"></span></span>
-                      <input type="password" class="form-control" id="formGroupInput3" placeholder="Enter here" [(ngModel)]="confirmPassword">
+                    <div class="form-group mb-2" *ngIf="register">
+                      <label for="formGroupInput3">Confirm Password</label>
+                      <div class="input-group">
+                        <span class="input-group-addon"><span class="fa fa-lock"></span></span>
+                        <input type="password" class="form-control" id="formGroupInput3" name="confirmPassword" (keyup.enter)="register ? signUp(username, password, confirmPassword, firstName) : login(username, password)" placeholder="Enter here" [(ngModel)]="confirmPassword">
+                      </div>
                     </div>
-                  </div>
+                  </form>
                 </div>
                 <div class="modal-footer">
                   <button *ngIf="!register" type="button" id="login-button" class="btn btn-primary" (click)="login(username, password)">Log In</button>

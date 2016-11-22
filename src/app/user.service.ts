@@ -13,8 +13,6 @@ export class UserService {
   }
 
   register(username, password, confirmPassword, firstName) {
-    console.log(JSON.stringify({ username, password, confirmPassword, firstName }));
-
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
@@ -35,8 +33,6 @@ export class UserService {
   }
 
   login(username, password) {
-    console.log(JSON.stringify({ username, password }));
-
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
