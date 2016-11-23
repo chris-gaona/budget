@@ -18,6 +18,10 @@ class MockService extends AbstractMockObservableService {
   deleteBudgetById() {
     return this;
   }
+
+  addBudget() {
+    return this;
+  }
 }
 
 describe('HeaderComponent', () => {
@@ -52,6 +56,38 @@ describe('HeaderComponent', () => {
 
   it('should create an instance', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('#createEmptyBudget()', () => {
+    it('should create a new empty budget', () => {
+      let budgets = [{
+        _id: 1,
+        start_period: new Date('9/24/2016'),
+        existing_cash: 22525,
+        current_income: 1800,
+        budget_items: [
+          {
+            editing: false,
+            item: 'gas',
+            projection: 200,
+            actual: [
+              {
+                name: 'Done 10/15',
+                amount: 35,
+                expense: true
+              }
+            ]
+          }
+        ]
+      }];
+
+      component.budgets = budgets;
+      budgetService.content = budgets[0];
+      component.createEmptyBudget();
+      expect(component.shownBudget).toBeDefined();
+      expect(component.budgets).toBeDefined();
+      expect(component.budgets.length).toBeDefined(2);
+    });
   });
 
   describe('#convertDate()', () => {
@@ -106,11 +142,11 @@ describe('HeaderComponent', () => {
     }));
   });
 
-  describe('#updateBudget(budget)', () => {
-    it('should ....', async(() => {
-      expect(component).toBeTruthy();
-    }));
-  });
+  // describe('#updateBudget(budget)', () => {
+  //   it('should ....', async(() => {
+  //     expect(component).toBeTruthy();
+  //   }));
+  // });
 
   describe('#cancelBudget()', () => {
     it('should cancel the newly created budget by deleting the last item in the array', async(() => {
@@ -145,6 +181,32 @@ describe('HeaderComponent', () => {
     }));
   });
 
+  describe('#deleteBudget(budget)', () => {
+    it('should delete a specific budget', () => {
+      let budgets = [
+        {
+          _id: 1,
+          start_period: '2016-10-29'
+        },
+        {
+          _id: 2,
+          start_period: '2016-10-29'
+        },
+        {
+          _id: 3,
+          start_period: '2016-10-29'
+        }
+      ];
+
+      component.budgets = budgets;
+      expect(component.budgets.length).toEqual(3);
+      budgetService.content = budgets[0];
+      component.deleteBudget(budgets[0]);
+      expect(component.budgets.length).toEqual(2);
+      expect(component.shownBudget).toEqual(budgets[2]);
+    });
+  });
+
   describe('#editBudget(budget)', () => {
     it('should make the existing budget ready to be edited in the modal', async(() => {
       let budget = ['apples'];
@@ -157,11 +219,110 @@ describe('HeaderComponent', () => {
     }));
   });
 
-  // describe('#reuseProjection(budget)', () => {
-  //   it('should copy the projection items from the previous array item', async(() => {
-  //     expect(component).toBeTruthy();
-  //   }));
-  // });
+  describe('#addUpdate(budget)', () => {
+    it('should add an update to an existing budget', () => {
+      let budgets = [
+        {
+          _id: 1,
+          start_period: '2016-10-29'
+        },
+        {
+          _id: 2,
+          start_period: '2016-10-29'
+        },
+        {
+          _id: 3,
+          start_period: '2016-10-29'
+        }
+      ];
+
+      let budget = {
+        _id: 1,
+        start_period: '2016-09-24'
+      };
+
+      component.budgets = budgets;
+      component.editingBudget = true;
+      component.showDialog = true;
+      budgetService.content = 'some content';
+      component.addUpdate(budget);
+      expect(budget.start_period).toEqual(new Date('Sat Sep 24 2016 00:00:00 GMT-0700 (PDT)'));
+      expect(component.editingBudget).toEqual(false);
+      expect(component.editableBudget).toEqual({ _id: 1, start_period: '2016-10-29' });
+      expect(component.showDialog).toEqual(false);
+    });
+  });
+
+  describe('#reuseProjection(budget)', () => {
+    it('should copy the projection items from the previous array item', async(() => {
+      let budgets = [
+        {
+          _id: 1,
+          start_period: '2016-10-29',
+          budget_items: [
+            {
+              editing: false,
+              item: 'gas',
+              projection: 200,
+              actual: [
+                {
+                  name: 'Done 10/15',
+                  amount: 35,
+                  expense: true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          _id: 2,
+          start_period: '2016-10-29',
+          budget_items: [
+            {
+              editing: false,
+              item: 'gas',
+              projection: 200,
+              actual: [
+                {
+                  name: 'Done 10/15',
+                  amount: 35,
+                  expense: true
+                }
+              ]
+            }
+          ]
+        }
+      ];
+
+      let budget = {
+        _id: 1,
+        start_period: new Date('9/24/2016'),
+        existing_cash: 22525,
+        current_income: 1800,
+        budget_items: [
+          {
+            editing: false,
+            item: 'gas',
+            projection: 200,
+            actual: [
+              {
+                name: 'Done 10/15',
+                amount: 35,
+                expense: true
+              }
+            ]
+          }
+        ]
+      };
+
+      component.budgets = budgets;
+      component.showDialog = true;
+      budgetService.content = 'some content';
+      component.reuseProjections(budget);
+      expect(component.editableBudget).toEqual(budgets[0]);
+      expect(component.showDialog).toEqual(false);
+    }));
+  });
 
   describe('#obtainPreviousBudget(string)', () => {
     let budgets = [

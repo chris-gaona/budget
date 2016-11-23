@@ -16,6 +16,7 @@ export class HeaderComponent implements OnInit {
   mergeTotals: number;
   editingBudget: boolean;
   showDeleteButton: boolean = false;
+  editableBudget: Budget;
 
   // decorator for all budgets for select input drop down
   @Input() budgets: Budget[];
@@ -47,13 +48,10 @@ export class HeaderComponent implements OnInit {
 
     this.budgetService.addBudget(newBudget)
       .subscribe(data => {
-        console.log('2', data);
         this.budgets.push(data);
         // calls convertDate function & passes in new Date()
         this.convertDate(data, newDate);
         this.shownBudget = data;
-
-        console.log('All budgets', this.budgets);
       }, err => {
         console.log(err);
       });
@@ -183,11 +181,11 @@ export class HeaderComponent implements OnInit {
       .subscribe(data => {
         // console.log(data);
         let budgetID = budget._id;
-        let editableBudget = this.budgets.filter(item => item._id === budgetID).pop();
+        this.editableBudget = this.budgets.filter(item => item._id === budgetID).pop();
         // Object.assign(data, editableBudget);
         // was trying to assign chosenBudget to data...don't do that!
         // Needed to find correct budget in this.budgets and make that chosenBudget
-        this.updateBudget(editableBudget);
+        this.updateBudget(this.editableBudget);
         this.editingBudget = false;
       }, err => {
         console.log(err);
@@ -196,7 +194,6 @@ export class HeaderComponent implements OnInit {
 
   // reuse projections from last budget
   reuseProjections(budget) {
-    console.log('reuse budget', budget);
     let prevProjection;
 
     // get the budget items
@@ -209,11 +206,11 @@ export class HeaderComponent implements OnInit {
       .subscribe(data => {
         // console.log(data);
         let budgetID = budget._id;
-        let editableBudget = this.budgets.filter(item => item._id === budgetID).pop();
-        Object.assign(editableBudget, data);
+        this.editableBudget = this.budgets.filter(item => item._id === budgetID).pop();
+        // Object.assign(this.editableBudget, data);
         // was trying to assign chosenBudget to data...don't do that!
         // Needed to find correct budget in this.budgets and make that chosenBudget
-        this.updateBudget(editableBudget);
+        this.updateBudget(this.editableBudget);
       }, err => {
         console.log(err);
       });

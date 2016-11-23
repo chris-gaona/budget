@@ -219,7 +219,7 @@ describe('App: Budget', () => {
 
     describe('Using the data', () => {
       let budgetItem = {
-        id: 1,
+        _id: 1,
         start_period: '9/24/2016',
         existing_cash: 22525,
         current_income: 1800,
