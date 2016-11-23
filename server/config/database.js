@@ -10,7 +10,7 @@ var MODULUS_USERNAME = process.env.MODULUS_USERNAME;
 var MODULUS_PASSWORD = process.env.MODULUS_PASSWORD;
 
 config.mongoURI = {
-  development: configFile.production,
+  development: 'mongodb://localhost/budget',
   test: 'mongodb://localhost/budget-test',
   production: configFile.production
 };

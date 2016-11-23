@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { BudgetService } from './budget.service';
 import { ModalComponent } from './modal/modal.component';
 import { AbstractMockObservableService } from './mock-budget.service';
+import { UserService } from './user.service';
 
 class MockService extends AbstractMockObservableService {
   // getBudgets() {
@@ -41,7 +42,8 @@ describe('App: Budget', () => {
     }).overrideComponent(AppComponent, {
       set: {
         providers: [
-          { provide: BudgetService, useClass: MockService }
+          { provide: BudgetService, useClass: MockService },
+          { provide: UserService, useClass: MockService }
         ]
       }
     });
@@ -150,7 +152,8 @@ describe('App: Budget', () => {
             actual: [
               {
                 name: 'Done 10/15',
-                amount: 35
+                amount: 35,
+                expense: true
               }
             ]
           },
@@ -161,7 +164,8 @@ describe('App: Budget', () => {
             actual: [
               {
                 name: 'Trader Joe\'s',
-                amount: 125
+                amount: 125,
+                expense: false
               }
             ]
           }
@@ -184,13 +188,13 @@ describe('App: Budget', () => {
           component.mergeTotals = 0;
           component.selectedBudget = budget;
           component.getTotalSpent(budget.budget_items, 'actual');
-          expect(component.totals).toEqual([125]);
-          expect(component.mergeTotals).toEqual(125);
+          expect(component.totals).toEqual([-125]);
+          expect(component.mergeTotals).toEqual(-125);
           expect(component.actualObject).toEqual({
-            totalSpent: 125,
-            totalSaving: 1675,
-            percSaving: 0.9305555555555556,
-            endingCash: 24200
+            totalSpent: -125,
+            totalSaving: 1925,
+            percSaving: 1.0694444444444444,
+            endingCash: 24450
           });
         }));
 

@@ -33,13 +33,13 @@ describe('Budget', () => {
     );
 
     let budget = new Budget({
-      id: 1,
+      _id: 1,
       start_period: new Date('10/29/2016'),
       existing_cash: 22525,
       budget_items: [budgetItems]
     });
 
-    expect(budget.id).toEqual(1);
+    expect(budget._id).toEqual(1);
     expect(budget.start_period).toEqual(new Date('10/29/2016'));
     expect(budget.existing_cash).toEqual(22525);
     expect(budget.current_income).toEqual(0);
@@ -48,5 +48,6 @@ describe('Budget', () => {
     expect(budget.budget_items[0].projection).toEqual(200);
     expect(budget.budget_items[0].actual[0].name).toEqual('Done 10/15');
     expect(budget.budget_items[0].actual[0].amount).toEqual(0);
+    expect(budget.budget_items[0].actual[0].expense).toEqual(true);
   });
 });

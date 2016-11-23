@@ -104,7 +104,6 @@ export class HeaderComponent implements OnInit {
 
     this.budgetService.updateBudgetById(budget._id, budget)
       .subscribe(data => {
-        console.log('3', data);
         if (this.reuseProjection === false) {
           let budgetID = budget._id;
           // Handle the event & add change to selected budget

@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Budget } from '../budget';
-import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-jumbotron',
@@ -15,7 +14,7 @@ export class JumbotronComponent implements OnInit {
 
   @Input() currentUser: string;
 
-  constructor(private userService: UserService) { }
+  constructor() { }
 
   ngOnInit() {
 

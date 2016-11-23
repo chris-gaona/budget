@@ -99,7 +99,6 @@ export class AppComponent implements OnInit {
       }, err => {
         console.log(err);
       });
-    // todo: remove actual items with empty string on save
   }
 
   // add new budget item to budget_items array in specific budget

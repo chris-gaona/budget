@@ -11,13 +11,15 @@ import { BudgetService } from '../budget.service';
 import { AbstractMockObservableService } from '../mock-budget.service';
 
 class MockService extends AbstractMockObservableService {
-  addBudget() {
-    return this;
-  }
+  // updateBudgetById() {
+  //   return this;
+  // }
 }
 
 describe('HeaderComponent', () => {
   let component;
+  let fixture;
+  let budgetService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -31,24 +33,20 @@ describe('HeaderComponent', () => {
     }).overrideComponent(HeaderComponent, {
       set: {
         providers: [
-          { provide: BudgetService, useClass: MockService }
+          { provide: BudgetService, useValue: MockService }
         ]
       }
     });
 
-    const fixture = TestBed.createComponent(HeaderComponent);
+    // create component and test fixture
+    fixture = TestBed.createComponent(HeaderComponent);
+    // get test component from the fixture
     component = fixture.componentInstance;
   });
 
   it('should create an instance', () => {
     expect(component).toBeTruthy();
   });
-
-  // describe('#createEmptyBudget()', () => {
-  //   it('should ....', async(() => {
-  //     expect(component).toBeTruthy();
-  //   }));
-  // });
 
   describe('#convertDate()', () => {
     it('should convert the date to yyyy-mm-dd format', async(() => {
@@ -74,17 +72,18 @@ describe('HeaderComponent', () => {
     }));
   });
 
-  describe('#createBudget(budget)', () => {
-    it('should convert the date to 10/29/2016 format & create the new budget', async(() => {
-      let budget = {
-        start_period: '2016-10-29'
-      };
-      component.showDialog = true;
-      component.createBudget(budget);
-      expect(component.showDialog).toBe(false);
-      expect(budget).toEqual({ start_period: new Date('Sat Oct 29 2016 00:00:00 GMT-0700 (PDT)') });
-    }));
-  });
+  // describe('#createBudget(budget)', () => {
+  //   it('should convert the date to 10/29/2016 format & create the new budget', async(() => {
+  //     let budget = {
+  //       _id: 2,
+  //       start_period: '2016-10-29'
+  //     };
+  //     component.showDialog = true;
+  //     component.createBudget(budget);
+  //     expect(component.showDialog).toBe(false);
+  //     expect(budget).toEqual({ start_period: new Date('Sat Oct 29 2016 00:00:00 GMT-0700 (PDT)') });
+  //   }));
+  // });
 
   // describe('#updateBudget(budget)', () => {
   //   it('should ....', async(() => {
@@ -92,16 +91,16 @@ describe('HeaderComponent', () => {
   //   }));
   // });
 
-  describe('#cancelBudget()', () => {
-    it('should cancel the newly created budget by deleting the last item in the array', async(() => {
-      let budgets = ['Object1', 'Object2', 'Object3'];
-      component.budgets = budgets;
-      expect(component.budgets.length).toEqual(3);
-      component.cancelBudget();
-      expect(component.budgets.length).toEqual(2);
-      expect(component.budgets).toEqual(['Object1', 'Object2']);
-    }));
-  });
+  // describe('#cancelBudget()', () => {
+  //   it('should cancel the newly created budget by deleting the last item in the array', async(() => {
+  //     let budgets = ['Object1', 'Object2', 'Object3'];
+  //     component.budgets = budgets;
+  //     expect(component.budgets.length).toEqual(3);
+  //     component.cancelBudget();
+  //     expect(component.budgets.length).toEqual(2);
+  //     expect(component.budgets).toEqual(['Object1', 'Object2']);
+  //   }));
+  // });
 
   describe('#editBudget(budget)', () => {
     it('should make the existing budget ready to be edited in the modal', async(() => {
