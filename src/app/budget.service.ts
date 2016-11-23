@@ -44,7 +44,7 @@ export class BudgetService {
 
   // get a single budget
   getBudgetById(id: number): Observable<Budget> {
-    return this.http.get(`${this.budgetsURL}/${id}`)
+    return this.authHttp.get(`${this.budgetsURL}/${id}`)
       .map(res => res.json())
       .catch((err: any) => Observable.throw(err.json().error || 'Server Error'));
   }

@@ -104,6 +104,7 @@ export class HeaderComponent implements OnInit {
 
     this.budgetService.updateBudgetById(budget._id, budget)
       .subscribe(data => {
+        // console.log('created budget', data);
         if (this.reuseProjection === false) {
           let budgetID = budget._id;
           // Handle the event & add change to selected budget
@@ -144,7 +145,7 @@ export class HeaderComponent implements OnInit {
   deleteBudget(budget) {
     this.budgetService.deleteBudgetById(budget._id)
       .subscribe(data => {
-        console.log('returned deleted data', data);
+        // console.log('returned deleted data', data);
         let newIndex = 0;
 
         this.budgets.filter((item, i) => {

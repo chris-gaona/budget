@@ -16,16 +16,29 @@ import { AbstractMockObservableService } from './mock-budget.service';
 import { UserService } from './user.service';
 
 class MockService extends AbstractMockObservableService {
-  // getBudgets() {
-  //   return this;
-  // }
+  getAllBudgets() {
+    return this;
+  }
+
+  getUser() {
+    return this;
+  }
+
+  updateBudgetById() {
+    return this;
+  }
 }
 
 describe('App: Budget', () => {
   let component;
   let fixture;
+  let budgetService;
+  let userService;
 
   beforeEach(() => {
+    budgetService = new MockService();
+    userService = new MockService();
+
     // refine the test module by declaring the test component
     TestBed.configureTestingModule({
       imports: [
@@ -42,8 +55,8 @@ describe('App: Budget', () => {
     }).overrideComponent(AppComponent, {
       set: {
         providers: [
-          { provide: BudgetService, useClass: MockService },
-          { provide: UserService, useClass: MockService }
+          { provide: BudgetService, useValue: budgetService },
+          { provide: UserService, useValue: userService }
         ]
       }
     });
@@ -57,6 +70,34 @@ describe('App: Budget', () => {
   it('should create the app', async(() => {
     expect(component).toBeTruthy();
   }));
+
+  describe('#loggedInUser()', () =>{
+    it('should get the currently logged in user', async(() => {
+      let user = {username: 'jake123', firstName: 'Jake'};
+      userService.content = user;
+      component.loggedInUser();
+      expect(component.currentUser).toBe(user);
+    }));
+  });
+
+  describe('#getAllBudgets()', () => {
+    it('should get all budgets but return no budgets', async(() => {
+      budgetService.content = [];
+      component.visibleBudgets = true;
+      component.getAllBudgets();
+      expect(component.visibleBudgets).toBe(false);
+    }));
+
+    it('should get all budgets & return budgets', async(() => {
+      let allBudgets = [{budget1: 'budget1'}, {budget2: 'budget2'}, {budget3: 'budget3'}];
+      budgetService.content = allBudgets;
+      component.visibleBudgets = false;
+      component.getAllBudgets();
+      expect(component.budgets).toBe(allBudgets);
+      expect(component.visibleBudgets).toBe(true);
+      expect(component.selectedBudget).toBe(allBudgets[2]);
+    }));
+  });
 
   describe('Manipulating the data', () => {
     let budget = {
@@ -94,6 +135,44 @@ describe('App: Budget', () => {
       it('should change the selected budget', async(() => {
         component.chosenBudget(budget);
         expect(component.selectedBudget).toEqual(budget);
+      }));
+    });
+
+    describe('#changeVisibleBudget(boolean)', () => {
+      it('should store to boolean value in visibleBudgets variable', async(() => {
+        component.changeVisibleBudget(true);
+        expect(component.visibleBudgets).toBe(true);
+      }));
+    });
+
+    describe('#saveAll()', () => {
+      it('should save all the items in the current budget', async(() => {
+        let selectedBudget = {
+          "_id": 1,
+          "start_period": "2016-09-24T07:00:00.000Z",
+          "existing_cash": 22525,
+          "current_income": 1800,
+          "budget_items": [
+            {
+              "editing": true,
+              "item": "gas",
+              "projection": 200,
+              "actual": [
+                {
+                  "name": "Done 10/15",
+                  "amount": 35
+                }
+              ]
+            }
+          ]
+        };
+
+        budgetService.content = 'some content';
+        component.addingBudgetItem = true;
+        component.selectedBudget = selectedBudget;
+        component.saveAll();
+        expect(component.addingBudgetItem).toBe(false);
+        expect(component.selectedBudget.budget_items[0].editing).toBe(false);
       }));
     });
 
@@ -154,6 +233,11 @@ describe('App: Budget', () => {
                 name: 'Done 10/15',
                 amount: 35,
                 expense: true
+              },
+              {
+                name: 'Done',
+                amount: 15,
+                expense: false
               }
             ]
           },
@@ -177,7 +261,7 @@ describe('App: Budget', () => {
           component.totalActual = 0;
           expect(component.totalActual).toEqual(0);
           component.getActualTotal(budgetItem.budget_items[0]);
-          expect(component.totalActual).toEqual(35);
+          expect(component.totalActual).toEqual(20);
         }));
       });
 

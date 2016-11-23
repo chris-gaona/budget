@@ -61,8 +61,10 @@ export class UserService {
     return tokenNotExpired();
   }
 
+  // todo: possibly move this to a component instead of the service
   getUser() {
     let token = localStorage.getItem('id_token');
+    // todo: write some comments here
     let decodedToken = this.jwtHelper.decodeToken(token);
 
     return this.authHttp.get('http://localhost:3001/user/' + decodedToken.username)
