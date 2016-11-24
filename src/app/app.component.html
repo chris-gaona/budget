@@ -8,8 +8,8 @@
       </div>
       <div class="col-md-4 mb-2">
         <div *ngIf="!userService.isLoggedIn()">
-          <small class="text-muted">You are not logged in, please click the 'Log In' button to get started</small>
-          <button class="btn btn-primary w-100 mt-1" (click)="showDialog = true">Log In</button>
+          <small class="text-muted" id="logged-out">You are not logged in, please click the 'Log In' button to get started</small>
+          <button class="btn btn-primary w-100 mt-1" id="login" (click)="showDialog = true">Log In</button>
 
           <app-modal [(visible)]="showDialog">
             <div class="modal-dialog my-0" id="modal-container">
