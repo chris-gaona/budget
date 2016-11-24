@@ -5,6 +5,9 @@
   "description": "A simple budget tracker using Bootstrap 4 and Angular 2!",
   "author": "Chris Gaona (https://github.com/chris-gaona)",
   "angular-cli": {},
+  "engines": {
+    "node": "6.9.1"
+  },
   "scripts": {
     "start": "node ./server/bin/www",
     "start-angular:dev": "ng serve",
@@ -28,10 +31,12 @@
     "@angular/platform-browser": "^2.1.0",
     "@angular/platform-browser-dynamic": "^2.1.0",
     "@angular/router": "^3.1.0",
+    "@types/node": "^6.0.42",
     "angular-cli": "1.0.0-beta.20-4",
     "angular2-jwt": "^0.1.25",
     "bcryptjs": "^2.3.0",
     "body-parser": "^1.15.2",
+    "codelyzer": "~1.0.0-beta.3",
     "cookie-parser": "^1.4.3",
     "core-js": "^2.4.1",
     "cors": "^2.8.1",
@@ -45,12 +50,13 @@
     "passport-local": "^1.0.0",
     "rxjs": "5.0.0-beta.12",
     "ts-helpers": "^1.1.1",
+    "tslint": "3.13.0",
+    "typescript": "~2.0.3",
+    "ts-node": "1.2.1",
     "zone.js": "^0.6.23"
   },
   "devDependencies": {
     "@types/jasmine": "^2.2.30",
-    "@types/node": "^6.0.42",
-    "codelyzer": "~1.0.0-beta.3",
     "jasmine-core": "2.4.1",
     "jasmine-spec-reporter": "2.5.0",
     "karma": "1.2.0",
@@ -62,9 +68,6 @@
     "mongoose-seeder": "^1.2.1",
     "protractor": "4.0.9",
     "supertest": "^2.0.1",
-    "ts-node": "1.2.1",
-    "tslint": "3.13.0",
-    "typescript": "~2.0.3",
     "webdriver-manager": "10.2.5"
   }
 }
