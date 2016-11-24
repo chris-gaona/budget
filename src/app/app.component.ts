@@ -246,12 +246,14 @@ export class AppComponent implements OnInit {
   login(username, password) {
     this.userService.login(username, password).subscribe((result) => {
       if (result) {
-        console.log(result);
+        console.log('result', result);
         this.showDialog = false;
         this.userService.isLoggedIn();
         this.loggedInUser();
         this.getAllBudgets();
       }
+    }, err => {
+      console.log(err);
     });
   }
 
@@ -264,6 +266,8 @@ export class AppComponent implements OnInit {
         this.loggedInUser();
         this.getAllBudgets();
       }
+    }, err => {
+      console.log(err);
     });
   }
 

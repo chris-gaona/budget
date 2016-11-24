@@ -47,7 +47,6 @@ export class UserService {
         if (res) {
           localStorage.setItem('id_token', res.token);
         }
-
         return res;
       });
   }

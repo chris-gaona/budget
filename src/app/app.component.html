@@ -66,13 +66,13 @@
         </div>
 
         <div *ngIf="userService.isLoggedIn() && currentUser">
-          <h5 class="d-block text-xs-center">Hello, {{currentUser.firstName}}</h5>
+          <h5 class="d-block text-xs-center" id="user-info">Hello, {{currentUser.firstName}}</h5>
           <div>
-            <a href="#" class="text-muted d-block text-xs-center" (click)="userService.logout(); visibleBudgets = false">Logout</a>
+            <a href="#" class="text-muted d-block text-xs-center" id="logout-button" (click)="userService.logout(); visibleBudgets = false">Logout</a>
           </div>
         </div>
         <div *ngIf="userService.isLoggedIn() && currentUser && !visibleBudgets">
-          <button class="btn btn-primary w-100 mt-1 text-uppercase" (click)="createFirstBudget()">Start New Budget</button>
+          <button class="btn btn-primary w-100 mt-1 text-uppercase" id="new-budget" (click)="createFirstBudget()">Start New Budget</button>
         </div>
 
 
@@ -127,8 +127,8 @@
             Projection
           </h4>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item" *ngFor="let budget of selectedBudget.budget_items" (click)="budget.editing = true">
-              <div class="projection text-capitalize" *ngIf="!budget.editing">
+            <li class="list-group-item projection" *ngFor="let budget of selectedBudget.budget_items" (click)="budget.editing = true">
+              <div class="text-capitalize" *ngIf="!budget.editing">
                 <span class="float-xs-right">{{budget.projection | currency:'USD':true}}</span>
                 {{budget.item}}
               </div>
@@ -164,8 +164,8 @@
             Actual
           </h4>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item" *ngFor="let budget of selectedBudget.budget_items" (click)="budget.editing = true">
-              <p class="mb-0 actual text-capitalize">
+            <li class="list-group-item actual" *ngFor="let budget of selectedBudget.budget_items" (click)="budget.editing = true">
+              <p class="mb-0 text-capitalize">
                 <span class="float-xs-right" [class.text-danger]="getActualTotal(budget) > budget.projection">{{getActualTotal(budget) | currency:'USD':true}}</span>
                 {{budget.item}}
                 <span *ngIf="getActualTotal(budget) > 0" class="fa fa-minus-circle text-danger"></span>
