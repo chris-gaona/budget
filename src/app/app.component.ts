@@ -95,7 +95,7 @@ export class AppComponent implements OnInit {
     // passes budget_items array to saveAll function on budgetService
     this.budgetService.updateBudgetById(budget, this.selectedBudget)
       .subscribe(data => {
-        //todo: do something with data returned here
+        // todo: do something with data returned here
       }, err => {
         console.log(err);
       });

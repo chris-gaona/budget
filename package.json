@@ -1,7 +1,9 @@
 {
   "name": "budget",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "license": "MIT",
+  "description": "A simple budget tracker using Bootstrap 4 and Angular 2!",
+  "author": "Chris Gaona (https://github.com/chris-gaona)",
   "angular-cli": {},
   "scripts": {
     "start": "node ./server/bin/www",
@@ -11,7 +13,9 @@
     "test": "ng test",
     "test:server": "mocha -w server/test.js",
     "pree2e": "webdriver-manager update",
-    "e2e": "protractor"
+    "e2e": "protractor",
+    "test:all": "npm run lint && ng test --single-run && mocha server/test.js && npm run e2e",
+    "postinstall": "ng build",
   },
   "private": true,
   "dependencies": {

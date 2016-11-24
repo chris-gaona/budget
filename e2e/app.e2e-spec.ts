@@ -647,7 +647,6 @@ describe('Budget App', () => {
     });
   });
 
-  // todo: test logout button
   describe('Logout the user', () => {
     it('should log out the currently logged in user', () => {
       let logoutButton = element(by.id('logout-button'));

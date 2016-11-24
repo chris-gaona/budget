@@ -71,7 +71,7 @@ describe('App: Budget', () => {
     expect(component).toBeTruthy();
   }));
 
-  describe('#loggedInUser()', () =>{
+  describe('#loggedInUser()', () => {
     it('should get the currently logged in user', async(() => {
       let user = {username: 'jake123', firstName: 'Jake'};
       userService.content = user;
@@ -148,19 +148,19 @@ describe('App: Budget', () => {
     describe('#saveAll()', () => {
       it('should save all the items in the current budget', async(() => {
         let selectedBudget = {
-          "_id": 1,
-          "start_period": "2016-09-24T07:00:00.000Z",
-          "existing_cash": 22525,
-          "current_income": 1800,
-          "budget_items": [
+          _id: 1,
+          start_period: '2016-09-24T07:00:00.000Z',
+          existing_cash: 22525,
+          current_income: 1800,
+          budget_items: [
             {
-              "editing": true,
-              "item": "gas",
-              "projection": 200,
-              "actual": [
+              editing: true,
+              item: 'gas',
+              projection: 200,
+              actual: [
                 {
-                  "name": "Done 10/15",
-                  "amount": 35
+                  name: 'Done 10/15',
+                  amount: 35
                 }
               ]
             }

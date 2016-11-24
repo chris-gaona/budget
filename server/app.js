@@ -28,7 +28,8 @@ mongoose.connect(config.mongoURI[app.settings.env], function(err) {
   } else {
     // seed database
     // require('./seed.js');
-    console.log('Successfully connected to Mongodb: ' + config.mongoURI[app.settings.env]);
+    // console.log('Successfully connected to Mongodb: ' + config.mongoURI[app.settings.env]);
+    console.log('Successfully connected to Mongodb');
   }
 });
 
