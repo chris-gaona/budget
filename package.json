@@ -9,9 +9,9 @@
     "node": "6.9.1"
   },
   "scripts": {
-    "start": "node ./dist/server/bin/www",
+    "start": "node ./bin/www",
     "start-angular:dev": "ng serve",
-    "start-server:dev": "nodemon ./server/bin/www",
+    "start-server:dev": "nodemon ./bin/www",
     "lint": "tslint \"src/**/*.ts\"",
     "test": "ng test",
     "test:server": "mocha -w server/test.js",
@@ -23,9 +23,8 @@
     "uglify:models": "mkdir -p dist/server/models && uglifyjs server/models/Budgets.js -m -c -o dist/server/models/Budgets.js && uglifyjs server/models/Users.js -m -c -o dist/server/models/Users.js",
     "uglify:routes": "mkdir -p dist/server/routes && uglifyjs server/routes/auth.js -m -c -o dist/server/routes/auth.js && uglifyjs server/routes/budgets.js -m -c -o dist/server/routes/budgets.js && uglifyjs server/routes/users.js -m -c -o dist/server/routes/users.js",
     "uglify:main": "uglifyjs server/app.js -m -c -o dist/server/app.js",
-    "copy": "cp -R server/bin dist/server/",
-    "server:build": "npm run uglify:config && npm run uglify:models && npm run uglify:routes && npm run uglify:main && npm run copy",
-    "build": "npm run clean && ng build --prod --output-path=dist/client && npm run server:build",
+    "server:build": "npm run uglify:config && npm run uglify:models && npm run uglify:routes && npm run uglify:main",
+    "build": "npm run clean && ng build --output-path=dist/client && npm run server:build",
     "postinstall": "npm run build"
   },
   "private": true,
