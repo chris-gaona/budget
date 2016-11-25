@@ -28,8 +28,8 @@ mongoose.connect(config.mongoURI[app.settings.env], function(err) {
   } else {
     // seed database
     // require('./seed.js');
-    // console.log('Successfully connected to Mongodb: ' + config.mongoURI[app.settings.env]);
-    console.log('Successfully connected to Mongodb');
+    console.log('Successfully connected to Mongodb: ' + config.mongoURI[app.settings.env]);
+    // console.log('Successfully connected to Mongodb');
   }
 });
 
@@ -40,12 +40,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-// allow cors only for local dev
+// allow cors only fora local dev
 app.use(cors({
   origin: 'http://localhost:4200'
 }));
 
-app.set('env', 'production');
+// app.set('env', 'production');
 
 if (app.get('env') === 'production') {
 
