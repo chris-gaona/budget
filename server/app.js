@@ -50,7 +50,7 @@ app.set('env', 'production');
 if (app.get('env') === 'production') {
 
   // in production mode run application from dist folder
-  app.use(express.static(path.join(__dirname, '/../dist')));
+  app.use(express.static(path.join(__dirname, '../client')));
 }
 
 app.use('/api/budgets', routes);
