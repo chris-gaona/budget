@@ -1,7 +1,7 @@
 
 'use strict';
 
-var configFile = require('./config.json');
+// var configFile = require('./config.json');
 
 // database configuration
 
