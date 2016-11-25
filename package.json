@@ -24,7 +24,7 @@
     "uglify:routes": "mkdir -p dist/server/routes && uglifyjs server/routes/auth.js -m -c -o dist/server/routes/auth.js && uglifyjs server/routes/budgets.js -m -c -o dist/server/routes/budgets.js && uglifyjs server/routes/users.js -m -c -o dist/server/routes/users.js",
     "uglify:main": "uglifyjs server/app.js -m -c -o dist/server/app.js",
     "server:build": "npm run uglify:config && npm run uglify:models && npm run uglify:routes && npm run uglify:main",
-    "build": "npm run clean && ng build --output-path=dist/client && npm run server:build",
+    "build": "npm run clean && ng build --prod --output-path=dist/client && npm run server:build",
     "postinstall": "npm run build"
   },
   "private": true,

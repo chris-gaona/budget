@@ -11,7 +11,7 @@ var MODULUS_PASSWORD = process.env.MODULUS_PASSWORD;
 var prodDB;
 
 if (MODULUS_USERNAME !== undefined && MODULUS_PASSWORD !== undefined) {
-  prodDB = 'mongodb://' + MODULUS_USERNAME + ':' + MODULUS_PASSWORD + '@jello.modulusmongo.net:27017/xabeGi8m';
+  prodDB = 'mongodb://' + MODULUS_USERNAME + ':' + MODULUS_PASSWORD + '@olympia.modulusmongo.net:27017/iW3otapu';
 } else {
   prodDB = configFile.production;
 }
