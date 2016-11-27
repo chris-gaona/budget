@@ -20,7 +20,7 @@ export class UserService {
 
     return this.http
       .post(
-        this.baseURL + '/register',
+        '/register',
         JSON.stringify({ username, password, confirmPassword, firstName }),
         { headers }
       )
@@ -40,7 +40,7 @@ export class UserService {
 
     return this.http
       .post(
-        this.baseURL + '/login',
+        '/login',
         JSON.stringify({ username, password }),
         { headers }
       )
@@ -71,7 +71,7 @@ export class UserService {
     // todo: write some comments here
     let decodedToken = this.jwtHelper.decodeToken(token);
 
-    return this.authHttp.get(this.baseURL + '/user/' + decodedToken.username)
+    return this.authHttp.get('/user/' + decodedToken.username)
       .map(res => res.json())
       .catch((err: any) => Observable.throw(err.json().error || 'Server Error'));
   }
