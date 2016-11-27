@@ -95,15 +95,6 @@ export class HeaderComponent implements OnInit {
   // connection function between header component & this component to create new budget
   // connected through @Output decorator
   createBudget(budget) {
-    // converts the date string from 2016-10-30 to 10/30/2016
-    let startDate = budget.start_period.split('-');
-    let newDateString = startDate[1] + '/' + startDate[2] + '/' + startDate[0];
-    let newDate = new Date(newDateString);
-    budget.start_period = newDate;
-
-    // close the modal window on Let's go button clicked
-    this.showDialog = false;
-
     this.budgetService.updateBudgetById(budget._id, budget)
       .subscribe(data => {
         // console.log('created budget', data);
@@ -120,7 +111,15 @@ export class HeaderComponent implements OnInit {
           this.reuseProjections(budget);
         }
 
+        // converts the date string from 2016-10-30 to 10/30/2016
+        let startDate = budget.start_period.split('-');
+        let newDateString = startDate[1] + '/' + startDate[2] + '/' + startDate[0];
+        let newDate = new Date(newDateString);
+        budget.start_period = newDate;
+
         this.reuseProjection = false;
+        // close the modal window on Let's go button clicked
+        this.showDialog = false;
       }, err => {
         this.handleError(err);
         console.error(err);
@@ -272,8 +271,13 @@ export class HeaderComponent implements OnInit {
       let item = budgetItems[i];
       // for each budget_item, loop through the actual array
       for (let j = 0; j < item.actual.length; j++) {
-        // add amount to totalSpent
-        this.totalSpent += +item.actual[j].amount;
+        if (item.actual[j].expense === true) {
+          // add amount to totalSpent
+          this.totalSpent += +item.actual[j].amount;
+        } else {
+          // subtract amount to totalSpent
+          this.totalSpent -= +item.actual[j].amount;
+        }
       }
     }
 
@@ -293,9 +297,9 @@ export class HeaderComponent implements OnInit {
     if (error.status === 400) {
       // tell user to fix the form issues
       this.toastr.error('Please see above.', 'Form Errors!');
-      console.log('response', error.json());
+      console.log('response', error);
       this.hasValidationErrors = true;
-      this.validationErrors = error.json();
+      this.validationErrors = error;
     } else {
       // else display the message to the user
       let message = error && error.statusText;

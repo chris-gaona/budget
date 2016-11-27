@@ -333,7 +333,7 @@ describe('HeaderComponent', () => {
         budget_items: [
           {
             fruit: 'apples',
-            actual: [{ amount: 15 }]
+            actual: [{ amount: 15, expense: true }],
           }
         ]
       },
@@ -342,7 +342,7 @@ describe('HeaderComponent', () => {
         budget_items: [
           {
             fruit: 'grapes',
-            actual: [{ amount: 25 }]
+            actual: [{ amount: 25, expense: true }]
           }
         ]
       }

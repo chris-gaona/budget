@@ -78,14 +78,13 @@ router.post('/', auth, function (req, res, next) {
       return next(error);
     }
 
-    budget.save(function(err, budget) {
-      if (err) return next(err);
-
+    budget.save(function(error, budget) {
+      if (error) return next(error);
       // res.json(user);
       user.userBudgets.push(budget);
 
-      user.save(function(err, user) {
-        if(err) return next(err);
+      user.save(function(error2, user) {
+        if(error2) return next(error2);
 
         console.log('Success!');
       });
@@ -100,10 +99,34 @@ router.post('/', auth, function (req, res, next) {
 router.put('/:id', auth, function (req, res, next) {
   // runValidators makes it so the updated values are validated again before saving
   req.budget.update(req.body, { runValidators: true }, function (err, budget) {
-    if (err) return next(err);
+    if (err) {
+      // check for validation errors
+      if (err.name === 'ValidationError') {
+        console.log('yup');
+        var errorArray = [];
 
-    // send budget
-    res.status(200).json(budget);
+        if (err.errors.current_income) {
+          errorArray.push({ code: 400, message: err.errors.current_income.message });
+        }
+
+        if (err.errors.existing_cash) {
+          errorArray.push({ code: 400, message: err.errors.existing_cash.message });
+        }
+
+        var errorMessages = { property: errorArray };
+
+        var error = new Error();
+        error.status = 400;
+        error.message = 'Validation Failed';
+        error.errors = errorMessages;
+        return next(error);
+      } else {
+        return next(err);
+      }
+    } else {
+      // send budget
+      res.status(200).json(budget);
+    }
   });
 });
 

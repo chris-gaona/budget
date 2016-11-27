@@ -15,7 +15,7 @@
             <div class="modal-dialog my-0" id="modal-container">
               <div class="modal-content">
                 <div class="modal-header bg-faded rounded-top">
-                  <button type="button" class="close" aria-label="Close" (click)="showDialog = !showDialog">
+                  <button type="button" class="close" aria-label="Close" (click)="showDialog = !showDialog; hasValidationErrors = false; register = false">
                     <span>&times;</span>
                   </button>
                   <h4 class="modal-title">{{register ? 'Sign Up Now!' : 'Log In'}}</h4>
