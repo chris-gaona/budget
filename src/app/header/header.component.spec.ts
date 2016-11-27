@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { ModalComponent } from '../modal/modal.component';
 import { BudgetService } from '../budget.service';
 import { AbstractMockObservableService } from '../mock-budget.service';
+import { ToastModule } from 'ng2-toastr';
 
 class MockService extends AbstractMockObservableService {
   updateBudgetById() {
@@ -34,7 +35,8 @@ describe('HeaderComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [
-        FormsModule
+        FormsModule,
+        ToastModule
       ],
       declarations: [
         HeaderComponent,

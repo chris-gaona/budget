@@ -14,6 +14,7 @@ import { BudgetService } from './budget.service';
 import { ModalComponent } from './modal/modal.component';
 import { AbstractMockObservableService } from './mock-budget.service';
 import { UserService } from './user.service';
+import { ToastModule } from 'ng2-toastr';
 
 class MockService extends AbstractMockObservableService {
   getAllBudgets() {
@@ -42,7 +43,8 @@ describe('App: Budget', () => {
     // refine the test module by declaring the test component
     TestBed.configureTestingModule({
       imports: [
-        FormsModule
+        FormsModule,
+        ToastModule
       ],
       declarations: [
         AppComponent,

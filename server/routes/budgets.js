@@ -16,95 +16,6 @@ if (process.env.JWT_SIGNATURE !== undefined) {
   jwtSecret = 'SECRET';
 }
 
-var budgets = [
-  {
-    "id": 1,
-    "start_period": "2016-09-24T07:00:00.000Z",
-    "existing_cash": 22525,
-    "current_income": 1800,
-    "budget_items": [
-      {
-        "editing": false,
-        "item": "gas",
-        "projection": 200,
-        "actual": [
-          {
-            "name": "Done 10/15",
-            "amount": 35
-          }
-        ]
-      },
-      {
-        "editing": false,
-        "item": "food",
-        "projection": 250,
-        "actual": [
-          {
-            "name": "Hello",
-            "amount": 180
-          }
-        ]
-      },
-      {
-        "editing": false,
-        "item": "other",
-        "projection": 250,
-        "actual": [
-          {
-            "name": "Blah blah",
-            "amount": 75
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": 2,
-    "start_period": "2016-10-05T07:00:00.000Z",
-    "existing_cash": 25525,
-    "current_income": 1650,
-    "budget_items": [
-      {
-        "editing": false,
-        "item": "gas",
-        "projection": 140,
-        "actual": [
-          {
-            "name": "Done 10/15",
-            "amount": 55
-          }
-        ]
-      },
-      {
-        "editing": false,
-        "item": "food",
-        "projection": 190,
-        "actual": [
-          {
-            "name": "Hello",
-            "amount": 165
-          },
-          {
-            "name": "Trader Joe's",
-            "amount": 125
-          }
-        ]
-      },
-      {
-        "editing": false,
-        "item": "other",
-        "projection": 50,
-        "actual": [
-          {
-            "name": "Blah blah",
-            "amount": 92
-          }
-        ]
-      }
-    ]
-  }
-];
-
 //middleware for authenticating jwt tokens
 var auth = jwt({
   secret: jwtSecret,
@@ -135,23 +46,23 @@ router.param('id', function (req, res, next, id) {
 });
 
 router.get('/', auth, function (req, res, next) {
-    User.findOne({_id: req.payload._id}, '_id userBudgets', function(err, user) {
-        if (err) return next(err);
+  User.findOne({_id: req.payload._id}, '_id userBudgets', function(err, user) {
+    if (err) return next(err);
 
-        if (!user) {
-            var error = new Error('No user found');
-            error.status = 404;
-            return next(error);
-        }
+    if (!user) {
+      var error = new Error('No user found');
+      error.status = 404;
+      return next(error);
+    }
 
-        console.log(user);
-        // res.json(user);
-        user.populate('userBudgets', function(err, budgets) {
-            if (err) {return next(err);}
+    console.log(user);
+    // res.json(user);
+    user.populate('userBudgets', function(err, budgets) {
+      if (err) {return next(err);}
 
-            res.json(budgets.userBudgets);
-        });
+      res.json(budgets.userBudgets);
     });
+  });
 });
 
 // POST create budget entry
@@ -166,21 +77,22 @@ router.post('/', auth, function (req, res, next) {
       error.status = 404;
       return next(error);
     }
-    // res.json(user);
-    user.userBudgets.push(budget);
 
-    user.save(function(err, user) {
-      if(err) return next(err);
+    budget.save(function(err, budget) {
+      if (err) return next(err);
 
-      console.log('Success!');
+      // res.json(user);
+      user.userBudgets.push(budget);
+
+      user.save(function(err, user) {
+        if(err) return next(err);
+
+        console.log('Success!');
+      });
+
+      //send the budget
+      res.status(201).json(budget);
     });
-  });
-
-  budget.save(function(err, budget) {
-    if (err) return next(err);
-
-    //send the budget
-    res.status(201).json(budget);
   });
 });
 

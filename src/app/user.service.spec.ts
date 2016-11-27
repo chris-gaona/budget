@@ -8,6 +8,7 @@ import {
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { UserService } from './user.service';
 import { AuthHttp } from 'angular2-jwt';
+import { ToastModule } from 'ng2-toastr';
 
 describe('User Service', () => {
   let mockBackend: MockBackend;
@@ -44,7 +45,8 @@ describe('User Service', () => {
         }
       ],
       imports: [
-        HttpModule
+        HttpModule,
+        ToastModule
       ]
     });
     mockBackend = getTestBed().get(MockBackend);

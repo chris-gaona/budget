@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { BudgetService } from './budget.service';
 import { Budget, BudgetItems, ActualItems } from './budget';
 import { UserService } from './user.service';
+import { ToastsManager } from 'ng2-toastr';
 
 @Component({
   selector: 'app-root',
@@ -26,9 +27,16 @@ export class AppComponent implements OnInit {
   showDialog: boolean;
   currentUser: string;
   visibleBudgets: boolean;
+  validationErrors: any;
+  hasValidationErrors: boolean = false;
 
   // injects budget service into this component
-  constructor(private budgetService: BudgetService, private userService: UserService) { }
+  constructor(private budgetService: BudgetService,
+              private userService: UserService,
+              public toastr: ToastsManager,
+              vRef: ViewContainerRef) {
+    this.toastr.setRootViewContainerRef(vRef);
+  }
 
   // on initialization of the app
   ngOnInit() {
@@ -43,6 +51,7 @@ export class AppComponent implements OnInit {
       .subscribe(data => {
         this.currentUser = data;
       }, err => {
+        this.handleError(err);
         console.log(err);
       });
   }
@@ -66,6 +75,7 @@ export class AppComponent implements OnInit {
           }
         }
       }, err => {
+        this.handleError(err);
         console.log(err);
       });
   }
@@ -97,6 +107,7 @@ export class AppComponent implements OnInit {
       .subscribe(data => {
         // todo: do something with data returned here
       }, err => {
+        this.handleError(err);
         console.log(err);
       });
   }
@@ -251,9 +262,11 @@ export class AppComponent implements OnInit {
         this.userService.isLoggedIn();
         this.loggedInUser();
         this.getAllBudgets();
+        this.toastr.success('You\'re logged in.', 'Success!');
       }
     }, err => {
-      console.log(err);
+      this.handleError(err);
+      console.error(err);
     });
   }
 
@@ -265,9 +278,11 @@ export class AppComponent implements OnInit {
         this.userService.isLoggedIn();
         this.loggedInUser();
         this.getAllBudgets();
+        this.toastr.success('Consider yourself registered.', 'Success!');
       }
     }, err => {
-      console.log(err);
+      this.handleError(err);
+      console.error(err);
     });
   }
 
@@ -285,12 +300,37 @@ export class AppComponent implements OnInit {
 
         console.log('First Budget', this.budgets);
       }, err => {
+        this.handleError(err);
         console.log(err);
       });
   }
 
   toggleAddSubtract(actual) {
     actual.expense = !actual.expense;
+  }
+
+  private handleError(error: any) {
+    // if the error has status 400 meaning there are form issues
+    if (error.status === 400) {
+      // tell user to fix the form issues
+      this.toastr.error('Please see above.', 'Form Errors!');
+      console.log('response', error.json());
+      this.hasValidationErrors = true;
+      this.validationErrors = error.json();
+    } else {
+      // else display the message to the user
+      let message = error && error.statusText;
+
+      if (message) {
+        this.toastr.error(message, 'Uh oh!');
+      } else {
+        message = 'Message not available.';
+        this.toastr.error(message, 'Unexpected Error');
+      }
+
+      // log the entire response to the console
+      console.error(error);
+    }
   }
 }
 

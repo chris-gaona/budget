@@ -3,13 +3,15 @@ import { Http, Headers } from '@angular/http';
 import { AuthHttp, JwtHelper } from 'angular2-jwt';
 import { tokenNotExpired } from 'angular2-jwt';
 import { Observable } from 'rxjs';
+import { ToastsManager } from 'ng2-toastr';
 
 @Injectable()
 export class UserService {
 
+  baseURL: string = 'http://localhost:3001';
   jwtHelper: JwtHelper = new JwtHelper();
 
-  constructor(private http: Http, private authHttp: AuthHttp) {
+  constructor(private http: Http, private authHttp: AuthHttp, public toastr: ToastsManager) {
   }
 
   register(username, password, confirmPassword, firstName) {
@@ -18,7 +20,7 @@ export class UserService {
 
     return this.http
       .post(
-        '/register',
+        this.baseURL + '/register',
         JSON.stringify({ username, password, confirmPassword, firstName }),
         { headers }
       )
@@ -38,7 +40,7 @@ export class UserService {
 
     return this.http
       .post(
-        '/login',
+        this.baseURL + '/login',
         JSON.stringify({ username, password }),
         { headers }
       )
@@ -54,6 +56,9 @@ export class UserService {
   logout() {
     localStorage.removeItem('id_token');
     this.isLoggedIn();
+    if (!localStorage.getItem('id_token')) {
+      this.toastr.success('You\'re logged out.', 'Success!');
+    }
   }
 
   isLoggedIn() {
@@ -66,7 +71,7 @@ export class UserService {
     // todo: write some comments here
     let decodedToken = this.jwtHelper.decodeToken(token);
 
-    return this.authHttp.get('/user/' + decodedToken.username)
+    return this.authHttp.get(this.baseURL + '/user/' + decodedToken.username)
       .map(res => res.json())
       .catch((err: any) => Observable.throw(err.json().error || 'Server Error'));
   }

@@ -13,6 +13,12 @@ import { ResultsComponent } from './results/results.component';
 import { ModalComponent } from './modal/modal.component';
 import { BudgetService } from './budget.service';
 import { UserService } from './user.service';
+import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
+
+let options: ToastOptions = new ToastOptions({
+  animate: 'flyRight',
+  positionClass: 'toast-bottom-right',
+});
 
 @NgModule({
   declarations: [
@@ -26,7 +32,8 @@ import { UserService } from './user.service';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    ToastModule.forRoot(options)
   ],
   providers: [ BudgetService, UserService, AUTH_PROVIDERS],
   bootstrap: [ AppComponent ]

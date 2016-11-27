@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Budget } from '../budget';
 import { BudgetService } from '../budget.service';
+import { ToastsManager } from 'ng2-toastr';
 
 @Component({
   selector: 'app-header',
@@ -17,6 +18,8 @@ export class HeaderComponent implements OnInit {
   editingBudget: boolean;
   showDeleteButton: boolean = false;
   editableBudget: Budget;
+  validationErrors: any;
+  hasValidationErrors: boolean = false;
 
   // decorator for all budgets for select input drop down
   @Input() budgets: Budget[];
@@ -29,7 +32,7 @@ export class HeaderComponent implements OnInit {
 
   @Output() changeVisibleBudget: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  constructor(private budgetService: BudgetService) {
+  constructor(private budgetService: BudgetService, public toastr: ToastsManager) {
   }
 
   ngOnInit() {
@@ -53,7 +56,8 @@ export class HeaderComponent implements OnInit {
         this.convertDate(data, newDate);
         this.shownBudget = data;
       }, err => {
-        console.log(err);
+        this.handleError(err);
+        console.error(err);
       });
   }
 
@@ -118,7 +122,8 @@ export class HeaderComponent implements OnInit {
 
         this.reuseProjection = false;
       }, err => {
-        console.log(err);
+        this.handleError(err);
+        console.error(err);
       });
   }
 
@@ -160,7 +165,8 @@ export class HeaderComponent implements OnInit {
           this.changeVisibleBudget.emit(false);
         }
       }, err => {
-        console.log(err);
+        this.handleError(err);
+        console.error(err);
       });
   }
 
@@ -188,7 +194,8 @@ export class HeaderComponent implements OnInit {
         this.updateBudget(this.editableBudget);
         this.editingBudget = false;
       }, err => {
-        console.log(err);
+        this.handleError(err);
+        console.error(err);
       });
   }
 
@@ -212,7 +219,8 @@ export class HeaderComponent implements OnInit {
         // Needed to find correct budget in this.budgets and make that chosenBudget
         this.updateBudget(this.editableBudget);
       }, err => {
-        console.log(err);
+        this.handleError(err);
+        console.error(err);
       });
   }
 
@@ -278,5 +286,29 @@ export class HeaderComponent implements OnInit {
       this.mergeTotals += +this.totals[i];
     }
     return this.mergeTotals;
+  }
+
+  private handleError(error: any) {
+    // if the error has status 400 meaning there are form issues
+    if (error.status === 400) {
+      // tell user to fix the form issues
+      this.toastr.error('Please see above.', 'Form Errors!');
+      console.log('response', error.json());
+      this.hasValidationErrors = true;
+      this.validationErrors = error.json();
+    } else {
+      // else display the message to the user
+      let message = error && error.statusText;
+
+      if (message) {
+        this.toastr.error(message, 'Uh oh!');
+      } else {
+        message = 'Message not available.';
+        this.toastr.error(message, 'Unexpected Error');
+      }
+
+      // log the entire response to the console
+      console.error(error);
+    }
   }
 }

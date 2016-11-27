@@ -327,7 +327,7 @@ describe('Budget App', () => {
       expect(element(by.id('formGroupInput3')).getAttribute('value')).toEqual('1800');
 
       updateButton.click();
-      browser.sleep(500);
+      browser.sleep(1500);
 
       expect(modal.isPresent()).toBeFalsy();
       expect(overlay.isPresent()).toBeFalsy();

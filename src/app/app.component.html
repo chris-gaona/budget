@@ -22,7 +22,13 @@
                 </div>
                 <div class="modal-body">
                   <small class="text-muted mb-2 d-block">{{register ? 'The power to register is in your hands now!' : 'Please login below to start your adventure!'}}</small>
-                  <form>
+                  <div *ngIf="hasValidationErrors">
+                    <h5 class="text-danger">{{validationErrors.message}}:</h5>
+                    <ul class="text-danger">
+                      <li>{{validationErrors.errors.property[0].message}}</li>
+                    </ul>
+                  </div>
+                  <form #heroForm="ngForm">
                     <div class="form-group mb-2" *ngIf="register">
                       <label for="formGroupInput">First Name</label>
                       <div class="input-group">
@@ -58,7 +64,7 @@
                   <button *ngIf="register" type="button" id="register-button" class="btn btn-primary" (click)="signUp(username, password, confirmPassword, firstName)">Register</button>
                   <button *ngIf="register" type="button" id="signin-button" class="btn btn-secondary" (click)="register = false">Sign In</button>
                   <button *ngIf="!register" type="button" id="signup-button" class="btn btn-secondary" (click)="register = true">Sign Up</button>
-                  <button type="button" id="cancel-button" class="btn btn-secondary" (click)="showDialog = !showDialog">Close</button>
+                  <button type="button" id="cancel-button" class="btn btn-secondary" (click)="showDialog = !showDialog; heroForm.reset(); hasValidationErrors = false; register = false">Close</button>
                 </div>
               </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
