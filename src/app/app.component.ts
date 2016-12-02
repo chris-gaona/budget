@@ -106,7 +106,7 @@ export class AppComponent implements OnInit {
     this.budgetService.updateBudgetById(budget, this.selectedBudget)
       .subscribe(data => {
         // todo: do something with data returned here
-        this.toastr.info('Everything has been saved.');
+        // this.toastr.info('Everything has been saved.');
       }, err => {
         this.handleError(err);
         console.log(err);

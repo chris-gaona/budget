@@ -121,7 +121,7 @@ export class HeaderComponent implements OnInit {
         // close the modal window on Let's go button clicked
         this.showDialog = false;
 
-        this.toastr.success('Budget Created', 'Success!');
+        // this.toastr.success('Budget Created', 'Success!');
       }, err => {
         this.handleError(err);
         console.error(err);
@@ -166,7 +166,7 @@ export class HeaderComponent implements OnInit {
           this.changeVisibleBudget.emit(false);
         }
 
-        this.toastr.success('Budget Deleted', 'Success!');
+        // this.toastr.success('Budget Deleted', 'Success!');
       }, err => {
         this.handleError(err);
         console.error(err);
@@ -196,7 +196,7 @@ export class HeaderComponent implements OnInit {
         // Needed to find correct budget in this.budgets and make that chosenBudget
         this.updateBudget(this.editableBudget);
         this.editingBudget = false;
-        this.toastr.success('Budget Updated', 'Success!');
+        // this.toastr.success('Budget Updated', 'Success!');
       }, err => {
         this.handleError(err);
         console.error(err);

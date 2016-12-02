@@ -311,7 +311,7 @@ describe('Requests to the api/budgets route', function () {
         .get('/user/jdog12345')
         .set(header,content)
         .expect(404)
-        .expect({"message":"No user found","error":{}}, done);
+        .expect({"message":"No user found","error":{ status: 404 }}, done);
     });
   });
 
