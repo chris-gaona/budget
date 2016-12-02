@@ -1,3 +1,7 @@
+#main-container {
+  padding: .5em;
+}
+
 .delete-button {
   padding: 5px;
   cursor: pointer;
@@ -13,6 +17,10 @@ h1.display-5 {
 }
 
 @media(min-width: 450px) {
+  #main-container {
+    padding: 2em;
+  }
+
   h1.display-4 {
     display: block;
   }

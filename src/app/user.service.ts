@@ -8,7 +8,7 @@ import { ToastsManager } from 'ng2-toastr';
 @Injectable()
 export class UserService {
 
-  baseURL: string = 'http://localhost:3001';
+  // baseURL: string = 'http://localhost:3001';
   jwtHelper: JwtHelper = new JwtHelper();
 
   constructor(private http: Http, private authHttp: AuthHttp, public toastr: ToastsManager) {

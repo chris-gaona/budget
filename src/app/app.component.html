@@ -119,7 +119,7 @@
   </div>
 </div>
 
-<div *ngIf="visibleBudgets && userService.isLoggedIn()">
+<div *ngIf="visibleBudgets && userService.isLoggedIn()" id="main-container">
   <app-header [budgets]="budgets" [selectedBudget]="selectedBudget" (chosenBudget)="chosenBudget($event)" (changeVisibleBudget)="changeVisibleBudget($event)"></app-header>
 
   <app-overview [selectedBudget]="selectedBudget" [totalSpent]="getTotalSpent(selectedBudget.budget_items, 'actual')"></app-overview>
