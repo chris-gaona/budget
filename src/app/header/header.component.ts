@@ -121,6 +121,8 @@ export class HeaderComponent implements OnInit {
         // close the modal window on Let's go button clicked
         this.showDialog = false;
 
+        this.hasValidationErrors = false;
+
         this.toastr.success('Budget Created', 'Success!');
       }, err => {
         this.handleError(err);
@@ -149,7 +151,6 @@ export class HeaderComponent implements OnInit {
   deleteBudget(budget) {
     this.budgetService.deleteBudgetById(budget._id)
       .subscribe(data => {
-        // console.log('returned deleted data', data);
         let newIndex = 0;
 
         this.budgets.filter((item, i) => {
@@ -166,6 +167,8 @@ export class HeaderComponent implements OnInit {
           this.changeVisibleBudget.emit(false);
         }
 
+        this.hasValidationErrors = false;
+
         this.toastr.success('Budget Deleted', 'Success!');
       }, err => {
         this.handleError(err);
@@ -179,15 +182,17 @@ export class HeaderComponent implements OnInit {
   }
 
   addUpdate(budget) {
-    // converts the date string from 2016-10-30 to 10/30/2016
-    let startDate = budget.start_period.split('-');
-    let newDateString = startDate[1] + '/' + startDate[2] + '/' + startDate[0];
-    let newDate = new Date(newDateString);
-    budget.start_period = newDate;
+    console.log('budget', budget);
 
     // update the new budget with last period's budget items
     this.budgetService.updateBudgetById(budget._id, budget)
       .subscribe(data => {
+        // converts the date string from 2016-10-30 to 10/30/2016
+        let startDate = budget.start_period.split('-');
+        let newDateString = startDate[1] + '/' + startDate[2] + '/' + startDate[0];
+        let newDate = new Date(newDateString);
+        budget.start_period = newDate;
+
         // console.log(data);
         let budgetID = budget._id;
         this.editableBudget = this.budgets.filter(item => item._id === budgetID).pop();
@@ -196,6 +201,7 @@ export class HeaderComponent implements OnInit {
         // Needed to find correct budget in this.budgets and make that chosenBudget
         this.updateBudget(this.editableBudget);
         this.editingBudget = false;
+        this.hasValidationErrors = false;
         this.toastr.success('Budget Updated', 'Success!');
       }, err => {
         this.handleError(err);
