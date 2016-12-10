@@ -22,7 +22,7 @@
     "clean": "rm -rf dist/*",
     "uglify:config": "mkdir -p dist/server/config && uglifyjs server/config/database.js -m -c -o dist/server/config/database.js && uglifyjs server/config/passport.js -m -c -o dist/server/config/passport.js",
     "uglify:models": "mkdir -p dist/server/models && uglifyjs server/models/Budgets.js -m -c -o dist/server/models/Budgets.js && uglifyjs server/models/Users.js -m -c -o dist/server/models/Users.js",
-    "uglify:routes": "mkdir -p dist/server/routes && uglifyjs server/routes/auth.js -m -c -o dist/server/routes/auth.js && uglifyjs server/routes/budgets.js -m -c -o dist/server/routes/budgets.js && uglifyjs server/routes/users.js -m -c -o dist/server/routes/users.js",
+    "uglify:routes": "mkdir -p dist/server/routes && uglifyjs server/routes/index.js -m -c -o dist/server/routes/index.js && uglifyjs server/routes/auth.js -m -c -o dist/server/routes/auth.js && uglifyjs server/routes/budgets.js -m -c -o dist/server/routes/budgets.js && uglifyjs server/routes/users.js -m -c -o dist/server/routes/users.js",
     "uglify:main": "uglifyjs server/app.js -m -c -o dist/server/app.js",
     "copy": "cp -R src/css dist/client/css/ && cp -R server/bin dist/server/bin/",
     "server:build": "npm run uglify:config && npm run uglify:models && npm run uglify:routes && npm run uglify:main",

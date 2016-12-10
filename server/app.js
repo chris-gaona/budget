@@ -16,9 +16,7 @@ var config = require('./config/database');
 
 require('./config/passport');
 
-var routes = require('./routes/budgets');
-var userRoutes = require('./routes/auth');
-var getUser = require('./routes/users');
+var routes = require('./routes/index');
 
 var app = express();
 
@@ -53,12 +51,16 @@ if (app.get('env') === 'production') {
   app.use(express.static(path.join(__dirname, '../client')));
 }
 
-app.use('/api/budgets', routes);
-app.use('/', userRoutes);
-app.use('/user', getUser);
+app.use('/api/budgets', routes.budget);
+app.use('/', routes.auth);
+app.use('/user', routes.users);
 
 app.get('/favicon.ico', function(req, res) {
   res.send(200);
+});
+
+app.get('*', function (req, res) {
+  res.sendFile(path.join(__dirname, '../client/index.html'));
 });
 
 // catch 404 and forward to error handler
@@ -82,8 +84,8 @@ app.use(function(err, req, res, next) {
 // // production error handler
 // // no stacktraces leaked to user
 // app.use(function(err, req, res, next) {
-//   res.status(err.status || 500);
-//   res.json({
+//   console.log('error', err);
+//   res.status(err.status || 500).json({
 //     message: err.message,
 //     error: {}
 //   });
