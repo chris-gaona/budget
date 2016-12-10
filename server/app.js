@@ -45,7 +45,7 @@ app.use(cors({
   origin: 'http://localhost:4200'
 }));
 
-// app.set('env', 'production');
+app.set('env', 'production');
 
 if (app.get('env') === 'production') {
 

@@ -4,11 +4,18 @@ import { AuthHttp, JwtHelper } from 'angular2-jwt';
 import { tokenNotExpired } from 'angular2-jwt';
 import { Observable } from 'rxjs';
 import { ToastsManager } from 'ng2-toastr';
+import { environment } from '../environments/environment';
+
+let baseURL;
+
+if (environment.production) {
+  baseURL = '/';
+} else {
+  baseURL = 'http://localhost:3001/';
+}
 
 @Injectable()
 export class UserService {
-
-  // baseURL: string = 'http://localhost:3001';
   jwtHelper: JwtHelper = new JwtHelper();
 
   constructor(private http: Http, private authHttp: AuthHttp, public toastr: ToastsManager) {
@@ -20,7 +27,7 @@ export class UserService {
 
     return this.http
       .post(
-        '/register',
+        baseURL + 'register',
         JSON.stringify({ username, password, confirmPassword, firstName }),
         { headers }
       )
@@ -40,7 +47,7 @@ export class UserService {
 
     return this.http
       .post(
-        '/login',
+        baseURL + 'login',
         JSON.stringify({ username, password }),
         { headers }
       )
@@ -71,7 +78,7 @@ export class UserService {
     // todo: write some comments here
     let decodedToken = this.jwtHelper.decodeToken(token);
 
-    return this.authHttp.get('/user/' + decodedToken.username)
+    return this.authHttp.get(baseURL + 'user/' + decodedToken.username)
       .map(res => res.json())
       .catch((err: any) => Observable.throw(err.json().error || 'Server Error'));
   }

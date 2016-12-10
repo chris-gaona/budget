@@ -33,5 +33,4 @@ testem.log
 .DS_Store
 Thumbs.db
 
-src/config.json
 server/config/config.json
