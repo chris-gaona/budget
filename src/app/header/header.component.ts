@@ -41,7 +41,6 @@ export class HeaderComponent implements OnInit {
   // creates empty budget
   createEmptyBudget() {
     let newBudget = new Budget();
-    let newDate = new Date();
     let previousBudget = this.obtainPreviousBudget('pre');
 
     newBudget.existing_cash = (previousBudget.existing_cash + previousBudget.current_income) - previousBudget.total_spent;
@@ -53,7 +52,7 @@ export class HeaderComponent implements OnInit {
       .subscribe(data => {
         this.budgets.push(data);
         // calls convertDate function & passes in new Date()
-        this.convertDate(data, newDate);
+        this.convertDate(data, data.start_period);
         this.shownBudget = data;
       }, err => {
         this.handleError(err);
@@ -83,6 +82,7 @@ export class HeaderComponent implements OnInit {
   }
 
   reverseDate(budget) {
+    console.log('reverse date', budget);
     let startDate = budget.start_period.split('-');
     let newDateString = startDate[1] + '/' + startDate[2] + '/' + startDate[0];
     let newDate = new Date(newDateString);
@@ -95,6 +95,14 @@ export class HeaderComponent implements OnInit {
   // connection function between header component & this component to create new budget
   // connected through @Output decorator
   createBudget(budget) {
+    console.log('budget', budget);
+
+    // converts the date string from 2016-10-30 to 10/30/2016
+    let startDate = budget.start_period.split('-');
+    let newDateString = startDate[1] + '/' + startDate[2] + '/' + startDate[0];
+    let newDate = new Date(newDateString);
+    budget.start_period = newDate;
+
     this.budgetService.updateBudgetById(budget._id, budget)
       .subscribe(data => {
         // console.log('created budget', data);
@@ -110,12 +118,6 @@ export class HeaderComponent implements OnInit {
         } else {
           this.reuseProjections(budget);
         }
-
-        // converts the date string from 2016-10-30 to 10/30/2016
-        let startDate = budget.start_period.split('-');
-        let newDateString = startDate[1] + '/' + startDate[2] + '/' + startDate[0];
-        let newDate = new Date(newDateString);
-        budget.start_period = newDate;
 
         this.reuseProjection = false;
         // close the modal window on Let's go button clicked
@@ -182,17 +184,15 @@ export class HeaderComponent implements OnInit {
   }
 
   addUpdate(budget) {
-    console.log('budget', budget);
+    // converts the date string from 2016-10-30 to 10/30/2016
+    let startDate = budget.start_period.split('-');
+    let newDateString = startDate[1] + '/' + startDate[2] + '/' + startDate[0];
+    let newDate = new Date(newDateString);
+    budget.start_period = newDate;
 
     // update the new budget with last period's budget items
     this.budgetService.updateBudgetById(budget._id, budget)
       .subscribe(data => {
-        // converts the date string from 2016-10-30 to 10/30/2016
-        let startDate = budget.start_period.split('-');
-        let newDateString = startDate[1] + '/' + startDate[2] + '/' + startDate[0];
-        let newDate = new Date(newDateString);
-        budget.start_period = newDate;
-
         // console.log(data);
         let budgetID = budget._id;
         this.editableBudget = this.budgets.filter(item => item._id === budgetID).pop();

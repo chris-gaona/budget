@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 var BudgetSchema = new mongoose.Schema({
   user_id: String,
   start_period: {
-    type: Date,
+    type: String,
     trim: true,
     required: [true, 'Start date is required']
   },

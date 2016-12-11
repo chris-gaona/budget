@@ -102,7 +102,6 @@ router.put('/:id', auth, function (req, res, next) {
     if (err) {
       // check for validation errors
       if (err.name === 'ValidationError') {
-        console.log('yup');
         var errorArray = [];
 
         if (err.errors.current_income) {

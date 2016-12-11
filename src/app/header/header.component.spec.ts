@@ -248,7 +248,7 @@ describe('HeaderComponent', () => {
       component.showDialog = true;
       budgetService.content = 'some content';
       component.addUpdate(budget);
-      expect(budget.start_period).toEqual(new Date('Sat Sep 24 2016 00:00:00 GMT-0700 (PDT)'));
+      expect(budget.start_period).toEqual('09/24/2016');
       expect(component.editingBudget).toEqual(false);
       expect(component.editableBudget).toEqual({ _id: 1, start_period: '2016-10-29' });
       expect(component.showDialog).toEqual(false);
