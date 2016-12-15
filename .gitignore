@@ -34,3 +34,7 @@ testem.log
 Thumbs.db
 
 server/config.json
+server/config
+server/models
+server/routes
+server/app.js
