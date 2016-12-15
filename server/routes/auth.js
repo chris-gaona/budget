@@ -79,4 +79,3 @@ router.post('/login', (req, res, next) => {
         }
     })(req, res, next);
 });
-//# sourceMappingURL=auth.js.map

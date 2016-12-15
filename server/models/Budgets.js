@@ -45,4 +45,3 @@ let BudgetSchema = new mongoose.Schema({
     ]
 });
 mongoose.model('Budget', BudgetSchema);
-//# sourceMappingURL=Budgets.js.map

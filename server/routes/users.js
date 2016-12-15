@@ -34,4 +34,3 @@ router.get('/:username', auth, function (req, res, next) {
         res.json(user);
     });
 });
-//# sourceMappingURL=users.js.map

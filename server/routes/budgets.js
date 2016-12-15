@@ -134,4 +134,3 @@ router.delete('/:id', auth, (req, res, next) => {
         });
     });
 });
-//# sourceMappingURL=budgets.js.map

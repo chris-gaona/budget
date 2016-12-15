@@ -63,4 +63,3 @@ UserSchema.methods.generateJWT = function () {
     }, jwtSecret);
 };
 mongoose.model('User', UserSchema);
-//# sourceMappingURL=Users.js.map

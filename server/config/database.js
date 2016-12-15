@@ -17,4 +17,3 @@ config.mongoURI = {
     production: prodDB
 };
 module.exports = config;
-//# sourceMappingURL=database.js.map
