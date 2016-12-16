@@ -56,6 +56,7 @@
     "@types/node": "^6.0.52",
     "@types/passport": "^0.2.35",
     "@types/passport-local": "^1.0.29",
+    "angular-cli": "^1.0.0-beta.20-4",
     "angular2-jwt": "^0.1.25",
     "bcryptjs": "^2.3.0",
     "body-parser": "^1.15.2",
@@ -80,7 +81,6 @@
   },
   "devDependencies": {
     "@types/jasmine": "^2.5.38",
-    "angular-cli": "1.0.0-beta.20-4",
     "codelyzer": "~1.0.0-beta.3",
     "concurrently": "^3.1.0",
     "jasmine-core": "2.4.1",
