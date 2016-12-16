@@ -11,8 +11,8 @@
   "scripts": {
     "start": "node ./dist/server/bin/www",
     "start-angular:dev": "ng serve",
-    "compile-server:dev": "tsc -p typescript/",
-    "prestart-server:dev": "npm run compile-server:dev",
+    "compile-server": "tsc -p typescript/",
+    "prestart-server:dev": "npm run compile-server",
     "start-server:dev": "concurrently \"tsc -w -p ./typescript\" \"nodemon ./server/bin/www\"",
     "start:dev": "concurrently \"npm run start-angular:dev\" \"npm run start-server:dev\"",
     "lint": "tslint \"src/**/*.ts\"",
@@ -27,7 +27,7 @@
     "uglify:routes": "mkdir -p dist/server/routes && uglifyjs server/routes/index.js -m -c -o dist/server/routes/index.js && uglifyjs server/routes/auth.js -m -c -o dist/server/routes/auth.js && uglifyjs server/routes/budgets.js -m -c -o dist/server/routes/budgets.js && uglifyjs server/routes/users.js -m -c -o dist/server/routes/users.js",
     "uglify:main": "uglifyjs server/app.js -m -c -o dist/server/app.js",
     "copy": "cp -R src/css dist/client/css/ && cp -R server/bin dist/server/bin/",
-    "prebuild:server": "npm run compile-server:dev",
+    "prebuild:server": "npm run compile-server",
     "build:server": "npm run uglify:config && npm run uglify:models && npm run uglify:routes && npm run uglify:main",
     "build": "npm run clean && ng build --prod --output-path=dist/client && npm run build:server && npm run copy",
     "postinstall": "npm run build"
@@ -77,7 +77,8 @@
     "ts-node": "^1.2.1",
     "tslint": "^3.13.0",
     "typescript": "^2.0.10",
-    "uglify-js-harmony": "^2.6.2"
+    "uglify-js-harmony": "^2.6.2",
+    "zone.js": "^0.6.23"
   },
   "devDependencies": {
     "@types/jasmine": "^2.5.38",
@@ -94,7 +95,6 @@
     "mongoose-seeder": "^1.2.1",
     "protractor": "4.0.9",
     "supertest": "^2.0.1",
-    "webdriver-manager": "10.2.5",
-    "zone.js": "^0.6.23"
+    "webdriver-manager": "10.2.5"
   }
 }
