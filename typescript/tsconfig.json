@@ -4,8 +4,5 @@
     "target": "es6",
     "sourceMap": false,
     "outDir": "../server/"
-  },
-  "exclude": [
-    "node_modules"
-  ]
+  }
 }

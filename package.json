@@ -31,7 +31,7 @@
     "prebuild:server": "npm run compile-server",
     "build:server": "npm run uglify:config && npm run uglify:models && npm run uglify:routes && npm run uglify:main",
     "build": "npm run clean && ng build --prod --output-path=dist/client && npm run build:server && npm run copy",
-    "postinstall": "npm install --save typescript@2.0.10 && npm install -g angular-cli@1.0.0-beta.20-4 && npm run build"
+    "postinstall": "npm install typescript@2.0.10 && npm install angular-cli@1.0.0-beta.20-4 && npm run build"
   },
   "private": true,
   "dependencies": {
@@ -82,7 +82,7 @@
   },
   "devDependencies": {
     "@types/jasmine": "^2.2.30",
-    "angular-cli": "1.0.0-beta.20-4",
+    "angular-cli": "^1.0.0-beta.20-4",
     "codelyzer": "~1.0.0-beta.3",
     "concurrently": "^3.1.0",
     "jasmine-core": "2.4.1",
