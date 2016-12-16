@@ -77,7 +77,8 @@
     "ts-node": "^1.2.1",
     "tslint": "^3.13.0",
     "typescript": "^2.0.10",
-    "uglify-js-harmony": "^2.6.2"
+    "uglify-js-harmony": "^2.6.2",
+    "zone.js": "^0.6.23"
   },
   "devDependencies": {
     "@types/jasmine": "^2.2.30",
@@ -95,7 +96,6 @@
     "mongoose-seeder": "^1.2.1",
     "protractor": "4.0.9",
     "supertest": "^2.0.1",
-    "webdriver-manager": "10.2.5",
-    "zone.js": "^0.6.23"
+    "webdriver-manager": "10.2.5"
   }
 }
