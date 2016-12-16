@@ -9,6 +9,7 @@ export interface IBudget extends mongoose.Document {
   existing_cash: number;
   current_income: number;
   budget_items: any;
+  last_updated: string;
 }
 
 let BudgetSchema = new mongoose.Schema({
@@ -54,6 +55,9 @@ let BudgetSchema = new mongoose.Schema({
       ]
     }
   ]
+},
+{
+  timestamps: true
 });
 
 mongoose.model<IBudget>('Budget', BudgetSchema);

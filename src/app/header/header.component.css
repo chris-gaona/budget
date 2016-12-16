@@ -18,3 +18,17 @@
     overflow-y: auto;
   }
 }
+
+.last-updated {
+  position: relative;
+  top: 0;
+  left: 0;
+  font-size: 12px;
+}
+
+@media (min-width: 728px) {
+  .last-updated {
+    top: 5px;
+    left: -15px;
+  }
+}
