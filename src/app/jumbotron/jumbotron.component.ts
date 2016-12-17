@@ -17,6 +17,9 @@ export class JumbotronComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+  }
 
+  checkForNumber() {
+    return isNaN((this.totalSpentActual.totalSaving / this.selectedBudget.current_income));
   }
 }
