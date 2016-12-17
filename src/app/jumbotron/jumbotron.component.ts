@@ -10,7 +10,7 @@ export class JumbotronComponent implements OnInit {
 
   @Input() selectedBudget: Budget;
 
-  @Input() totalSpentActual: number;
+  @Input() totalSpentActual: any;
 
   @Input() currentUser: string;
 
