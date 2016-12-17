@@ -125,7 +125,7 @@ export class HeaderComponent implements OnInit {
 
         this.hasValidationErrors = false;
 
-        this.toastr.success('Budget Created', 'Success!');
+        // this.toastr.success('Budget Created', 'Success!');
       }, err => {
         this.handleError(err);
         console.error(err);
@@ -171,7 +171,7 @@ export class HeaderComponent implements OnInit {
 
         this.hasValidationErrors = false;
 
-        this.toastr.success('Budget Deleted', 'Success!');
+        // this.toastr.success('Budget Deleted', 'Success!');
       }, err => {
         this.handleError(err);
         console.error(err);
@@ -202,7 +202,7 @@ export class HeaderComponent implements OnInit {
         this.updateBudget(this.editableBudget);
         this.editingBudget = false;
         this.hasValidationErrors = false;
-        this.toastr.success('Budget Updated', 'Success!');
+        // this.toastr.success('Budget Updated', 'Success!');
       }, err => {
         this.handleError(err);
         console.error(err);
@@ -301,6 +301,47 @@ export class HeaderComponent implements OnInit {
       this.mergeTotals += +this.totals[i];
     }
     return this.mergeTotals;
+  }
+
+  parseDate(date: string) {
+    // parses a string representation of a date, &
+    // returns the number of milliseconds since
+    // January 1, 1970
+    let systemDate: any = new Date(Date.parse(date));
+    // gets today's date
+    let userDate: any = new Date();
+    // splits date string at space into array with
+    // each word
+    let dateToSplit: any = new Date(date).toDateString();
+    let splitDate: any = dateToSplit.split(' ');
+    // gets difference between twitter date & user date
+    // divide the value by 1000 to change milliseconds
+    // into seconds
+    let diff = Math.floor((userDate - systemDate) / 1000);
+
+    // adds text depending on how many seconds the diff is
+    // booleanValue is used to deterime to put text in
+    // timeline section or direct messages section
+    if (diff <= 1) { return 'just now'; }
+
+    if (diff < 60) { return diff + ' seconds ago'; }
+
+    if (diff <= 90) { return 'one minute ago'; }
+
+    if (diff <= 3540) { return Math.round(diff / 60) + ' minutes ago'; }
+
+    if (diff <= 5400) { return '1 hour ago'; }
+
+    if (diff <= 86400) { return Math.round(diff / 3600) + ' hours ago'; }
+
+    if (diff <= 129600) { return '1 day ago'; }
+
+    if (diff < 604800) { return Math.round(diff / 86400) + ' days ago'; }
+
+    if (diff <= 777600) { return '1 week ago'; }
+
+    // if none of the above return true show actual date
+    return splitDate[1] + ' ' + splitDate[2];
   }
 
   private handleError(error: any) {

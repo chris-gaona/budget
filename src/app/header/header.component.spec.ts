@@ -248,7 +248,7 @@ describe('HeaderComponent', () => {
       component.showDialog = true;
       budgetService.content = 'some content';
       component.addUpdate(budget);
-      expect(budget.start_period).toEqual('09/24/2016');
+      expect(budget.start_period).toEqual(new Date('Sat Sep 24 2016 00:00:00 GMT-0700 (PDT)'));
       expect(component.editingBudget).toEqual(false);
       expect(component.editableBudget).toEqual({ _id: 1, start_period: '2016-10-29' });
       expect(component.showDialog).toEqual(false);
@@ -376,6 +376,28 @@ describe('HeaderComponent', () => {
           ],
           total_spent: 15
         });
+    }));
+  });
+
+  describe('#parseDate(date)', () => {
+    it('should parse a date & return appropriate text', async(() => {
+      let budget = {
+        _id: 1,
+        start_period: new Date('9/24/2016'),
+        updatedAt: "2016-12-16T22:35:26.450Z"
+      };
+
+      expect(component.parseDate(budget.updatedAt)).toMatch(/\b(?:now|ago)\b/gi);
+    }));
+
+    it('should parse a date & return appropriate text with different date', async(() => {
+      let budget = {
+        _id: 1,
+        start_period: new Date('9/24/2016'),
+        updatedAt: "2016-10-16T22:35:26.450Z"
+      };
+
+      expect(component.parseDate(budget.updatedAt)).toEqual('Oct 16');
     }));
   });
 });

@@ -71,7 +71,7 @@
       <button type="button" id="edit-button" class="btn btn-secondary" (click)="showDialog = !showDialog; editBudget(selectedBudget); editingBudget = true"><span class="fa fa-edit"></span> Edit</button>
     </div>
     <div class="float-xs-left mb-2 ml-1" *ngIf="selectedBudget.updatedAt">
-      <small class="text-muted last-updated">Last Updated | {{selectedBudget.updatedAt | date:'MMMd'}} @ {{selectedBudget.updatedAt | date:'shortTime'}}</small>
+      <small class="text-muted last-updated">Last Updated - {{parseDate(selectedBudget.updatedAt)}}</small>
     </div>
   </div>
 </div>
