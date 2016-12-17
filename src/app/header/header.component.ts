@@ -125,7 +125,7 @@ export class HeaderComponent implements OnInit {
 
         this.hasValidationErrors = false;
 
-        // this.toastr.success('Budget Created', 'Success!');
+        this.toastr.success('Budget Created', 'Success!');
       }, err => {
         this.handleError(err);
         console.error(err);
@@ -171,7 +171,7 @@ export class HeaderComponent implements OnInit {
 
         this.hasValidationErrors = false;
 
-        // this.toastr.success('Budget Deleted', 'Success!');
+        this.toastr.success('Budget Deleted', 'Success!');
       }, err => {
         this.handleError(err);
         console.error(err);
@@ -202,7 +202,7 @@ export class HeaderComponent implements OnInit {
         this.updateBudget(this.editableBudget);
         this.editingBudget = false;
         this.hasValidationErrors = false;
-        // this.toastr.success('Budget Updated', 'Success!');
+        this.toastr.success('Budget Updated', 'Success!');
       }, err => {
         this.handleError(err);
         console.error(err);
