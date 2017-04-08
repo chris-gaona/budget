@@ -40,7 +40,7 @@ app.use(cookieParser());
 
 // allow cors only fora local dev
 app.use(cors({
-  origin: 'http://localhost:4200'
+  origin: 'http://localhost:8100'
 }));
 
 app.set('env', 'production');

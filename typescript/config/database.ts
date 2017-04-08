@@ -4,12 +4,11 @@
 // database configuration
 
 let config: any = {};
-let MODULUS_USERNAME = process.env.MODULUS_USERNAME;
-let MODULUS_PASSWORD = process.env.MODULUS_PASSWORD;
+let MONGODB_URI = process.env.MONGODB_URI;
 let prodDB;
 
-if (MODULUS_USERNAME !== undefined && MODULUS_PASSWORD !== undefined) {
-  prodDB = 'mongodb://' + MODULUS_USERNAME + ':' + MODULUS_PASSWORD + '@olympia.modulusmongo.net:27017/iW3otapu';
+if (MONGODB_URI !== undefined) {
+  prodDB = MONGODB_URI;
 } else {
   let configFile = require('./../config.json');
   prodDB = configFile.production;
